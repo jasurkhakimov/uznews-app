@@ -1,0 +1,1 @@
+export const uznews_url = 'http://uznews.l-b.uz';

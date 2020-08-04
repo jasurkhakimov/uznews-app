@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "uznews-main",
-    "slug": "uznews-main",
+    "name": "uznews",
+    "slug": "uznews",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/uznews-icon.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/uznews-splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#3171C9"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,6 +21,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "android": {
+      "package": "com.lb.uznews",
+      "versionCode": 1
     }
   }
 }
