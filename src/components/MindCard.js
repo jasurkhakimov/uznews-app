@@ -33,7 +33,7 @@ const MindCard = ({ name, prof, title, image, category, time, photo }) => {
     return (
         <View style={styles.card}>
             <View style={styles.start}>
-                <ImageBackground style={styles.startBgImg} source={{ uri: uznews_url + image }}>
+                <ImageBackground style={styles.startBgImg} source={{ uri: image }}>
                     <View style={styles.startBg}>
                         <View style={styles.header}>
                             <View style={styles.headerLeft}>

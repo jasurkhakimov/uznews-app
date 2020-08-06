@@ -32,7 +32,7 @@ const NewsCard = ({title, image, category, time, id, showNews}) => {
     return (
         <View style={styles.viewStyle} >
 
-            <ImageBackground style={styles.img}  source={{ uri: uznews_url + image }}>
+            <ImageBackground style={styles.img}  source={{ uri: image }}>
                 <TouchableOpacity activeOpacity={1} style={styles.bgView}  onPress={() => showNews(id)}>
                     <View style={styles.header}>
                         <View style={styles.headerLeft}>
