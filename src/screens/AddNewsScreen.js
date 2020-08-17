@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, ScrollView } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import HeaderText from '../components/HeaderText';
 import { TextInput } from 'react-native-paper';
+import { Picker } from '@react-native-community/picker';
+import { Icon } from 'react-native-eva-icons';
 
 
 const textArr = [
@@ -34,7 +36,7 @@ const InputComponent = ({ lable, placeholder, type, line }) => {
             keyboardType={type ? type : 'default'}
             selectionColor='#74d9ff'
             multiline={line}
-            theme={{colors: {primary: '#20235a'}}}
+            theme={{ colors: { primary: '#20235a' } }}
         />
     )
 }
@@ -56,12 +58,34 @@ const AddNewsScreen = ({ navigation }) => {
                 <TextComponent text={textArr[2]} italic={1} />
             </View>
 
-            <View>
-                <InputComponent lable='Ваше имя'/>
-                <InputComponent lable='Как с вами связаться?' placeholder='+998 99 999 99 99' type='phone-pad'/>
+            <View style={styles.form}>
+                <InputComponent lable='Ваше имя' />
+                <InputComponent lable='Как с вами связаться?' placeholder='+998 99 999 99 99' type='phone-pad' />
                 <InputComponent lable='Электронная почта' />
                 <InputComponent lable='Краткое описание статьи' />
                 <InputComponent lable='Текст статьи' line={true} />
+                <Picker
+                    // selectedValue={}
+                    style={styles.picker}
+                // onValueChange={(itemValue, itemIndex) =>
+                //     this.setState({ language: itemValue })
+                // }
+                >
+                    <Picker.Item label="Java" value="java" />
+                    <Picker.Item label="JavaScript" value="js" />
+                </Picker>
+                <View style={styles.hr}></View>
+            </View>
+            <Text style={styles.attachText}>Прикрепить:</Text>
+            <View style={styles.files}>
+                <TouchableOpacity style={[styles.fileItem, styles.ml15]}>
+                    <Icon name="image" width={20} height={20} fill='#20235a' />
+                    <Text style={styles.fileText}> Image </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.fileItem}>
+                    <Icon name="file-outline" width={20} height={20} fill='#20235a' />
+                    <Text style={styles.fileText}> File </Text>
+                </TouchableOpacity>
             </View>
 
         </ScrollView>
@@ -84,6 +108,46 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         padding: 0,
         marginHorizontal: 15
+    },
+    picker: {
+        marginHorizontal: 15,
+        height: 60,
+        color: '#666',
+        paddingLeft: 5,
+    },
+    form: {
+        marginBottom: 20
+    },
+    files: {
+        flexDirection: 'row',
+        // justifyContent: 'center',
+        marginBottom: 20
+    },
+    hr: {
+        borderBottomColor: '#aaa',
+        borderBottomWidth: 1,
+        // backgroundColor: '#999',
+        marginHorizontal: 15,
+    },
+    fileItem: {
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#20235a',
+        borderRadius: 5,
+        padding: 12,
+        width: 60,
+        marginLeft: 5
+    },
+    fileText: {
+        fontSize: 10,
+        color: '#20235a'
+    },
+    ml15: {
+        marginLeft: 15
+    },
+    attachText: {
+        marginLeft: 15,
+        marginBottom: 10
     }
 });
 

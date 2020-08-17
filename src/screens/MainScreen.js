@@ -27,7 +27,7 @@ const CurrentDate = () => {
     const months = ["Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"];
     const month = months[date.getMonth()]
     const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
-    const weekday = days[date.getDay() - 1];
+    const weekday = (date.getDay()) ? days[date.getDay() - 1] : days[6];
     const day = date.getDate();
 
     return (
