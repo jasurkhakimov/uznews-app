@@ -21,13 +21,13 @@ const DrawerHeader = ({ navigation }) => {
     )
 }
 
-const ManageButtons = () => {
+const ManageButtons = ({navigation}) => {
     return (
         <View style={{ flexDirection: 'row', }}>
-            <TouchableOpacity style={styles.headerBtn}>
+            <TouchableOpacity style={styles.headerBtn} onPress={() => navigation.navigate('Settings')}>
                 <Text style={styles.btnText}>Настройки</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.headerBtn}>
+            <TouchableOpacity style={styles.headerBtn} onPress={() => navigation.navigate('Profile')}>
                 <Text style={styles.btnText}>Профиль</Text>
             </TouchableOpacity>
         </View>
@@ -36,17 +36,17 @@ const ManageButtons = () => {
 
 
 
-const SendNewsBtn = () => {
+const SendNewsBtn = ({navigation}) => {
     return (
         <View>
-            <TouchableOpacity style={styles.addNews}>
+            <TouchableOpacity style={styles.addNews} onPress={() => navigation.navigate('AddNews')}>
                 <Text style={styles.btnText, styles.btnNews}> Прислать новость </Text>
             </TouchableOpacity>
         </View>
     )
 }
 
-const AboutInfo = () => {
+const AboutInfo = ({navigation}) => {
     return (
         <View style={styles.info}>
             <View style={styles.infoBlock1}>
@@ -111,9 +111,9 @@ export function DrawerContent(props) {
 
                 <DrawerHeader navigation={props.navigation} />
 
-                <ManageButtons />
-                <SendNewsBtn />
-                <AboutInfo />
+                <ManageButtons navigation={props.navigation}/>
+                <SendNewsBtn navigation={props.navigation}/>
+                <AboutInfo navigation={props.navigation}/>
 
 
             </DrawerContentScrollView>

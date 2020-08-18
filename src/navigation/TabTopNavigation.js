@@ -4,6 +4,7 @@ import MainScreen from '../screens/MainScreen';
 import NewsScreen from '../screens/NewsScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import BookmarkScreen from '../screens/BookmarkScreen';
 import AddNewsScreen from '../screens/AddNewsScreen';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -237,6 +238,15 @@ const SettingsStackScreen = ({ navigation }) => {
                 headerLeftContainerStyle: {
                     padding: 10
                 }
+            }} />
+            <SettingsStack.Screen name='Profile' component={ProfileScreen} options={{
+                headerTitle: 'Профиль',
+                headerTintColor: '#20235a',
+                headerStyle: {
+                    // backgroundColor: 'transparent',
+                    elevation: 0, // remove shadow on Android
+                    shadowOpacity: 0,
+                },
             }} />
             {/* <HistoryStack.Screen name='News' component={NewsScreen} options={{
                 headerTitle: 'Новости',

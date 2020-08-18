@@ -87,6 +87,12 @@ const AddNewsScreen = ({ navigation }) => {
                     <Text style={styles.fileText}> File </Text>
                 </TouchableOpacity>
             </View>
+            <TouchableOpacity style={styles.btn}>
+                <Text style={styles.btnText}> Отправить </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.btn, styles.btnOutline]}>
+                <Text style={[styles.btnText, styles.btnOutlineText]}> Отправить инкогнито </Text>
+            </TouchableOpacity>
 
         </ScrollView>
     )
@@ -147,7 +153,32 @@ const styles = StyleSheet.create({
     },
     attachText: {
         marginLeft: 15,
-        marginBottom: 10
+        marginBottom: 10,
+        fontWeight: 'bold',
+        color: '#888'
+    },
+    btn: {
+        marginHorizontal: 15,
+        justifyContent: 'center',
+        flexDirection: 'row',
+        marginBottom: 10,
+        backgroundColor: '#475681',
+        paddingVertical: 12,
+        borderRadius: 50,
+        borderWidth: 2,
+        borderColor: '#475681'
+    },
+    btnOutline: {
+        backgroundColor: 'transparent',
+    },
+    btnText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 16,
+        letterSpacing: 0.5
+    },
+    btnOutlineText: {
+        color: '#475681'
     }
 });
 
