@@ -11,10 +11,8 @@ const Navigation = () => {
 
     return (
         <NavigationContainer>
-
-            <Drawer.Navigator drawerStyle={{width: '85%'}} initialRouteName="MainDrawer" drawerContent={props => <DrawerContent {...props} /> } >
+            <Drawer.Navigator drawerStyle={{ width: '85%' }} initialRouteName="MainDrawer" drawerContent={props => <DrawerContent {...props} />} >
                 <Drawer.Screen name="MainDrawer" options={{ title: 'Главная' }} component={MainTabScreen} />
-
             </Drawer.Navigator>
         </NavigationContainer>
     )

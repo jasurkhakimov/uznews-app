@@ -11,6 +11,7 @@ import {
     Text
 } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import SettingsScreen from '../screens/SettingsScreen';
 
 const DrawerHeader = ({ navigation }) => {
     return (
@@ -24,10 +25,10 @@ const DrawerHeader = ({ navigation }) => {
 const ManageButtons = ({navigation}) => {
     return (
         <View style={{ flexDirection: 'row', }}>
-            <TouchableOpacity style={styles.headerBtn} onPress={() => navigation.navigate('Settings')}>
+            <TouchableOpacity style={styles.headerBtn} onPress={() => navigation.navigate('SettingsTab', {screen: 'Settings', initial: true})}>
                 <Text style={styles.btnText}>Настройки</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.headerBtn} onPress={() => navigation.navigate('Profile')}>
+            <TouchableOpacity style={styles.headerBtn} onPress={() => navigation.navigate('SettingsTab', {screen: 'Profile', initial: false})}>
                 <Text style={styles.btnText}>Профиль</Text>
             </TouchableOpacity>
         </View>
@@ -35,11 +36,11 @@ const ManageButtons = ({navigation}) => {
 }
 
 
-
+ 
 const SendNewsBtn = ({navigation}) => {
     return (
         <View>
-            <TouchableOpacity style={styles.addNews} onPress={() => navigation.navigate('AddNews')}>
+            <TouchableOpacity style={styles.addNews} onPress={() => navigation.navigate('AddNewsTab')}>
                 <Text style={styles.btnText, styles.btnNews}> Прислать новость </Text>
             </TouchableOpacity>
         </View>
@@ -50,24 +51,24 @@ const AboutInfo = ({navigation}) => {
     return (
         <View style={styles.info}>
             <View style={styles.infoBlock1}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('About')}>
                     <Text style={styles.infoBlock1Text}>О проекте</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Contacts')}>
                     <Text style={styles.infoBlock1Text}>Контакты</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Adv')}>
                     <Text style={styles.infoBlock1Text}>Реклама</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.infoBlock2}>
-                <TouchableOpacity>
-                    <Text style={styles.infoBlock2Text}>Использование Материалов</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('UseOfMaterials')}>
+                    <Text style={styles.infoBlock2Text}>Использование материалов</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Privacy')}>
                     <Text style={styles.infoBlock2Text}>Политика конфиденциальности</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('TermsOfUse')}>
                     <Text style={styles.infoBlock2Text}>Условия пользования</Text>
                 </TouchableOpacity>
             </View>

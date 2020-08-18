@@ -5,7 +5,7 @@ import HeaderText from '../components/HeaderText';
 import { TextInput } from 'react-native-paper';
 import { Picker } from '@react-native-community/picker';
 import { Icon } from 'react-native-eva-icons';
-
+import { withNavigation } from 'react-navigation';
 
 const textArr = [
     'У вас есть новость или фотографии, которыми вы желаете поделиться с другими читателями «Uznews.uz»? Вам удалось запечатлеть интересное событие, факт или происшествие?',
@@ -182,4 +182,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AddNewsScreen;
+export default withNavigation(AddNewsScreen);

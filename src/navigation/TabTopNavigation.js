@@ -7,6 +7,12 @@ import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import BookmarkScreen from '../screens/BookmarkScreen';
 import AddNewsScreen from '../screens/AddNewsScreen';
+import AboutScreen from '../screens/AboutScreen';
+import ContactsScreen from '../screens/ContactsScreen';
+import AdvScreen from '../screens/AdvScreen';
+import PrivacyScreen from '../screens/PrivacyScreen';
+import TermsOfUseScreen from '../screens/TermsOfUseScreen';
+import UseOfMaterialsScreen from '../screens/UseOfMaterialsScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Icon } from 'react-native-eva-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -61,6 +67,60 @@ const MainStackScreen = ({ navigation }) => {
             }} />
             <MainStack.Screen name='News' component={NewsScreen} options={{
                 headerTitle: 'Новости',
+                headerTintColor: '#20235a',
+                headerStyle: {
+                    // backgroundColor: 'transparent',
+                    elevation: 0, // remove shadow on Android
+                    shadowOpacity: 0,
+                },
+            }} />
+            <MainStack.Screen name='About' component={AboutScreen} options={{
+                headerTitle: 'О проекте',
+                headerTintColor: '#20235a',
+                headerStyle: {
+                    // backgroundColor: 'transparent',
+                    elevation: 0, // remove shadow on Android
+                    shadowOpacity: 0,
+                },
+            }} />
+            <MainStack.Screen name='Contacts' component={ContactsScreen} options={{
+                headerTitle: 'Контакты',
+                headerTintColor: '#20235a',
+                headerStyle: {
+                    // backgroundColor: 'transparent',
+                    elevation: 0, // remove shadow on Android
+                    shadowOpacity: 0,
+                },
+            }} />
+            <MainStack.Screen name='Adv' component={AdvScreen} options={{
+                headerTitle: 'Реклама',
+                headerTintColor: '#20235a',
+                headerStyle: {
+                    // backgroundColor: 'transparent',
+                    elevation: 0, // remove shadow on Android
+                    shadowOpacity: 0,
+                },
+            }} />
+            <MainStack.Screen name='Privacy' component={PrivacyScreen} options={{
+                headerTitle: 'Политика конфиденциальности',
+                headerTintColor: '#20235a',
+                headerStyle: {
+                    // backgroundColor: 'transparent',
+                    elevation: 0, // remove shadow on Android
+                    shadowOpacity: 0,
+                },
+            }} />
+            <MainStack.Screen name='TermsOfUse' component={TermsOfUseScreen} options={{
+                headerTitle: 'Условия использования',
+                headerTintColor: '#20235a',
+                headerStyle: {
+                    // backgroundColor: 'transparent',
+                    elevation: 0, // remove shadow on Android
+                    shadowOpacity: 0,
+                },
+            }} />
+            <MainStack.Screen name='UseOfMaterials' component={UseOfMaterialsScreen} options={{
+                headerTitle: 'Использование материалов',
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',
