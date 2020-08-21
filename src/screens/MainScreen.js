@@ -40,7 +40,7 @@ const CurrentDate = () => {
 
 const MainScreen = ({ navigation }) => {
 
-
+    const navigationFooter = navigation;
     const [widget, setWidget] = useState(true);
 
     const onWidgetClose = () => {
@@ -86,7 +86,7 @@ const MainScreen = ({ navigation }) => {
         <View>
             <ShowMore text='Показать больше новостей' onLoadMore={() => ShowMoreNewsApi()} />
 
-            <SendNews />
+            <SendNews navigation={navigationFooter}/>
 
             <HeaderText text='Мнения' />
             <MindsList minds={mindsResults} lang={lang}/>
@@ -113,7 +113,7 @@ const MainScreen = ({ navigation }) => {
                 renderItem={renderItem}
                 keyExtractor={item => item['title_' + lang] + item.id}
                 ListFooterComponent={ListFooterNews}
-
+                
                 showsVerticalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
