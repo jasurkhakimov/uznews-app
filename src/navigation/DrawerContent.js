@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { version, useState, useEffect } from 'react';
 import { View, ScrollView, StyleSheet, Linking } from 'react-native';
 import { Icon } from 'react-native-eva-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -10,8 +10,9 @@ import {
     Drawer,
     Text
 } from 'react-native-paper';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import SettingsScreen from '../screens/SettingsScreen';
+import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 const DrawerHeader = ({ navigation }) => {
     return (
@@ -22,13 +23,13 @@ const DrawerHeader = ({ navigation }) => {
     )
 }
 
-const ManageButtons = ({navigation}) => {
+const ManageButtons = ({ navigation }) => {
     return (
         <View style={{ flexDirection: 'row', }}>
-            <TouchableOpacity style={styles.headerBtn} onPress={() => navigation.navigate('SettingsTab', {screen: 'Settings', initial: true})}>
+            <TouchableOpacity style={styles.headerBtn} onPress={() => navigation.navigate('SettingsTab', { screen: 'Settings', initial: true })}>
                 <Text style={styles.btnText}>Настройки</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.headerBtn} onPress={() => navigation.navigate('SettingsTab', {screen: 'Profile', initial: false})}>
+            <TouchableOpacity style={styles.headerBtn} onPress={() => navigation.navigate('SettingsTab', { screen: 'Profile', initial: false })}>
                 <Text style={styles.btnText}>Профиль</Text>
             </TouchableOpacity>
         </View>
@@ -36,8 +37,8 @@ const ManageButtons = ({navigation}) => {
 }
 
 
- 
-const SendNewsBtn = ({navigation}) => {
+
+const SendNewsBtn = ({ navigation }) => {
     return (
         <View>
             <TouchableOpacity style={styles.addNews} onPress={() => navigation.navigate('AddNewsTab')}>
@@ -47,7 +48,7 @@ const SendNewsBtn = ({navigation}) => {
     )
 }
 
-const AboutInfo = ({navigation}) => {
+const AboutInfo = ({ navigation }) => {
     return (
         <View style={styles.info}>
             <View style={styles.infoBlock1}>
@@ -101,26 +102,87 @@ const SocialMedia = () => {
     )
 }
 
-
+const lang = 'ru';
 
 
 export function DrawerContent(props) {
 
+    const [categories, setCategories] = useState([]);
+    const [loaded, setLoaded] = useState(false);
+
+    let cleanupFunction = false;
+
+    const getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('@categories');
+
+            if (value) {
+                setCategories(JSON.parse(value));
+                setLoaded(true);
+            }
+
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    useEffect(() => {
+
+        getData();
+
+    }, [])
+
+    if (loaded) {
+        console.log(categories);
+    }
+
+    const CategoriesList = (navigation) => {
+
+        const RenderItem = ({ item }) => (
+            <Drawer.Item
+                style={styles.drawerItem}
+                label={item['title_' + lang]}
+                
+            />
+        );
+
+
+        if (loaded) {
+            return (
+                <View>
+                    {
+                        categories.map((item) => {
+                            console.log(item);
+                            return (
+                                <RenderItem item={item} key={item.id+lang}/>
+                            );
+                        })
+                    }
+                </View>
+            )
+
+        } else {
+            return null
+        }
+    };
+
     return (
         <View style={{ flex: 1 }}>
-            <DrawerContentScrollView {...props}>
+            <DrawerContentScrollView {...props} showsVerticalScrollIndicator={false}>
 
                 <DrawerHeader navigation={props.navigation} />
 
-                <ManageButtons navigation={props.navigation}/>
-                <SendNewsBtn navigation={props.navigation}/>
-                <AboutInfo navigation={props.navigation}/>
+                <ManageButtons navigation={props.navigation} />
 
+                <CategoriesList navigation={props.navigation} />
 
+                <SendNewsBtn navigation={props.navigation} />
+                <AboutInfo navigation={props.navigation} />
+
+                <Drawer.Section>
+                    <SocialMedia />
+                </Drawer.Section>
             </DrawerContentScrollView>
-            <Drawer.Section>
-                <SocialMedia />
-            </Drawer.Section>
+
         </View>
     )
 }
@@ -186,5 +248,12 @@ const styles = StyleSheet.create({
     },
     close: {
         marginRight: '30%'
+    },
+    drawerItem: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+        marginVertical: 0,
+        paddingVertical: 8,
+        color: 'red'
     }
 })

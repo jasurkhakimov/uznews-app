@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import uznews from '../api/uznews';
 import { useSafeArea } from 'react-native-safe-area-context';
-
+import AsyncStorage from '@react-native-community/async-storage';
 const lang = 'ru';
 
 export default () => {
@@ -35,6 +35,15 @@ export default () => {
         }
     }
 
+    const storeData = async (value, key) => {
+        try {
+            const jsonValue = JSON.stringify(value);
+            await AsyncStorage.setItem(key, jsonValue);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     const CategoryApi = async () => {
         try {
             const response = await uznews.get('/category', {
@@ -45,6 +54,7 @@ export default () => {
 
             if (!cleanupFunction) {
                 setCategories(response.data);
+                storeData(response.data, '@categories')
             }
         } catch (err) {
             console.error(err);
@@ -55,7 +65,7 @@ export default () => {
         try {
             setRefreshing(true);
             const url = `/feed`;
-            
+
             await uznews.get(url, {
                 params: {
                     limit: 8,
@@ -73,12 +83,12 @@ export default () => {
             console.error(err);
         }
     }
-    
+
     const ShowMoreMindsApi = async () => {
         try {
             setRefreshing(true);
             const url = `/feed`;
-            
+
             await uznews.get(url, {
                 params: {
                     limit: 1,
