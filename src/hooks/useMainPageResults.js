@@ -91,7 +91,7 @@ export default () => {
 
             await uznews.get(url, {
                 params: {
-                    limit: 1,
+                    limit: 0,
                     language: 1,
                     offset: 0,
                     mind_limit: 3,
@@ -119,7 +119,9 @@ export default () => {
                 params: {
                     limit: count,
                     language: 1,
-                    offset: 0
+                    offset: 0,
+                    mind_limit: 3,
+                    mind_offset: 0,
                 }
             }).then((response) => {
                 setLoading(false);

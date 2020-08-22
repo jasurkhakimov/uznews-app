@@ -8,6 +8,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import BookmarkScreen from '../screens/BookmarkScreen';
 import AddNewsScreen from '../screens/AddNewsScreen';
 import AboutScreen from '../screens/AboutScreen';
+import CategoryScreen from '../screens/CategoryScreen';
 import ContactsScreen from '../screens/ContactsScreen';
 import AdvScreen from '../screens/AdvScreen';
 import PrivacyScreen from '../screens/PrivacyScreen';
@@ -67,6 +68,15 @@ const MainStackScreen = ({ navigation }) => {
             }} />
             <MainStack.Screen name='News' component={NewsScreen} options={{
                 headerTitle: 'Новости',
+                headerTintColor: '#20235a',
+                headerStyle: {
+                    // backgroundColor: 'transparent',
+                    elevation: 0, // remove shadow on Android
+                    shadowOpacity: 0,
+                },
+            }} />
+            <MainStack.Screen name='Category' component={CategoryScreen} options={{
+                headerTitle: 'Категории',
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',

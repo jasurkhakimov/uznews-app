@@ -131,17 +131,15 @@ export function DrawerContent(props) {
 
     }, [])
 
-    if (loaded) {
-        console.log(categories);
-    }
+    const CategoriesList = () => {
 
-    const CategoriesList = (navigation) => {
+        const nav = props.navigation;
 
         const RenderItem = ({ item }) => (
             <Drawer.Item
                 style={styles.drawerItem}
                 label={item['title_' + lang]}
-                
+                onPress={() => nav.navigate('Category', {id: item.id, category_title: item['title_' + lang]})}
             />
         );
 
@@ -151,9 +149,8 @@ export function DrawerContent(props) {
                 <View>
                     {
                         categories.map((item) => {
-                            console.log(item);
                             return (
-                                <RenderItem item={item} key={item.id+lang}/>
+                                <RenderItem item={item} key={item.id+lang} />
                             );
                         })
                     }
