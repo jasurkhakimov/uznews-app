@@ -56,13 +56,15 @@ const MainScreen = ({ navigation }) => {
     const renderItem = ({ item }) => (
         <NewsCard showNews={showNews} title={item['title_' + lang]} image={item.image_name} category={item.category['title_' + lang]} time={item.date} id={item.id} />
     );
-
+    
+    
+    
     const ListHeaderNews = () => (
         <>
             <WidgetBar showWidget={widget} onWidgetTap={() => onWidgetClose()} currency={currency} />
             <CurrentDate />
             <HeaderText text="Новости" />
-            <CategoriesList categories={categories} lang={lang} />
+            <CategoriesList categories={categories} lang={lang} navigation={navigation}/>
         </>
     );
 

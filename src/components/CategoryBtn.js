@@ -2,9 +2,9 @@ import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 
 const CategoryBtn = ({
-    title, id, active
+    title, id, active, navigateCategory
 }) => (
-    <TouchableOpacity style={[styles.btn, {backgroundColor: active ? '#74d9ff' : '#475681'}]}>
+    <TouchableOpacity onPress={() => navigateCategory()} style={[styles.btn, {backgroundColor: active ? '#74d9ff' : '#475681'}]}>
         <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
 );
