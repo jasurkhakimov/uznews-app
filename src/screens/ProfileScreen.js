@@ -2,8 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-
+import * as GoogleSignIn from 'expo-google-sign-in';
 
 const TextComponent = ({ navigation }) => {
 
@@ -16,22 +15,71 @@ const TextComponent = ({ navigation }) => {
 
 };
 
-const ProfileScreen = ({ navigation }) => {
+export default class AuthScreen extends React.Component {
 
-    return (
-        <View style={styles.container}>
-            <TextComponent />
-            
-            <TouchableOpacity style={[styles.authBtn, styles.facebook]}>
-                <MaterialCommunityIcons name='facebook' color='#fff' size={21} />
-                <Text style={styles.authText}>Войти через Facebook </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.authBtn, styles.google]}>
-                <MaterialCommunityIcons name='google' color='#fff' size={21} />
-                <Text style={styles.authText}>Войти через Google </Text>
-            </TouchableOpacity>
-        </View>
-    )
+    state = { user: null };
+
+    componentDidMount() {
+        this.initAsync();
+    }
+
+    initAsync = async () => {
+        await GoogleSignIn.initAsync({
+            // You may ommit the clientId when the firebase `googleServicesFile` is configured
+            clientId: '720560601108-3uh2465ln2oo30sd3g18eei8e5ssasjd.apps.googleusercontent.com',
+        });
+        this._syncUserWithStateAsync();
+    };
+
+    _syncUserWithStateAsync = async () => {
+        const user = await GoogleSignIn.signInSilentlyAsync();
+        this.setState({ user });
+        console.log(this.state.user);
+    };
+
+    signOutAsync = async () => {
+        await GoogleSignIn.signOutAsync();
+        this.setState({ user: null });
+    };
+
+    signInAsync = async () => {
+        try {
+            await GoogleSignIn.askForPlayServicesAsync();
+            const { type, user } = await GoogleSignIn.signInAsync();
+            if (type === 'success') {
+                this._syncUserWithStateAsync();
+            }
+        } catch ({ message }) {
+            alert('login: Error:' + message);
+        }
+    };
+
+    onPress = () => {
+        if (this.state.user) {
+            this.signOutAsync();
+        } else {
+            this.signInAsync();
+        }
+    };
+
+
+
+    render() {
+        return (
+            <View style={styles.container} >
+                <TextComponent />
+
+                <TouchableOpacity style={[styles.authBtn, styles.facebook]}>
+                    <MaterialCommunityIcons name='facebook' color='#fff' size={21} />
+                    <Text style={styles.authText}>Войти через Facebook </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.onPress} style={[styles.authBtn, styles.google]}>
+                    <MaterialCommunityIcons name='google' color='#fff' size={21} />
+                    <Text style={styles.authText}>Войти через Google </Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
 };
 
 const styles = StyleSheet.create({
@@ -64,4 +112,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ProfileScreen;
+// export default ProfileScreen;
