@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Google from "expo-google-app-auth";
+import * as Facebook from 'expo-facebook';
+
+console.disableYellowBox = true;
 
 const IOS_CLIENT_ID =
     "720560601108-iah91edkpqtmcq8kjrcf7n1qobv2mj1g.apps.googleusercontent.com";
@@ -21,6 +24,38 @@ const TextComponent = ({ navigation }) => {
 };
 
 export default class LoginScreen extends Component {
+
+    facebookLogIn = async () => {
+        try {
+            
+            const init = await Facebook.initializeAsync("752420818926196", "Uznews");
+
+            const {
+                type,
+                token,
+                expires,
+                permissions,
+                declinedPermissions,
+            } = await Facebook.logInWithReadPermissionsAsync('752420818926196', {
+                permissions: ['public_profile'],
+            });
+            if (type === 'success') {
+                // Get the user's name using Facebook's Graph API
+                fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(e => console.log(e))
+            } else {
+                console.log('smth goes wrong');
+            }
+        } catch ({ message }) {
+            alert(`Facebook Login Error: ${message}`);
+        }
+    }
+
+
     signInWithGoogle = async () => {
         try {
             const result = await Google.logInAsync({
@@ -51,7 +86,7 @@ export default class LoginScreen extends Component {
             <View style={styles.container} >
                 <TextComponent />
 
-                <TouchableOpacity style={[styles.authBtn, styles.facebook]}>
+                <TouchableOpacity onPress={this.facebookLogIn} style={[styles.authBtn, styles.facebook]}>
                     <MaterialCommunityIcons name='facebook' color='#fff' size={21} />
                     <Text style={styles.authText}>Войти через Facebook </Text>
                 </TouchableOpacity>
