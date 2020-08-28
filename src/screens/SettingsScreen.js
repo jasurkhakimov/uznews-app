@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-eva-icons';
 import HeaderText from '../components/HeaderText';
 import { Picker } from '@react-native-community/picker';
 import { Switch } from 'react-native-paper';
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 const ProfileComponent = ({ navigation }) => {
 
@@ -84,10 +84,32 @@ const SettingsComponent = () => {
 
 const SettingsScreen = ({ navigation }) => {
 
+    const [loginData, setLoginData] = useState(null);
+
+    const getData = async () => {
+        try {
+            const jsonValue = await AsyncStorage.getItem('@login_info');
+            // console.log(jsonValue);
+            setLoginData(JSON.parse(jsonValue));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+
+        getData();
+        
+    }, [])
+    // console.log("data check",login_data);
+
     return (
         <View style={styles.container}>
-            <ProfileComponent navigation={navigation}/>
+            <ProfileComponent navigation={navigation} />
             <SettingsComponent />
+            <Text>
+                {loginData ? loginData.data.name : null}
+            </Text>
         </View>
     )
 };

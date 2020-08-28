@@ -4,6 +4,7 @@ import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Google from "expo-google-app-auth";
 import * as Facebook from 'expo-facebook';
+import AsyncStorage from '@react-native-community/async-storage';
 
 console.disableYellowBox = true;
 
@@ -23,11 +24,20 @@ const TextComponent = ({ navigation }) => {
 
 };
 
-export default class LoginScreen extends Component {
+export default class ProfileScreen extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: {},
+            loggedIn: false,
+        };
+    }
+
 
     facebookLogIn = async () => {
         try {
-            
+
             const init = await Facebook.initializeAsync("752420818926196", "Uznews");
 
             const {
@@ -45,6 +55,16 @@ export default class LoginScreen extends Component {
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
+                        this.setState({ data: data, loggedIn: true })
+                    }).then(() => {
+                        (async () => {
+                            try {
+                                const jsonValue = JSON.stringify({"data": this.state.data, "loggedIn": this.state.loggedIn})
+                                await AsyncStorage.setItem('@login_info', jsonValue)
+                            } catch (e) {
+                                // saving error
+                            }
+                        })();
                     })
                     .catch(e => console.log(e))
             } else {
@@ -82,6 +102,14 @@ export default class LoginScreen extends Component {
 
 
     render() {
+
+        if (this.state.loggedIn) {
+            return (
+                <Text>
+                    {this.state.data.name}
+                </Text>
+            );
+        }
         return (
             <View style={styles.container} >
                 <TextComponent />
@@ -94,6 +122,7 @@ export default class LoginScreen extends Component {
                     <MaterialCommunityIcons name='google' color='#fff' size={21} />
                     <Text style={styles.authText}>Войти через Google </Text>
                 </TouchableOpacity>
+
             </View>
         )
     }
