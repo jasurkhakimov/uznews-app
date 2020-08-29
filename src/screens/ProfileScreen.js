@@ -8,10 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 console.disableYellowBox = true;
 
-const IOS_CLIENT_ID =
-    "720560601108-iah91edkpqtmcq8kjrcf7n1qobv2mj1g.apps.googleusercontent.com";
-const ANDROID_CLIENT_ID =
-    "720560601108-ivnmhrojdltthiecgvomeao2uvnhjopu.apps.googleusercontent.com";
+
 
 const TextComponent = ({ navigation }) => {
 
@@ -59,7 +56,7 @@ export default class ProfileScreen extends Component {
                     }).then(() => {
                         (async () => {
                             try {
-                                const jsonValue = JSON.stringify({"data": this.state.data, "loggedIn": this.state.loggedIn})
+                                const jsonValue = JSON.stringify({ "data": this.state.data, "loggedIn": this.state.loggedIn })
                                 await AsyncStorage.setItem('@login_info', jsonValue)
                             } catch (e) {
                                 // saving error
@@ -77,6 +74,13 @@ export default class ProfileScreen extends Component {
 
 
     signInWithGoogle = async () => {
+
+        const IOS_CLIENT_ID =
+            "720560601108-iah91edkpqtmcq8kjrcf7n1qobv2mj1g.apps.googleusercontent.com";
+
+        const ANDROID_CLIENT_ID =
+            "720560601108-ivnmhrojdltthiecgvomeao2uvnhjopu.apps.googleusercontent.com";
+
         try {
             const result = await Google.logInAsync({
                 iosClientId: IOS_CLIENT_ID,
@@ -105,9 +109,11 @@ export default class ProfileScreen extends Component {
 
         if (this.state.loggedIn) {
             return (
-                <Text>
-                    {this.state.data.name}
-                </Text>
+                <View>
+                    <Text>
+                        {this.state.data.name} 
+                    </Text>
+                </View>
             );
         }
         return (
