@@ -5,6 +5,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Google from "expo-google-app-auth";
 import * as Facebook from 'expo-facebook';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Icon } from 'react-native-eva-icons';
+import { Avatar } from 'react-native-paper';
+
 
 console.disableYellowBox = true;
 
@@ -27,10 +30,33 @@ export default class ProfileScreen extends Component {
         super(props);
         this.state = {
             data: {},
-            loggedIn: false,
         };
+        this._isMounted = false;
     }
 
+    getData = async () => {
+        try {
+            const jsonValue = await AsyncStorage.getItem('@login_info');
+            console.log(jsonValue);
+            if (this._isMounted) {
+                this.setState({ data: JSON.parse(jsonValue) })
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
+        this.getData()
+    }
+    componentDidUpdate() {
+        // this.getData()
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
 
     facebookLogIn = async () => {
         try {
@@ -50,13 +76,15 @@ export default class ProfileScreen extends Component {
                 // Get the user's name using Facebook's Graph API
                 fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`)
                     .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        this.setState({ data: data, loggedIn: true })
-                    }).then(() => {
+                    .then((data) => {
+
+                        let userData = { "id": data.id, "name": data.name, "img_url": data.picture.data.url, "social_network": "Facebook", "loggedIn": true };
+                        this.setState({ data: userData })
+                        console.log(this.state.data);
+
                         (async () => {
                             try {
-                                const jsonValue = JSON.stringify({ "data": this.state.data, "loggedIn": this.state.loggedIn })
+                                const jsonValue = JSON.stringify(userData)
                                 await AsyncStorage.setItem('@login_info', jsonValue)
                             } catch (e) {
                                 // saving error
@@ -89,10 +117,19 @@ export default class ProfileScreen extends Component {
             });
 
             if (result.type === "success") {
-                console.log("LoginScreen.js.js 21 | ", result.user);
-                // this.props.navigation.navigate("Profile", {
-                //     username: result.user
-                // }); //after Google login redirect to Profile
+                let userData = { "id": result.user.id, "name": result.user.givenName + " " + ((result.user.familyName) ? result.user.familyName : ""), "img_url": result.user.photoUrl, "social_network": "Google", "loggedIn": true };
+                this.setState({ data: userData })
+                console.log(this.state.data);
+                // console.log(userData);
+                // console.log("LoginScreen.js.js 21 | ", result.user);
+                (async () => {
+                    try {
+                        const jsonValue = JSON.stringify(userData)
+                        await AsyncStorage.setItem('@login_info', jsonValue)
+                    } catch (e) {
+                        // saving error
+                    }
+                })();
                 return result.accessToken;
             } else {
                 return { cancelled: true };
@@ -103,16 +140,48 @@ export default class ProfileScreen extends Component {
         }
     };
 
-
+    logout = async () => {
+        try {
+            this.setState({ data: {}, loggedIn: false })
+            const jsonValue = JSON.stringify({ "data": { "loggedIn": false } })
+            await AsyncStorage.setItem('@login_info', jsonValue)
+        } catch (e) {
+            // saving error
+        }
+    }
 
     render() {
 
-        if (this.state.loggedIn) {
+        if (this.state.data.loggedIn) {
             return (
-                <View>
-                    <Text>
-                        {this.state.data.name} 
-                    </Text>
+                <View style={[styles.container, styles.profile]}>
+                    <View style={styles.profileBlock}>
+                        <Avatar.Image size={90} source={{ uri: this.state.data.img_url }} style={styles.img} />
+                        <View style={styles.profileText}>
+                            <View style={styles.textBlock}>
+                                <Text style={styles.label}>
+                                    Имя:
+                                </Text>
+                                <Text style={styles.labelText}>
+                                    {this.state.data.name}
+                                </Text>
+                            </View>
+                            <View style={styles.textBlock}>
+                                <Text style={styles.label}>
+                                    Соц. сеть:
+                                </Text>
+                                <Text style={[styles.labelText, styles.socNet]}>
+                                    {this.state.data.social_network}
+                                </Text>
+                            </View>
+
+                        </View>
+                    </View>
+
+                    <TouchableOpacity onPress={this.logout} style={[styles.authBtn]}>
+                        <Icon name="log-out" width={20} height={20} fill='#fff' />
+                        <Text style={styles.authText}>Выйти </Text>
+                    </TouchableOpacity>
                 </View>
             );
         }
@@ -121,11 +190,11 @@ export default class ProfileScreen extends Component {
                 <TextComponent />
 
                 <TouchableOpacity onPress={this.facebookLogIn} style={[styles.authBtn, styles.facebook]}>
-                    <MaterialCommunityIcons name='facebook' color='#fff' size={21} />
+                    <Icon name="facebook" width={20} height={20} fill='#fff' />
                     <Text style={styles.authText}>Войти через Facebook </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.signInWithGoogle} style={[styles.authBtn, styles.google]}>
-                    <MaterialCommunityIcons name='google' color='#fff' size={21} />
+                    <Icon name="google" width={20} height={20} fill='#fff' />
                     <Text style={styles.authText}>Войти через Google </Text>
                 </TouchableOpacity>
 
@@ -138,18 +207,24 @@ const styles = StyleSheet.create({
     container: {
         marginHorizontal: 15
     },
+    profile: {
+        height: '100%',
+        justifyContent: 'space-between',
+        paddingBottom: 10
+    },
     text: {
         marginVertical: 15,
         fontSize: 16
     },
     authBtn: {
         alignItems: 'center',
-        marginBottom: 15,
+        marginBottom: 8,
         padding: 12,
         borderRadius: 50,
         backgroundColor: 'red',
         justifyContent: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        backgroundColor: '#475681'
     },
     google: {
         backgroundColor: '#c71610'
@@ -161,6 +236,31 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         marginLeft: 10
+    },
+    profileBlock: {
+        flexDirection: 'row',
+        marginVertical: 15,
+        backgroundColor: '#fff',
+        padding: 15,
+        borderRadius: 15
+    },
+    img: {
+        backgroundColor: '#475681'
+    },
+    profileText: {
+        marginLeft: 15
+    },
+    label: {
+        fontSize: 12,
+        color: '#111'
+    },
+    labelText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#475681'
+    },
+    socNet: {
+        fontSize: 14
     }
 });
 

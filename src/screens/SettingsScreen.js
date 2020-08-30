@@ -12,7 +12,7 @@ const ProfileComponent = ({ navigation }) => {
     return (
 
         <TouchableOpacity style={styles.profile} onPress={() => navigation.navigate('Profile')}>
-            <Icon name="person" width={20} height={20} fill='#fff' />
+            <Icon name="person" width={18} height={18} fill='#fff' />
             <Text style={styles.profileText}> Профиль </Text>
         </TouchableOpacity>
     );
@@ -89,7 +89,7 @@ const SettingsScreen = ({ navigation }) => {
     const getData = async () => {
         try {
             const jsonValue = await AsyncStorage.getItem('@login_info');
-            // console.log(jsonValue);
+            console.log(jsonValue);
             setLoginData(JSON.parse(jsonValue));
         } catch (e) {
             console.log(e);
@@ -107,9 +107,9 @@ const SettingsScreen = ({ navigation }) => {
         <View style={styles.container}>
             <ProfileComponent navigation={navigation} />
             <SettingsComponent />
-            <Text>
-                {loginData ? loginData.data.name : null}
-            </Text>
+            {/* <Text>
+                {loginData ? loginData.name : null}
+            </Text> */}
         </View>
     )
 };
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 15,
         flexDirection: 'row',
         backgroundColor: '#475681',
-        padding: 15,
+        padding: 12,
         marginVertical: 12,
         borderRadius: 50,
         alignItems: 'center',
