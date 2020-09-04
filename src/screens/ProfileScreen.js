@@ -7,16 +7,16 @@ import * as Facebook from 'expo-facebook';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Icon } from 'react-native-eva-icons';
 import { Avatar } from 'react-native-paper';
+import uznews from '../api/uznews';
 
 
-console.disableYellowBox = true;
+// console.disableYellowBox = true;
 
 
 
 const TextComponent = ({ navigation }) => {
 
     return (
-
         <Text style={styles.text}>
             большой текст
         </Text>
@@ -29,17 +29,21 @@ export default class ProfileScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {},
+            data: {
+                loggedIn: false,
+            },
         };
         this._isMounted = false;
+
     }
 
     getData = async () => {
         try {
             const jsonValue = await AsyncStorage.getItem('@login_info');
-            console.log(jsonValue);
-            if (this._isMounted) {
-                this.setState({ data: JSON.parse(jsonValue) })
+            json_data = (jsonValue) ? JSON.parse(jsonValue) : null;
+            // console.log(json_data);
+            if (this._isMounted && json_data) {
+                this.setState({ data: json_data })
             }
         } catch (e) {
             console.log(e);
@@ -57,6 +61,16 @@ export default class ProfileScreen extends Component {
     componentWillUnmount() {
         this._isMounted = false;
     }
+
+
+    getAuth = () => {
+        console.log("auth");
+        console.log(this.state.data);
+    }
+
+
+
+
 
     facebookLogIn = async () => {
         try {
@@ -80,7 +94,9 @@ export default class ProfileScreen extends Component {
 
                         let userData = { "id": data.id, "name": data.name, "img_url": data.picture.data.url, "social_network": "Facebook", "loggedIn": true };
                         this.setState({ data: userData })
-                        console.log(this.state.data);
+                        this.getAuth();
+
+                        // console.log(this.state.data);
 
                         (async () => {
                             try {
@@ -119,7 +135,8 @@ export default class ProfileScreen extends Component {
             if (result.type === "success") {
                 let userData = { "id": result.user.id, "name": result.user.givenName + " " + ((result.user.familyName) ? result.user.familyName : ""), "img_url": result.user.photoUrl, "social_network": "Google", "loggedIn": true };
                 this.setState({ data: userData })
-                console.log(this.state.data);
+                this.getAuth();
+                // console.log(this.state.data);
                 // console.log(userData);
                 // console.log("LoginScreen.js.js 21 | ", result.user);
                 (async () => {
@@ -142,9 +159,10 @@ export default class ProfileScreen extends Component {
 
     logout = async () => {
         try {
-            this.setState({ data: {}, loggedIn: false })
+            this.setState({ data: { loggedIn: false } })
             const jsonValue = JSON.stringify({ "data": { "loggedIn": false } })
             await AsyncStorage.setItem('@login_info', jsonValue)
+            // await AsyncStorage.removeItem('@login_info');
         } catch (e) {
             // saving error
         }
