@@ -63,9 +63,34 @@ export default class ProfileScreen extends Component {
     }
 
 
-    getAuth = () => {
-        console.log("auth");
-        console.log(this.state.data);
+    getAuth = async (userData) => {
+
+        let data = {
+            username: userData.name,
+            social_network: userData.social_network,
+            image: userData.img_url,
+            notifications: "0",
+            language: "1",
+            email: "",
+            player_id: ""
+        };
+
+        console.log(data);
+
+        let url = "/auth/" + userData.id + "/"
+
+        await uznews.post(url, data).then(async (response) => {
+            // console.log(response.data.id);
+            try {
+                await AsyncStorage.setItem('@user_id', response.data.id + "")
+            } catch (e) {
+                // saving error
+            }
+
+        }).catch(
+            error => console.log('error', error)
+        );
+
     }
 
 
@@ -92,9 +117,9 @@ export default class ProfileScreen extends Component {
                     .then(response => response.json())
                     .then((data) => {
 
-                        let userData = { "id": data.id, "name": data.name, "img_url": data.picture.data.url, "social_network": "Facebook", "loggedIn": true };
+                        let userData = { "id": data.id, "name": data.name, "img_url": data.picture.data.url, "social_network": "facebook", "loggedIn": true };
                         this.setState({ data: userData })
-                        this.getAuth();
+                        this.getAuth(userData);
 
                         // console.log(this.state.data);
 
@@ -162,6 +187,12 @@ export default class ProfileScreen extends Component {
             this.setState({ data: { loggedIn: false } })
             const jsonValue = JSON.stringify({ "data": { "loggedIn": false } })
             await AsyncStorage.setItem('@login_info', jsonValue)
+
+            try {
+                await AsyncStorage.setItem('@user_id',  "")
+            } catch (e) {
+                // saving error
+            }
             // await AsyncStorage.removeItem('@login_info');
         } catch (e) {
             // saving error

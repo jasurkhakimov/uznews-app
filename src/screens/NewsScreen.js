@@ -11,9 +11,14 @@ const NewsScreen = ({ route }) => {
     // console.log(navigation);
     const id = route.params.id;
     const lang = route.params.lang;
+    const user_id = route.params.user_id;
 
     const getResult = async (id) => {
-        const response = await uznews.get(`/article/${id}`);
+        const response = await uznews.get(`/article/${id}`, {
+            params: {
+                user: user_id
+            }
+        });
         setResult(response.data);
         console.log(response.data);
     };

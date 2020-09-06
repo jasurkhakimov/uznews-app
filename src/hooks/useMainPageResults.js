@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import uznews from '../api/uznews';
 import { useSafeArea } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-community/async-storage';
+import { getUserId } from '../api/getUserId';
+
 const lang = 'ru';
 
 export default () => {
@@ -20,6 +22,7 @@ export default () => {
     const [eur, setEur] = useState('');
     const [rub, setRub] = useState('');
     const [mindsUsed, setMindsUsed] = useState(3);
+    const [user_id, setUserId] = useState("");
 
     const ExchangeApi = async () => {
         try {
@@ -96,6 +99,7 @@ export default () => {
                     offset: 0,
                     mind_limit: 3,
                     mind_offset: mindsUsed,
+                    user: ""
                 }
             }).then((response) => {
                 setMindsUsed(mindsUsed + 3);
@@ -112,26 +116,40 @@ export default () => {
 
     const NewsFeedApi = async (count) => {
         try {
-            setRefreshing(true);
-            setNewsUsed(newsCount);
+            await getUserId().then(async (user_id) => {
+                try {
+                    setRefreshing(true);
+                    setNewsUsed(newsCount);
+                    setUserId(user_id)
+                    // console.log(user_id);
 
-            await uznews.get('/feed', {
-                params: {
-                    limit: count,
-                    language: 1,
-                    offset: 0,
-                    mind_limit: 3,
-                    mind_offset: 0,
+                    await uznews.get('/feed', {
+                        params: {
+                            limit: count,
+                            language: 1,
+                            offset: 0,
+                            mind_limit: 3,
+                            mind_offset: 0,
+                            user: user_id
+                        }
+                    }).then(async (response) => {
+                        setLoading(false);
+                        setNewsResults(response.data.articles);
+                        // console.log("user id: ", await getUserId());
+                        console.log(response.data.articles);
+                        setMindsResults(response.data.minds);
+                        setRefreshing(false)
+                    });
+                } catch (err) {
+
                 }
-            }).then((response) => {
-                setLoading(false);
-                setNewsResults(response.data.articles);
-                setMindsResults(response.data.minds);
-                setRefreshing(false)
-            });
+            })
         } catch (err) {
 
         }
+
+
+
 
     };
 
@@ -159,7 +177,8 @@ export default () => {
         ShowMoreNewsApi,
         categories,
         mindsResults,
-        ShowMoreMindsApi
+        ShowMoreMindsApi,
+        user_id
     ];
 
 

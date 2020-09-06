@@ -63,9 +63,6 @@ const SettingsComponent = () => {
             </View>
             <View style={styles.settingAdvanced}>
                 <TouchableOpacity style={styles.advBtn}>
-                    <Text style={styles.settingText}>Настройка вашей ленты </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.advBtn}>
                     <Text style={styles.settingText}>Помощь </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.advBtn}>

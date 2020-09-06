@@ -42,6 +42,7 @@ const MainScreen = ({ navigation }) => {
         categories, 
         mindsResults,
         ShowMoreMindsApi,
+        user_id
     ] = useMainPageResults();
 
     const onRefresh = () => {
@@ -49,7 +50,7 @@ const MainScreen = ({ navigation }) => {
     };
 
     const showNews = (id) => {
-        return navigation.navigate('News', { id: id, lang: lang })
+        return navigation.navigate('News', { id: id, lang: lang, user_id: user_id})
     }
 
 
