@@ -136,7 +136,6 @@ export default () => {
                         setLoading(false);
                         setNewsResults(response.data.articles);
                         // console.log("user id: ", await getUserId());
-                        console.log(response.data.articles);
                         setMindsResults(response.data.minds);
                         setRefreshing(false)
                     });

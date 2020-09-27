@@ -41,10 +41,10 @@ const HistoryScreen = ({ navigation }) => {
                         user: user_id
                     }
                 }).then((response) => {
-                    // setLoading(false);
-                    // setNewsResults(response.results);
-                    console.log(response);
-                    // setRefreshing(false)
+                    setLoading(false);
+                    setNewsResults(response.data.results);
+                    console.log(response.data.results);
+                    setRefreshing(false)
                 });
             } catch (err) {
 
@@ -67,8 +67,8 @@ const HistoryScreen = ({ navigation }) => {
                 }
             }).then((response) => {
                 setNewsUsed(newsUsed + 8);
-                setNewsResults([...newsResults, ...response.data.articles]);
-                console.log(response.data.articles);
+                setNewsResults([...newsResults, ...response.data.results]);
+                console.log(response.data.results);
                 setRefreshing(false)
             });
         } catch (err) {
@@ -104,19 +104,30 @@ const HistoryScreen = ({ navigation }) => {
 
     const ListFooterNews = () => (
         <View>
-            {(newsResults.length >= 8) ? <ShowMore text='Показать больше новостей' onLoadMore={() => getResultMore(id)} /> : <View style={styles.br}></View>}
+            {(newsResults.length >= 8) ? <ShowMore text='Показать больше новостей' onLoadMore={() => getResultMore()} /> : <View style={styles.br}></View>}
         </View>
     );
 
     useEffect(() => {
-        getResult(id);
+        getResult();
     }, [])
+
+    if(!user_id) {
+        return (
+            <View>
+                <Text> Авторизуйтесь </Text>
+            </View>
+        )
+    }
+
 
     if (loading) {
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container} refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
                 <ActivityIndicator size={30} color='#20235a' />
-            </View>
+            </ScrollView>
         )
     }
 
@@ -128,7 +139,7 @@ const HistoryScreen = ({ navigation }) => {
                 data={newsResults}
                 renderItem={renderItem}
                 keyExtractor={item => item['title_' + lang] + item.id}
-                // ListFooterComponent={ListFooterNews}
+                ListFooterComponent={ListFooterNews}
 
                 showsVerticalScrollIndicator={false}
                 refreshControl={
