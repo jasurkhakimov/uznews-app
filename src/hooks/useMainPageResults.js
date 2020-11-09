@@ -69,12 +69,18 @@ export default () => {
             setRefreshing(true);
             const url = `/feed`;
 
+            let params = {
+                limit: 8,
+                language: 1,
+                offset: newsUsed,
+            }
+
+            if (user_id) {
+                params.user = user_id;
+            }
+
             await uznews.get(url, {
-                params: {
-                    limit: 8,
-                    language: 1,
-                    offset: newsUsed
-                }
+                params
             }).then((response) => {
                 setNewsUsed(newsUsed + 8);
                 setNewsResults([...newsResults, ...response.data.articles]);
@@ -91,16 +97,21 @@ export default () => {
         try {
             setRefreshing(true);
             const url = `/feed`;
+            let params = {
+                limit: 0,
+                language: 1,
+                offset: 0,
+                mind_limit: 3,
+                mind_offset: mindsUsed,
+            }
+
+
+            if (user_id) {
+                params.user = user_id
+            }
 
             await uznews.get(url, {
-                params: {
-                    limit: 0,
-                    language: 1,
-                    offset: 0,
-                    mind_limit: 3,
-                    mind_offset: mindsUsed,
-                    user: ""
-                }
+                params
             }).then((response) => {
                 setMindsUsed(mindsUsed + 3);
                 setMindsResults([...mindsResults, ...response.data.minds]);
@@ -123,15 +134,21 @@ export default () => {
                     setUserId(user_id)
                     // console.log(user_id);
 
+                    let params = {
+                        limit: count,
+                        language: 1,
+                        offset: 0,
+                        mind_limit: 3,
+                        mind_offset: 0,
+                        
+                    }
+
+                    if (user_id) {
+                        params.user = user_id
+                    }
+
                     await uznews.get('/feed', {
-                        params: {
-                            limit: count,
-                            language: 1,
-                            offset: 0,
-                            mind_limit: 3,
-                            mind_offset: 0,
-                            user: user_id
-                        }
+                        params
                     }).then(async (response) => {
                         setLoading(false);
                         setNewsResults(response.data.articles);

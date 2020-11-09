@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, RefreshControl, ActivityIndicator} from 'react-native';
+import { View, Text, StyleSheet, RefreshControl, ActivityIndicator } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import uznews from '../api/uznews';
 import ShowMore from '../components/ShowMore';
 import CurrentDate from '../components/CurrentDate';
 import NewsCard from '../components/NewsCard';
 import HeaderText from '../components/HeaderText';
+import { getUserId } from '../api/getUserId';
 
 
-
-const CategoryScreen = ({route, navigation}) => {
+const CategoryScreen = ({ route, navigation }) => {
 
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
@@ -24,31 +24,35 @@ const CategoryScreen = ({route, navigation}) => {
     const count = 8;
 
     const getResult = async (id) => {
-        try {
-            setRefreshing(true);
-            
-            await uznews.get('/feed', {
-                params: {
-                    limit: count,
-                    language: 1,
-                    offset: 0,
-                    category: id
-                }
-            }).then((response) => {
-                setLoading(false);
-                setNewsResults(response.data.articles);
-                console.log(response.data.articles);
-                setRefreshing(false)
-            });
-        } catch (err) {
 
-        }
+        await getUserId().then(async (user_id) => {
+            try {
+                setRefreshing(true);
+
+                await uznews.get('/feed', {
+                    params: {
+                        limit: count,
+                        language: 1,
+                        offset: 0,
+                        category: id,
+                        user: user_id
+                    }
+                }).then((response) => {
+                    setLoading(false);
+                    setNewsResults(response.data.articles);
+                    console.log(response.data.articles);
+                    setRefreshing(false)
+                });
+            } catch (err) {
+
+            }
+        });
     };
-    
+
     const getResultMore = async (id) => {
         try {
             setRefreshing(true);
-            
+
             await uznews.get('/feed', {
                 params: {
                     limit: 8,
@@ -57,7 +61,7 @@ const CategoryScreen = ({route, navigation}) => {
                     category: id
                 }
             }).then((response) => {
-                setNewsUsed(newsUsed+8);
+                setNewsUsed(newsUsed + 8);
                 setNewsResults([...newsResults, ...response.data.articles]);
                 console.log(response.data.articles);
                 setRefreshing(false)
@@ -70,7 +74,7 @@ const CategoryScreen = ({route, navigation}) => {
     const onRefresh = () => {
         getResult(id);
     };
-    
+
     useEffect(() => {
         getResult(id);
     }, [])
@@ -95,7 +99,7 @@ const CategoryScreen = ({route, navigation}) => {
 
     const ListFooterNews = () => (
         <View>
-            { (newsResults.length >= 8) ? <ShowMore text='Показать больше новостей' onLoadMore={() => getResultMore(id)} /> : <View style={styles.br}></View> }
+            { (newsResults.length >= 8) ? <ShowMore text='Показать больше новостей' onLoadMore={() => getResultMore(id)} /> : <View style={styles.br}></View>}
         </View>
     );
 
@@ -120,7 +124,7 @@ const CategoryScreen = ({route, navigation}) => {
                 renderItem={renderItem}
                 keyExtractor={item => item['title_' + lang] + item.id}
                 ListFooterComponent={ListFooterNews}
-                
+
                 showsVerticalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

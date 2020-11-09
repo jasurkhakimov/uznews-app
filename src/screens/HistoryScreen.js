@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, RefreshControl, ActivityIndicator} from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { ScrollView, View, Text, StyleSheet, RefreshControl, ActivityIndicator} from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import uznews from '../api/uznews';
 import ShowMore from '../components/ShowMore';
 import CurrentDate from '../components/CurrentDate';
@@ -114,8 +114,13 @@ const HistoryScreen = ({ navigation }) => {
 
     if(!user_id) {
         return (
-            <View>
-                <Text> Авторизуйтесь </Text>
+            <View style={styles.authContainer}>
+                <View style={styles.authBlock}>
+                    <Text style={styles.authText}> Авторизуйтесь </Text>
+                    <TouchableOpacity style={styles.authBtn} onPress={() => getResult()}>
+                        <Text style={styles.authBtnText}> Обновить </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }
@@ -123,11 +128,11 @@ const HistoryScreen = ({ navigation }) => {
 
     if (loading) {
         return (
-            <ScrollView style={styles.container} refreshControl={
+            <View style={styles.container} refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
                 <ActivityIndicator size={30} color='#20235a' />
-            </ScrollView>
+            </View>
         )
     }
 
@@ -164,6 +169,34 @@ const styles = StyleSheet.create({
     },
     br: {
         marginBottom: 20
-    }
+    },
+    authContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'transparent'
+    },
+    authBlock: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        padding: 40,
+        width: '75%',
+        borderRadius: 15
+    },
+    authText: {
+        fontSize: 18,
+        color: '#20235a',
+    },
+    authBtn: {
+        backgroundColor: '#20235a',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 50,
+        marginTop: 12,
+    },
+    authBtnText: {
+        color: '#fff',
+    },
 });
 export default HistoryScreen;

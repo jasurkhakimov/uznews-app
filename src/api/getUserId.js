@@ -7,7 +7,6 @@ export const getUserId = () => {
         try {
             let user_id = await AsyncStorage.getItem('@user_id')
 
-            console.log(user_id);
             return user_id ? user_id : ""
         } catch (e) {
             console.log(e);

@@ -44,7 +44,7 @@ const SettingsComponent = () => {
                     </Picker>
                 </View>
                 <View style={styles.settingElement}>
-                    <Text style={styles.settingText}>Размер шрифта </Text>
+                    <Text style={styles.settingText}>Язык </Text>
                     <Picker
                         // selectedValue={}
                         style={styles.picker}

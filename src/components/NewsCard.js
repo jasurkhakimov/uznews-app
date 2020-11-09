@@ -10,9 +10,9 @@ export const EvaIcon = ({ icon }) => (
 );
 
 
-const NewsCard = ({title, image, category, time, id, showNews}) => {
+const NewsCard = ({title, image, category, time, id, showNews, book=false}) => {
 
-    const [bookmark, setBookmark] = useState({state: false, icon: 'bookmark-outline'});
+    const [bookmark, setBookmark] = useState({state: book, icon: book ? 'bookmark' : 'bookmark-outline'});
 
     const {icon} = bookmark;
 

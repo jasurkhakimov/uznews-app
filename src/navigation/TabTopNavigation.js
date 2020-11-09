@@ -13,6 +13,7 @@ import ContactsScreen from '../screens/ContactsScreen';
 import AdvScreen from '../screens/AdvScreen';
 import PrivacyScreen from '../screens/PrivacyScreen';
 import TermsOfUseScreen from '../screens/TermsOfUseScreen';
+import SearchScreen from '../screens/SearchScreen';
 import UseOfMaterialsScreen from '../screens/UseOfMaterialsScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Icon } from 'react-native-eva-icons';
@@ -60,7 +61,7 @@ const MainStackScreen = ({ navigation }) => {
                 headerRight: () => {
                     return (
                         <TouchableOpacity>
-                            <Icon name='search-outline' width={24} height={24} fill='#20235a' />
+                            <Icon name='search-outline' onPress={() => navigation.navigate('Search')} width={24} height={24} fill='#20235a' />
                         </TouchableOpacity>
                     )
                 },
@@ -131,6 +132,15 @@ const MainStackScreen = ({ navigation }) => {
             }} />
             <MainStack.Screen name='UseOfMaterials' component={UseOfMaterialsScreen} options={{
                 headerTitle: 'Использование материалов',
+                headerTintColor: '#20235a',
+                headerStyle: {
+                    // backgroundColor: 'transparent',
+                    elevation: 0, // remove shadow on Android
+                    shadowOpacity: 0,
+                },
+            }} />
+            <MainStack.Screen name='Search' component={SearchScreen} options={{
+                headerTitle: 'Поиск',
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',

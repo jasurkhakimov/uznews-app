@@ -78,6 +78,9 @@ const MainScreen = ({ navigation }) => {
             <HeaderText text='Мнения' />
             <MindsList minds={mindsResults} lang={lang}/>
             <ShowMore text='Другие мнения' onLoadMore={() => ShowMoreMindsApi()} />
+            <View>
+                
+            </View>
         </View>
     );
 
