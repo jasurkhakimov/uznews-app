@@ -12,6 +12,8 @@ import {
 } from 'react-native-paper';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
+import LocalizationContext from '../context/LocalizationContext';
+
 
 
 const DrawerHeader = ({ navigation }) => {
@@ -23,14 +25,15 @@ const DrawerHeader = ({ navigation }) => {
     )
 }
 
-const ManageButtons = ({ navigation }) => {
+const ManageButtons = ({ navigation, t }) => {
+
     return (
         <View style={{ flexDirection: 'row', }}>
             <TouchableOpacity style={styles.headerBtn} onPress={() => navigation.navigate('SettingsTab', { screen: 'Settings', initial: true })}>
-                <Text style={styles.btnText}>Настройки</Text>
+                <Text style={styles.btnText}>{t('settings')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.headerBtn} onPress={() => navigation.navigate('SettingsTab', { screen: 'Profile', initial: false })}>
-                <Text style={styles.btnText}>Профиль</Text>
+                <Text style={styles.btnText}>{t('profile')}</Text>
             </TouchableOpacity>
         </View>
     )
@@ -38,39 +41,39 @@ const ManageButtons = ({ navigation }) => {
 
 
 
-const SendNewsBtn = ({ navigation }) => {
+const SendNewsBtn = ({ navigation, t }) => {
     return (
         <View>
             <TouchableOpacity style={styles.addNews} onPress={() => navigation.navigate('AddNewsTab')}>
-                <Text style={styles.btnText, styles.btnNews}> Прислать новость </Text>
+                <Text style={styles.btnText, styles.btnNews}> {t('send_news')} </Text>
             </TouchableOpacity>
         </View>
     )
 }
 
-const AboutInfo = ({ navigation }) => {
+const AboutInfo = ({ navigation, t }) => {
     return (
         <View style={styles.info}>
             <View style={styles.infoBlock1}>
                 <TouchableOpacity onPress={() => navigation.navigate('About')}>
-                    <Text style={styles.infoBlock1Text}>О проекте</Text>
+                    <Text style={styles.infoBlock1Text}> {t('about_project')} </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Contacts')}>
-                    <Text style={styles.infoBlock1Text}>Контакты</Text>
+                    <Text style={styles.infoBlock1Text}>{t('contacts')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Adv')}>
-                    <Text style={styles.infoBlock1Text}>Реклама</Text>
+                    <Text style={styles.infoBlock1Text}>{t('adv')}</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.infoBlock2}>
                 <TouchableOpacity onPress={() => navigation.navigate('UseOfMaterials')}>
-                    <Text style={styles.infoBlock2Text}>Использование материалов</Text>
+                    <Text style={styles.infoBlock2Text}>{t('use_of_meterials')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Privacy')}>
-                    <Text style={styles.infoBlock2Text}>Политика конфиденциальности</Text>
+                    <Text style={styles.infoBlock2Text}>{t('adv')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('TermsOfUse')}>
-                    <Text style={styles.infoBlock2Text}>Условия пользования</Text>
+                    <Text style={styles.infoBlock2Text}>{t('terms_of_use')}</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -109,13 +112,14 @@ export function DrawerContent(props) {
 
     const [categories, setCategories] = useState([]);
     const [loaded, setLoaded] = useState(false);
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
+    const [lang_main, setLangMain] = useState(locale.substring(0, 2))
 
     let cleanupFunction = false;
 
     const getData = async () => {
         try {
             const value = await AsyncStorage.getItem('@categories');
-
             if (value) {
                 setCategories(JSON.parse(value));
                 setLoaded(true);
@@ -125,6 +129,7 @@ export function DrawerContent(props) {
             console.log(e);
         }
     }
+
     useEffect(() => {
 
         getData();
@@ -139,7 +144,7 @@ export function DrawerContent(props) {
             <Drawer.Item
                 style={styles.drawerItem}
                 label={item['title_' + lang]}
-                onPress={() => nav.navigate('Category', {id: item.id, category_title: item['title_' + lang]})}
+                onPress={() => nav.navigate('Category', { id: item.id, category_title: item['title_' + lang] })}
             />
         );
 
@@ -150,7 +155,7 @@ export function DrawerContent(props) {
                     {
                         categories.map((item) => {
                             return (
-                                <RenderItem item={item} key={item.id+lang} />
+                                <RenderItem item={item} key={item.id + lang} />
                             );
                         })
                     }
@@ -168,12 +173,12 @@ export function DrawerContent(props) {
 
                 <DrawerHeader navigation={props.navigation} />
 
-                <ManageButtons navigation={props.navigation} />
+                <ManageButtons navigation={props.navigation} t={t} lang_main={lang_main}/>
 
-                <CategoriesList navigation={props.navigation} />
+                <CategoriesList navigation={props.navigation} getData={getData}/>
 
-                <SendNewsBtn navigation={props.navigation} />
-                <AboutInfo navigation={props.navigation} />
+                <SendNewsBtn navigation={props.navigation} t={t}/>
+                <AboutInfo navigation={props.navigation} t={t}/>
 
                 <Drawer.Section>
                     <SocialMedia />

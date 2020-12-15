@@ -7,6 +7,7 @@ import CurrentDate from '../components/CurrentDate';
 import NewsCard from '../components/NewsCard';
 import HeaderText from '../components/HeaderText';
 import { getUserId } from '../api/getUserId';
+import LocalizationContext from '../context/LocalizationContext';
 
 
 
@@ -17,9 +18,11 @@ const BookmarkScreen = ({ navigation }) => {
     const [newsResults, setNewsResults] = useState([]);
     const [newsUsed, setNewsUsed] = useState(8);
     const [user_id, setUserId] = useState("");
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
+
     // console.log(navigation);
     // const id = route.params.id;
-    const title = "Закладки";
+    const title = t('bookmark');
     // const lang = route.params.lang;
     const lang = 'ru';
     const count = 8;
@@ -31,11 +34,12 @@ const BookmarkScreen = ({ navigation }) => {
             
             try {
                 setRefreshing(true);
+                let lang_code = locale.substring(0, 2) == 'ru' ? 1 : 2;
 
                 await uznews.get('/bookmark', {
                     params: {
                         limit: count,
-                        language: 1,
+                        language: lang_code,
                         offset: 0,
                         // category: id
                         user: user_id
@@ -56,11 +60,12 @@ const BookmarkScreen = ({ navigation }) => {
     const getResultMore = async (id) => {
         try {
             setRefreshing(true);
+            let lang_code = locale.substring(0, 2) == 'ru' ? 1 : 2;
 
             await uznews.get('/bookmark', {
                 params: {
                     limit: 8,
-                    language: 1,
+                    language: lang_code,
                     offset: newsUsed,
                     // category: id,
                     user: user_id

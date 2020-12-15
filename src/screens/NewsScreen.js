@@ -79,16 +79,27 @@ const NewsScreen = ({ route }) => {
                     automaticallyAdjustContentInsets={true}
                     onMessage={onMessage}
                     injectedJavaScript={`
-                        window.ReactNativeWebView.postMessage(Math.max(0, document.body.scrollHeight));
-                        let x = document.querySelectorAll("img");
-                        let i;
-                        for (i = 0; i < x.length; i++) {
-                            x[i].style.width = '100%';
-                            x[i].style.height = 200;
-                            x[i].src = "uznews.l-b.uz" + x[i].src
-                            console.log(x[i].src)
+                        let images = document.getElementsByTagName('img')
+                        for (image of images) {                      
+                        
+                            image.src = "http://uznews.l-b.uz/upload/cache/d2/26/d2261c8d84e2b63df7b2a564e29cdfb0.jpg"
+                            image.alt = "http://uznews.l-b.uz/upload/cache/d2/26/d2261c8d84e2b63df7b2a564e29cdfb0.jpg"
+                            image.width = document.body.width
+                            image.height = 200
                         }
-                        const meta = document.createElement('meta'); meta.setAttribute('content', 'width=width, initial-scale=0.5, maximum-scale=0.5, user-scalable=2.0'); meta.setAttribute('name', 'viewport'); document.getElementsByTagName('head')[0].appendChild(meta);
+
+                        var imgs = document.getElementsByTagName("img");
+                        
+                        for (var i = 0; i < imgs.length; i++) {
+                            imgs[i].src = "http://uznews.l-b.uz" + imgs[i].getAttribute('src');
+                        }
+
+
+                        window.ReactNativeWebView.postMessage(Math.max(0, document.body.scrollHeight ));
+
+                        const meta = document.createElement('meta'); meta.setAttribute('content', 'width=width, initial-scale=0.5, maximum-scale=0.5, user-scalable=2.0'); meta.setAttribute('name', 'viewport'); 
+                        
+                        document.getElementsByTagName('head')[0].appendChild(meta);
 
                     `}
                     style={styles.content}
@@ -98,6 +109,26 @@ const NewsScreen = ({ route }) => {
             </ScrollView>
         </View>
     );
+    
+    // window.ReactNativeWebView.postMessage(Math.max(0, document.body.scrollHeight ));
+    //                     let x = document.querySelectorAll("img");
+    //                     let i;
+
+    //                     let images = document.getElementsByTagName('img')
+
+    //                     for (image of images) {
+                            
+    //                         image.src = "http://uznews.l-b.uz" + text[x] // set the src to that URL
+    //                     }
+
+    //                     for (i = 0; i < x.length; i++) {
+    //                         x[i].style.width = '100%';
+    //                         x[i].style.height = 200;
+    //                     }
+    //                     const meta = document.createElement('meta'); meta.setAttribute('content', 'width=width, initial-scale=0.5, maximum-scale=0.5, user-scalable=2.0'); meta.setAttribute('name', 'viewport'); 
+                        
+    //                     document.getElementsByTagName('head')[0].appendChild(meta);
+
 
     // return (
     //     <View style={styles.container}>

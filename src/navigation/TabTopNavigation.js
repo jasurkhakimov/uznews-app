@@ -19,14 +19,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Icon } from 'react-native-eva-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-
-
-
-
+import LocalizationContext from '../context/LocalizationContext';
 
 const MainStack = createStackNavigator();
 
 const MainStackScreen = ({ navigation }) => {
+
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
+
     return (
         <MainStack.Navigator screenOptions={{
             headerStyle: {
@@ -68,7 +68,7 @@ const MainStackScreen = ({ navigation }) => {
 
             }} />
             <MainStack.Screen name='News' component={NewsScreen} options={{
-                headerTitle: 'Новости',
+                headerTitle: t('news'),
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',
@@ -77,7 +77,7 @@ const MainStackScreen = ({ navigation }) => {
                 },
             }} />
             <MainStack.Screen name='Category' component={CategoryScreen} options={{
-                headerTitle: 'Категории',
+                headerTitle: t('categories'),
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',
@@ -86,7 +86,7 @@ const MainStackScreen = ({ navigation }) => {
                 },
             }} />
             <MainStack.Screen name='About' component={AboutScreen} options={{
-                headerTitle: 'О проекте',
+                headerTitle: t('about_project'),
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',
@@ -95,7 +95,7 @@ const MainStackScreen = ({ navigation }) => {
                 },
             }} />
             <MainStack.Screen name='Contacts' component={ContactsScreen} options={{
-                headerTitle: 'Контакты',
+                headerTitle: t('contacts'),
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',
@@ -104,7 +104,7 @@ const MainStackScreen = ({ navigation }) => {
                 },
             }} />
             <MainStack.Screen name='Adv' component={AdvScreen} options={{
-                headerTitle: 'Реклама',
+                headerTitle: t('adv'),
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',
@@ -113,7 +113,7 @@ const MainStackScreen = ({ navigation }) => {
                 },
             }} />
             <MainStack.Screen name='Privacy' component={PrivacyScreen} options={{
-                headerTitle: 'Политика конфиденциальности',
+                headerTitle: t('privat_policy'),
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',
@@ -122,7 +122,7 @@ const MainStackScreen = ({ navigation }) => {
                 },
             }} />
             <MainStack.Screen name='TermsOfUse' component={TermsOfUseScreen} options={{
-                headerTitle: 'Условия использования',
+                headerTitle: t('terms_of_use'),
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',
@@ -131,7 +131,7 @@ const MainStackScreen = ({ navigation }) => {
                 },
             }} />
             <MainStack.Screen name='UseOfMaterials' component={UseOfMaterialsScreen} options={{
-                headerTitle: 'Использование материалов',
+                headerTitle: t('use_of_materials'),
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',
@@ -140,7 +140,7 @@ const MainStackScreen = ({ navigation }) => {
                 },
             }} />
             <MainStack.Screen name='Search' component={SearchScreen} options={{
-                headerTitle: 'Поиск',
+                headerTitle: t('search'),
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',
@@ -290,6 +290,9 @@ const BookmarkStackScreen = ({ navigation }) => {
 const SettingsStack = createStackNavigator();
 
 const SettingsStackScreen = ({ navigation }) => {
+
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
+    
     return (
         <SettingsStack.Navigator screenOptions={{
             headerStyle: {
@@ -320,7 +323,7 @@ const SettingsStackScreen = ({ navigation }) => {
                 }
             }} />
             <SettingsStack.Screen name='Profile' component={ProfileScreen} options={{
-                headerTitle: 'Профиль',
+                headerTitle: t('profile'),
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',

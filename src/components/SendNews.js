@@ -1,20 +1,28 @@
 import React from 'react';
 import { Text, View, ImageBackground, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import LocalizationContext from '../context/LocalizationContext';
+
 
 const SendNews = ({
     navigation
-}) => (
+}) => {
+
+    const { t } = React.useContext(LocalizationContext);
+
+
+    
+    return (
         <ImageBackground style={styles.imgBg} source={require('../../assets/banner.jpg')}>
             <Text style={styles.header}>Стань мобильным корреспондентом UzNews</Text>
             <Text style={styles.subheader}>Присылай новости или видеосюжеты и фото Можно работать в режиме инкогнито</Text>
             <View style={styles.btnContainer}>
                 <TouchableOpacity  activeOpacity={0.5} style={styles.btn} onPress={() => navigation.navigate('AddNewsTab')}>
-                    <Text style={styles.btnText}>Написать нам</Text>
+                    <Text style={styles.btnText}>{t('write_us')}</Text>
                 </TouchableOpacity>
             </View>
         </ImageBackground>
-    );
+    )};
 
 const styles = StyleSheet.create({
     imgBg: {

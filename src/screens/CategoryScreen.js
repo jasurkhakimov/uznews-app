@@ -7,9 +7,12 @@ import CurrentDate from '../components/CurrentDate';
 import NewsCard from '../components/NewsCard';
 import HeaderText from '../components/HeaderText';
 import { getUserId } from '../api/getUserId';
+import LocalizationContext from '../context/LocalizationContext';
 
 
 const CategoryScreen = ({ route, navigation }) => {
+
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
 
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
@@ -28,15 +31,21 @@ const CategoryScreen = ({ route, navigation }) => {
         await getUserId().then(async (user_id) => {
             try {
                 setRefreshing(true);
+            let lang_code = locale.substring(0, 2) == 'ru' ? 1 : 2;
+                
+                let params = {
+                    limit: count,
+                    language: lang_code,
+                    offset: 0,
+                    category: id,
+                }
+
+                if (user_id) {
+                    params.user = user_id
+                }
 
                 await uznews.get('/feed', {
-                    params: {
-                        limit: count,
-                        language: 1,
-                        offset: 0,
-                        category: id,
-                        user: user_id
-                    }
+                    params 
                 }).then((response) => {
                     setLoading(false);
                     setNewsResults(response.data.articles);
@@ -52,11 +61,12 @@ const CategoryScreen = ({ route, navigation }) => {
     const getResultMore = async (id) => {
         try {
             setRefreshing(true);
+            let lang_code = locale.substring(0, 2) == 'ru' ? 1 : 2;
 
             await uznews.get('/feed', {
                 params: {
                     limit: 8,
-                    language: 1,
+                    language: lang_code,
                     offset: newsUsed,
                     category: id
                 }
@@ -99,7 +109,7 @@ const CategoryScreen = ({ route, navigation }) => {
 
     const ListFooterNews = () => (
         <View>
-            { (newsResults.length >= 8) ? <ShowMore text='Показать больше новостей' onLoadMore={() => getResultMore(id)} /> : <View style={styles.br}></View>}
+            { (newsResults.length >= 8) ? <ShowMore text={t('show_more_news')} onLoadMore={() => getResultMore(id)} /> : <View style={styles.br}></View>}
         </View>
     );
 

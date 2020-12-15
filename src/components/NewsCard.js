@@ -3,6 +3,8 @@ import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, TouchableWit
 import { Dimensions } from "react-native";
 import { Icon } from 'react-native-eva-icons';
 import { uznews_url } from '../api/config';
+import uznews from '../api/uznews';
+import LocalizationContext from '../context/LocalizationContext';
 
 
 export const EvaIcon = ({ icon }) => (
@@ -10,20 +12,69 @@ export const EvaIcon = ({ icon }) => (
 );
 
 
-const NewsCard = ({title, image, category, time, id, showNews, book=false}) => {
+const NewsCard = ({ user_id, title, image, category, time, id, showNews, book = false }) => {
 
-    const [bookmark, setBookmark] = useState({state: book, icon: book ? 'bookmark' : 'bookmark-outline'});
+    const [bookmark, setBookmark] = useState({ state: book, icon: book ? 'bookmark' : 'bookmark-outline' });
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
 
-    const {icon} = bookmark;
+    const { icon } = bookmark;
 
-    const time_arr = time.split("T");
-    const time_format = time_arr[1].slice(0, 5);
+    
+
+    const date = new Date(Date.parse(time));
+    const hour = date.getHours();
+    const min = date.getMinutes();
+    const months = [t('january'), t('february'), t('march'), t('april'), t('may'), t('june'), t('july'), t('august'), t('september'), t('october'), t('november'), t('december')];
+    const month = months[date.getMonth()]
+    const days = [t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('firday'), t('satturday'), t('sunday')];
+    const weekday = (date.getDay()) ? days[date.getDay() - 1] : days[6];
+    const day = date.getDate();
+    const year = date.getFullYear();
+
+
 
     const iconChange = () => {
         if (bookmark.state) {
-            return setBookmark({state: !bookmark.state, icon: 'bookmark-outline'});
-        }else{
-            return setBookmark({state: !bookmark.state, icon: 'bookmark'});
+            return setBookmark({ state: !bookmark.state, icon: 'bookmark-outline' });
+        } else {
+            console.log('here');
+
+            if (user_id) {
+                console.log('here', id);
+                let url = `/article/${id}`
+                let params = {
+                    "user": user_id,
+                    "bookmark": "add",
+                    "lite": true,
+                }
+                console.log(url, params);
+
+
+                var data = JSON.stringify({ "user": user_id, "bookmark": "add", "lite": "true" });
+
+                console.log(uznews_url);
+
+                var config = {
+                    method: 'put',
+                    url: uznews_url + `/api/v1/article/${id}/`,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: data
+                };
+
+
+                uznews(config)
+                    .then(function (response) {
+                        if (response.status == 202) {
+                            setBookmark({ state: !bookmark.state, icon: 'bookmark' });
+                            alert('Статья добавлена')
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
         }
     }
 
@@ -32,17 +83,19 @@ const NewsCard = ({title, image, category, time, id, showNews, book=false}) => {
     return (
         <View style={styles.viewStyle} >
 
-            <ImageBackground style={styles.img}  source={{ uri: image }}>
-                <TouchableOpacity activeOpacity={1} style={styles.bgView}  onPress={() => showNews(id)}>
+            <ImageBackground style={styles.img} source={{ uri: image }}>
+                <TouchableOpacity activeOpacity={1} style={styles.bgView} onPress={() => showNews(id)}>
                     <View style={styles.header}>
                         <View style={styles.headerLeft}>
                             <Text style={styles.category}>{category}</Text>
                             <View style={styles.dot}></View>
-                            <Text style={styles.time}>{time_format}</Text>
+                            <Text style={styles.time}> {day} {month}, {hour}:{min < 10 ? "0" + min : min}</Text>
                         </View>
-                        <TouchableOpacity style={styles.headerRight} onPress={() => iconChange()}> 
-                            <EvaIcon icon={icon} />
-                        </TouchableOpacity>
+                        {user_id ?
+                            <TouchableOpacity style={styles.headerRight} onPress={() => iconChange()}>
+                                <EvaIcon icon={icon} />
+                            </TouchableOpacity>
+                            : null}
                     </View>
                     <View style={styles.bottom}>
                         <Text style={styles.title}>{title}</Text>

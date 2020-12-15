@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import uznews from '../api/uznews';
 import { useSafeArea } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-community/async-storage';
 import { getUserId } from '../api/getUserId';
+import LocalizationContext from '../context/LocalizationContext';
+
 
 const lang = 'ru';
 
@@ -23,6 +25,22 @@ export default () => {
     const [rub, setRub] = useState('');
     const [mindsUsed, setMindsUsed] = useState(3);
     const [user_id, setUserId] = useState("");
+    const [lang, setLang] = useState('');
+
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
+
+    console.log(locale);
+
+    const getData = async () => {
+        try {
+            await AsyncStorage.getItem('@lang').then(async lang1 => {
+                setLang(locale.substring(0, 2));
+                console.log('here', locale.substring(0, 2));
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     const ExchangeApi = async () => {
         try {
@@ -42,6 +60,11 @@ export default () => {
         try {
             const jsonValue = JSON.stringify(value);
             await AsyncStorage.setItem(key, jsonValue);
+
+            if (key == '@lang') {
+                setLang(value);
+            }
+
         } catch (e) {
             console.log(e);
         }
@@ -51,16 +74,15 @@ export default () => {
         try {
             const response = await uznews.get('/category', {
                 params: {
-                    language: lang
+                    language: locale.substring(0, 2)
                 }
-            });
+            }).then(response => {
 
-            if (!cleanupFunction) {
                 setCategories(response.data);
                 storeData(response.data, '@categories')
-            }
+            });
         } catch (err) {
-            console.error(err);
+            console.error('Error here category api', err);
         }
     }
 
@@ -68,10 +90,10 @@ export default () => {
         try {
             setRefreshing(true);
             const url = `/feed`;
-
+            let lang_code = locale.substring(0, 2) == 'ru' ? 1 : 2;
             let params = {
                 limit: 8,
-                language: 1,
+                language: lang_code,
                 offset: newsUsed,
             }
 
@@ -97,9 +119,10 @@ export default () => {
         try {
             setRefreshing(true);
             const url = `/feed`;
+            let lang_code = locale.substring(0, 2) == 'ru' ? 1 : 2;
             let params = {
                 limit: 0,
-                language: 1,
+                language: lang_code,
                 offset: 0,
                 mind_limit: 3,
                 mind_offset: mindsUsed,
@@ -134,13 +157,15 @@ export default () => {
                     setUserId(user_id)
                     // console.log(user_id);
 
+                    let lang_code = locale.substring(0, 2) == 'ru' ? 1 : 2;
+
                     let params = {
                         limit: count,
-                        language: 1,
+                        language: lang_code,
                         offset: 0,
                         mind_limit: 3,
                         mind_offset: 0,
-                        
+
                     }
 
                     if (user_id) {
@@ -174,6 +199,7 @@ export default () => {
         NewsFeedApi(newsCount);
         CategoryApi();
 
+
         return () => cleanupFunction = true;
 
     }, [])
@@ -194,7 +220,8 @@ export default () => {
         categories,
         mindsResults,
         ShowMoreMindsApi,
-        user_id
+        user_id,
+        CategoryApi,
     ];
 
 

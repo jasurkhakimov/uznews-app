@@ -11,7 +11,7 @@ const EvaIcon = ({ icon }) => (
     <Icon name={icon} width={20} height={20} fill='#fff' />
 );
 
-const MindCard = ({ name, prof, title, image, category, time, photo }) => {
+const MindCard = ({ id, name, prof, title, image, category, time, photo, showNews }) => {
 
     const [bookmark, setBookmark] = useState({ state: false, icon: 'bookmark-outline' });
 
@@ -32,7 +32,7 @@ const MindCard = ({ name, prof, title, image, category, time, photo }) => {
 
     return (
         <View style={styles.card}>
-            <View style={styles.start}>
+            <TouchableOpacity activeOpacity={1} style={styles.start} onPress={() => showNews(id)}>
                 <ImageBackground style={styles.startBgImg} source={{ uri: image }}>
                     <View style={styles.startBg}>
                         <View style={styles.header}>
@@ -41,9 +41,6 @@ const MindCard = ({ name, prof, title, image, category, time, photo }) => {
                                 <View style={styles.dot}></View>
                                 <Text style={styles.time}>{time_format}</Text>
                             </View>
-                            <TouchableOpacity style={styles.headerRight} onPress={() => iconChange()}>
-                                <EvaIcon icon={icon} />
-                            </TouchableOpacity>
                         </View>
                         <TouchableOpacity style={styles.headerBottom}>
                             <Text style={styles.title}>
@@ -52,7 +49,7 @@ const MindCard = ({ name, prof, title, image, category, time, photo }) => {
                         </TouchableOpacity>
                     </View>
                 </ImageBackground>
-            </View>
+            </TouchableOpacity>
             <View style={styles.bottom}>
                 <Avatar.Image size={90} source={{ uri: uznews_url + '/upload/' + photo }} style={styles.bottomImg} />
                 <View style={styles.bottomText}>

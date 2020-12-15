@@ -3,12 +3,14 @@ import { ScrollView } from 'react-native';
 import MindCard from '../components/MindCard';
 
 
-const MindsList = ({ minds, lang }) => (
+const MindsList = ({ minds, lang, showNews }) => (
     <ScrollView>
         {
             minds.map((item) => {
                 return (
                     <MindCard
+                        id={item.id}
+                        showNews={showNews}
                         key={item.id + item.name}
                         name={item.name}
                         prof={item.prof}

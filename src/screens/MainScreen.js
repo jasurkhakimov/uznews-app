@@ -19,6 +19,8 @@ import CategoriesList from '../components/CategoriesList';
 import MindsList from '../components/MindsList';
 import SendNews from '../components/SendNews';
 import CurrentDate from '../components/CurrentDate';
+import i18n from 'i18n-js';
+import LocalizationContext from '../context/LocalizationContext';
 
 const lang = 'ru';
 
@@ -27,9 +29,13 @@ const MainScreen = ({ navigation }) => {
     const navigationFooter = navigation;
     const [widget, setWidget] = useState(true);
 
+    // locale.substring(0, 2)
+
     const onWidgetClose = () => {
         setWidget(false);
     }
+
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
 
     const [
         NewsFeedApi, 
@@ -42,11 +48,13 @@ const MainScreen = ({ navigation }) => {
         categories, 
         mindsResults,
         ShowMoreMindsApi,
-        user_id
+        user_id,
+        CategoryApi,
     ] = useMainPageResults();
 
     const onRefresh = () => {
         NewsFeedApi(8);
+        CategoryApi();
     };
 
     const showNews = (id) => {
@@ -55,7 +63,7 @@ const MainScreen = ({ navigation }) => {
 
 
     const renderItem = ({ item }) => (
-        <NewsCard showNews={showNews} title={item['title_' + lang]} image={item.image_name} category={item.category['title_' + lang]} time={item.date} id={item.id} />
+        <NewsCard user_id={user_id ? user_id : null} book={item.bookmark} showNews={showNews} title={item['title_' + lang]} image={item.image_name} category={item.category['title_' + lang]} time={item.date} id={item.id} />
     );
     
     
@@ -64,26 +72,44 @@ const MainScreen = ({ navigation }) => {
         <>
             <WidgetBar showWidget={widget} onWidgetTap={() => onWidgetClose()} currency={currency} />
             <CurrentDate />
-            <HeaderText text="Новости" />
+            <HeaderText text={t('news')} />
             <CategoriesList categories={categories} lang={lang} navigation={navigation}/>
         </>
     );
 
     const ListFooterNews = () => (
         <View>
-            <ShowMore text='Показать больше новостей' onLoadMore={() => ShowMoreNewsApi()} />
+            <ShowMore text={t('show_more_news')} onLoadMore={() => ShowMoreNewsApi()} />
 
             <SendNews navigation={navigationFooter}/>
 
-            <HeaderText text='Мнения' />
-            <MindsList minds={mindsResults} lang={lang}/>
-            <ShowMore text='Другие мнения' onLoadMore={() => ShowMoreMindsApi()} />
+            <HeaderText text={t('minds')} />
+            <MindsList minds={mindsResults} lang={lang} showNews={showNews}/>
+            <ShowMore text={t('other_minds')} onLoadMore={() => ShowMoreMindsApi()} />
             <View>
                 
             </View>
         </View>
     );
 
+    // if (lang == null) {
+
+    // }
+    if (!lang) {
+        return (
+            <View style={styles.container}>
+                <View style={styles.langBlock}>
+                    <Text style={styles.langBlockText}>Выберите язык</Text>
+                    <TouchableOpacity style={styles.langBlockBtn} onPress={() => storeData('ru', '@lang')}>
+                        <Text style={styles.langBlockBtnText}> Рус </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.langBlockBtn} onPress={() => storeData('uz', '@lang')}>
+                        <Text style={styles.langBlockBtnText}> Узб </Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
 
     if (loading) {
         return (
@@ -124,6 +150,25 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#fff'
+    },
+    langBlock: {
+    },
+    langBlockText: {
+        fontSize: 24,
+        fontWeight: "bold",
+        color: '#475681',
+        marginBottom: 16
+    },
+    langBlockBtn: {
+        backgroundColor: '#E8F0FF',
+        padding: 16,
+        marginBottom: 8,
+        alignItems: 'center'
+    },
+    langBlockBtnText: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: '#475681',
     }
 });
 

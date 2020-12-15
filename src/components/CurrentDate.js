@@ -1,13 +1,15 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import LocalizationContext from '../context/LocalizationContext';
 
 
 const CurrentDate = () => {
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
 
     const date = new Date();
-    const months = ["Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"];
+    const months = [t('january'), t('february'), t('march'), t('april'), t('may'), t('june'), t('july'), t('august'), t('september'), t('october'), t('november'), t('december')];
     const month = months[date.getMonth()]
-    const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+    const days = [t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('firday'), t('satturday'), t('sunday')];
     const weekday = (date.getDay()) ? days[date.getDay() - 1] : days[6];
     const day = date.getDate();
 

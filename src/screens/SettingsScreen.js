@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-eva-icons';
@@ -6,70 +6,70 @@ import HeaderText from '../components/HeaderText';
 import { Picker } from '@react-native-community/picker';
 import { Switch } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
+import LocalizationContext from '../context/LocalizationContext';
 
-const ProfileComponent = ({ navigation }) => {
+
+const ProfileComponent = ({ navigation, t }) => {
 
     return (
 
         <TouchableOpacity style={styles.profile} onPress={() => navigation.navigate('Profile')}>
             <Icon name="person" width={18} height={18} fill='#fff' />
-            <Text style={styles.profileText}> Профиль </Text>
+            <Text style={styles.profileText}> {t('profile')} </Text>
         </TouchableOpacity>
     );
 
 };
 
-const SettingsComponent = () => {
-
-    const [isSwitchOn, setIsSwitchOn] = React.useState(false);
-
-    const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+const SettingsComponent = ({ font, locale, setLocale, storeData, t }) => {
 
     return (
         <View>
-            <HeaderText text='Настройки' />
+            <HeaderText text={t('settings')} />
             <View style={styles.settingContainer}>
                 <View style={styles.settingElement}>
-                    <Text style={styles.settingText}>Размер шрифта </Text>
+                    <Text style={styles.settingText}>{t('font_size')}</Text>
                     <Picker
-                        // selectedValue={}
+                        selectedValue={font}
                         style={styles.picker}
-                    // onValueChange={(itemValue, itemIndex) =>
-                    //     this.setState({ language: itemValue })
-                    // }
+                        mode="dropdown"
+                        onValueChange={(val) => {
+                            storeData(val, "@font")
+                        }
+                        }
                     >
-                        <Picker.Item label="маленький" value="small" />
-                        <Picker.Item label="средний" value="normal" />
-                        <Picker.Item label="большой" value="big" />
+                        <Picker.Item label={t('small')} value="1" />
+                        <Picker.Item label={t('medium')} value="2" />
+                        <Picker.Item label={t('large')} value="3" />
                     </Picker>
                 </View>
                 <View style={styles.settingElement}>
-                    <Text style={styles.settingText}>Язык </Text>
+                    <Text style={styles.settingText}>{t('lang')} </Text>
                     <Picker
-                        // selectedValue={}
+                        selectedValue={locale}
                         style={styles.picker}
-                    // onValueChange={(itemValue, itemIndex) =>
-                    //     this.setState({ language: itemValue })
-                    // }
+                        onValueChange={(val) =>
+                            setLocale(val)
+                        }
                     >
-                        <Picker.Item label="русский" value="small" />
-                        <Picker.Item label="узбекский" value="normal" />
+                        <Picker.Item label="русский" value="ru" />
+                        <Picker.Item label="узбекский" value="uz" />
                     </Picker>
                 </View>
-                <View style={styles.settingElement}>
+                {/* <View style={styles.settingElement}>
                     <Text style={styles.settingText}>Оповещания </Text>
                     <Switch style={styles.switch} value={isSwitchOn} onValueChange={onToggleSwitch} />
-                </View>
+                </View> */}
             </View>
             <View style={styles.settingAdvanced}>
                 <TouchableOpacity style={styles.advBtn}>
-                    <Text style={styles.settingText}>Помощь </Text>
+                    <Text style={styles.settingText}>{t('help')} </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.advBtn}>
-                    <Text style={styles.settingText}>Обратная связь </Text>
+                    <Text style={styles.settingText}>{t('callback')} </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.advBtn}>
-                    <Text style={styles.settingText}>Поделится </Text>
+                    <Text style={styles.settingText}>{t('share')} </Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -81,13 +81,30 @@ const SettingsComponent = () => {
 
 const SettingsScreen = ({ navigation }) => {
 
-    const [loginData, setLoginData] = useState(null);
+    const [font, setFont] = useState('');
+    const [lang, setLang] = useState('');
+
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
+
 
     const getData = async () => {
         try {
-            const jsonValue = await AsyncStorage.getItem('@login_info');
-            console.log(jsonValue);
-            setLoginData(JSON.parse(jsonValue));
+            const getFont = await AsyncStorage.getItem('@font');
+            setFont(getFont);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    const storeData = async (value, key) => {
+        try {
+
+            await AsyncStorage.setItem(key, value);
+
+            if (key == '@font') {
+                setFont(value);
+            }
+
         } catch (e) {
             console.log(e);
         }
@@ -96,17 +113,13 @@ const SettingsScreen = ({ navigation }) => {
     useEffect(() => {
 
         getData();
-        
+
     }, [])
-    // console.log("data check",login_data);
 
     return (
         <View style={styles.container}>
-            <ProfileComponent navigation={navigation} />
-            <SettingsComponent />
-            {/* <Text>
-                {loginData ? loginData.name : null}
-            </Text> */}
+            <ProfileComponent navigation={navigation} t={t}/>
+            <SettingsComponent font={font} locale={locale} storeData={storeData} setLocale={setLocale} t={t} />
         </View>
     )
 };
@@ -151,7 +164,10 @@ const styles = StyleSheet.create({
     },
     settingAdvanced: {
         marginTop: 20,
-        marginHorizontal: 15
+        marginHorizontal: 15,
+        borderTopWidth: 1,
+        borderColor: '#aaa',
+        paddingTop: 15
     },
     advBtn: {
         marginBottom: 10
