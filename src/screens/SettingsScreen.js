@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Share } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-eva-icons';
 import HeaderText from '../components/HeaderText';
@@ -22,6 +22,26 @@ const ProfileComponent = ({ navigation, t }) => {
 };
 
 const SettingsComponent = ({ font, locale, setLocale, storeData, t }) => {
+
+    const onShare = async () => {
+        try {
+          const result = await Share.share({
+            message: 'http://uznews.uz',
+          });
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+      };
+
 
     return (
         <View>
@@ -68,7 +88,7 @@ const SettingsComponent = ({ font, locale, setLocale, storeData, t }) => {
                 <TouchableOpacity style={styles.advBtn}>
                     <Text style={styles.settingText}>{t('callback')} </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.advBtn}>
+                <TouchableOpacity onPress={onShare} style={styles.advBtn}>
                     <Text style={styles.settingText}>{t('share')} </Text>
                 </TouchableOpacity>
             </View>

@@ -17,9 +17,12 @@ import SearchScreen from '../screens/SearchScreen';
 import UseOfMaterialsScreen from '../screens/UseOfMaterialsScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Icon } from 'react-native-eva-icons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import LocalizationContext from '../context/LocalizationContext';
+import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+
+
 
 const MainStack = createStackNavigator();
 
@@ -47,9 +50,11 @@ const MainStackScreen = ({ navigation }) => {
             <MainStack.Screen name='Main' component={MainScreen} options={{
                 headerLeft: () => {
                     return (
-                        <TouchableOpacity>
-                            <Icon name='menu-outline' onPress={() => navigation.openDrawer()} width={24} height={24} fill='#20235a' />
+                        <View>
+                        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                            <Icon name='menu-outline'  width={24} height={24} fill='#20235a' />
                         </TouchableOpacity>
+                        </View>
                     )
                 },
                 headerLeftContainerStyle: {
@@ -60,8 +65,8 @@ const MainStackScreen = ({ navigation }) => {
                 },
                 headerRight: () => {
                     return (
-                        <TouchableOpacity>
-                            <Icon name='search-outline' onPress={() => navigation.navigate('Search')} width={24} height={24} fill='#20235a' />
+                        <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+                            <Icon name='search-outline'  width={24} height={24} fill='#20235a' />
                         </TouchableOpacity>
                     )
                 },
