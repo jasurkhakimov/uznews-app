@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, StyleSheet, ActivityIndicator, Image } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, ActivityIndicator, Image, useWindowDimensions } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import uznews from '../api/uznews';
-import { WebView } from 'react-native-webview';
-// import MyWebView from 'react-native-webview-autoheight';
 import { Avatar } from 'react-native-paper';
+import { Icon } from 'react-native-eva-icons';
+import LocalizationContext from '../context/LocalizationContext';
+import { uznews_url } from '../api/config';
+import iframe from '@native-html/iframe-plugin';
+import HTML from 'react-native-render-html';
+import WebView from 'react-native-webview';
 
+WebView.defaultProps.useWebKit = true;
 
 const NewsScreen = ({ route }) => {
 
     const [result, setResult] = useState(null);
+    const [day, setDay] = useState('');
+    const [month, setMonth] = useState('');
+    const [hour, setHour] = useState('');
+    const [min, setMin] = useState('');
     const [webViewHeight, setWebViewHeight] = React.useState(null);
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
+
+    const contentWidth = useWindowDimensions().width;
 
     const onMessage = (event) => {
         setWebViewHeight(Number(event.nativeEvent.data));
@@ -32,14 +44,29 @@ const NewsScreen = ({ route }) => {
     const user_id = route.params.user_id;
 
     const getResult = async (id) => {
-        const response = await uznews.get(`/article/${id}`, {
+        await uznews.get(`/article/${id}`, {
             params: {
                 user: user_id
             }
+        }).then(response => {
+
+            response.data.text_ru = response.data.text_ru.split('\r\n\r\n<p>&nbsp;</p>').join('').split('src=\"/upload/').join(`src=\"${uznews_url}/upload/`);
+            setResult(response.data);
+            const date = new Date(Date.parse(response.data.date));
+            const months = [t('january'), t('february'), t('march'), t('april'), t('may'), t('june'), t('july'), t('august'), t('september'), t('october'), t('november'), t('december')];
+            setHour(date.getHours())
+            setMin(date.getMinutes())
+            setMonth(months[date.getMonth()])
+            setDay(date.getDate())
+
+        }).catch(err => {
+            console.log(err);
         });
-        setResult(response.data);
-        console.log(response.data);
     };
+
+    if (result) {
+
+    }
 
     useEffect(() => {
         getResult(id);
@@ -53,21 +80,76 @@ const NewsScreen = ({ route }) => {
         )
     }
 
+    const renderers = {
+        iframe
+    }
+
     return (
         <View style={styles.container}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1, height: styles.header.height + webViewHeight }}>
+            <ScrollView
+                // contentContainerStyle={{ flexGrow: 1, height: styles.header.height + webViewHeight }}
+                style={{ flex: 1, flexGrow: 1 }}
+            >
                 <View style={styles.header}>
-                    <Image source={{ uri: result.image_name }} style={styles.imgMain}/>
+                    <Image source={{ uri: result.image_name }} style={styles.imgMain} />
                 </View>
-                { result.author && (<View style={styles.authorContainer}>
+
+                <View style={styles.title}>
+                    <View style={{ paddingTop: 5, flexDirection: 'row', alignItems: 'center' }}>
+
+
+                        <Text style={{ color: '#20235a', fontWeight: 'bold', paddingRight: 5 }}>
+                            {result.category.title_ru}
+                        </Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Icon name="clock-outline" width={16} height={16} fill='gray' />
+                            <Text style={{ color: 'gray', fontSize: 12, paddingHorizontal: 4 }}>
+                                {day} {month}, {hour}:{min}
+                            </Text>
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Icon name="eye-outline" width={16} height={16} fill='gray' />
+                            <Text style={{ color: 'gray', fontSize: 12, paddingLeft: 4 }}>
+                                {result.views}
+                            </Text>
+                        </View>
+                    </View>
+                    <Text style={styles.titleText}>
+                        {result.title_ru}
+                    </Text>
+
+                </View>
+                {result.author && (<View style={styles.authorContainer}>
                     <Avatar.Image size={60} source={{ uri: result.author.photo }} style={styles.avatar} />
                     <View style={styles.authorDesc}>
                         <Text style={styles.authorName}>{result.author.name}</Text>
                         <Text style={styles.authorProf}>{result.author.short_description}</Text>
                     </View>
-                </View>) }
-                
-                <WebView
+                </View>)}
+
+                <HTML
+                    WebView={WebView}
+                    renderers={renderers}
+                    source={{ html: result.text_ru }}
+                    contentWidth={contentWidth}
+                    containerStyle={{
+                        // backgroundColor: '#fff',
+                        padding: 8,
+                        fontSize: 16
+                    }}
+                    ptSize={1.5}
+                    defaultWebViewProps={{  }}
+                    renderersProps={{ iframe: { scalesPageToFit: true, height: 100, webViewProps: { height: 100 } }}}
+                    alterChildren = { (node) => {
+                        if (node.name === 'iframe') {
+                            delete node.attribs.width;
+                            delete node.attribs.height;
+                        } 
+                        return node.children;
+                    }}
+                />
+
+                {/* <WebView
                     source={{ html: result.text_ru }}
                     bounces={true}
                     style={{
@@ -85,7 +167,7 @@ const NewsScreen = ({ route }) => {
                             image.src = "http://uznews.l-b.uz/upload/cache/d2/26/d2261c8d84e2b63df7b2a564e29cdfb0.jpg"
                             image.alt = "http://uznews.l-b.uz/upload/cache/d2/26/d2261c8d84e2b63df7b2a564e29cdfb0.jpg"
                             image.width = document.body.width
-                            image.height = 200
+                            image.height = 220
                         }
 
                         var imgs = document.getElementsByTagName("img");
@@ -105,11 +187,11 @@ const NewsScreen = ({ route }) => {
                     style={styles.content}
                     onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
                     
-                />
+                /> */}
             </ScrollView>
         </View>
     );
-    
+
     // window.ReactNativeWebView.postMessage(Math.max(0, document.body.scrollHeight ));
     //                     let x = document.querySelectorAll("img");
     //                     let i;
@@ -117,7 +199,7 @@ const NewsScreen = ({ route }) => {
     //                     let images = document.getElementsByTagName('img')
 
     //                     for (image of images) {
-                            
+
     //                         image.src = "http://uznews.l-b.uz" + text[x] // set the src to that URL
     //                     }
 
@@ -126,7 +208,7 @@ const NewsScreen = ({ route }) => {
     //                         x[i].style.height = 200;
     //                     }
     //                     const meta = document.createElement('meta'); meta.setAttribute('content', 'width=width, initial-scale=0.5, maximum-scale=0.5, user-scalable=2.0'); meta.setAttribute('name', 'viewport'); 
-                        
+
     //                     document.getElementsByTagName('head')[0].appendChild(meta);
 
 
@@ -172,9 +254,21 @@ const NewsScreen = ({ route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexGrow: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#eee'
+        backgroundColor: '#ecf0f1'
+    },
+    title: {
+        padding: 8,
+        backgroundColor: '#fff',
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+    },
+    titleText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#20235a'
     },
     imgContainer: {
         justifyContent: 'center',
@@ -183,7 +277,7 @@ const styles = StyleSheet.create({
     },
     imgMain: {
         width: '100%',
-        height: 200,
+        height: 220,
     },
     container: {
         flex: 1,
@@ -191,21 +285,21 @@ const styles = StyleSheet.create({
         backgroundColor: '#ecf0f1',
     },
     header: {
-        height: 200,
+        height: 220,
         // justifyContent: 'center'
     },
     content: {
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
     },
     authorContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         padding: 15,
         backgroundColor: '#fff',
-    },  
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+    },
     avatar: {
-        
+
     },
     authorDesc: {
         paddingLeft: 15

@@ -14,8 +14,8 @@ const SendNews = ({
     
     return (
         <ImageBackground style={styles.imgBg} source={require('../../assets/banner.jpg')}>
-            <Text style={styles.header}>Стань мобильным корреспондентом UzNews</Text>
-            <Text style={styles.subheader}>Присылай новости или видеосюжеты и фото Можно работать в режиме инкогнито</Text>
+            <Text style={styles.header}>{t('become_mobile_corr')} UzNews</Text>
+            <Text style={styles.subheader}>{t('send_news_and_materials')}</Text>
             <View style={styles.btnContainer}>
                 <TouchableOpacity  activeOpacity={0.5} style={styles.btn} onPress={() => navigation.navigate('AddNewsTab')}>
                     <Text style={styles.btnText}>{t('write_us')}</Text>

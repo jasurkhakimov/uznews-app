@@ -99,7 +99,7 @@ const HistoryScreen = ({ navigation }) => {
 
 
     const renderItem = ({ item }) => (
-        <NewsCard showNews={showNews} title={item['title_' + lang]} image={item.image_name} category={item.category['title_' + lang]} time={item.date} id={item.id} />
+        <NewsCard user_id={user_id ? user_id : null} book={item.bookmark} showNews={showNews} title={item['title_' + lang]} image={item.image_name} category={item.category['title_' + lang]} time={item.date} id={item.id} />
     );
 
     const ListHeaderNews = () => (
@@ -123,9 +123,9 @@ const HistoryScreen = ({ navigation }) => {
         return (
             <View style={styles.authContainer}>
                 <View style={styles.authBlock}>
-                    <Text style={styles.authText}> Авторизуйтесь </Text>
+                    <Text style={styles.authText}> {t('auth')} </Text>
                     <TouchableOpacity style={styles.authBtn} onPress={() => getResult()}>
-                        <Text style={styles.authBtnText}> Обновить </Text>
+                        <Text style={styles.authBtnText}> {t('refresh')} </Text>
                     </TouchableOpacity>
                 </View>
             </View>

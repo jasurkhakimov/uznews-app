@@ -18,6 +18,7 @@ const CategoryScreen = ({ route, navigation }) => {
     const [refreshing, setRefreshing] = useState(false);
     const [newsResults, setNewsResults] = useState([]);
     const [newsUsed, setNewsUsed] = useState(8);
+    const [user_id1, setUserId1] = useState('');
 
     // console.log(navigation);
     const id = route.params.id;
@@ -31,6 +32,7 @@ const CategoryScreen = ({ route, navigation }) => {
         await getUserId().then(async (user_id) => {
             try {
                 setRefreshing(true);
+                setUserId1(user_id)
             let lang_code = locale.substring(0, 2) == 'ru' ? 1 : 2;
                 
                 let params = {
@@ -97,7 +99,7 @@ const CategoryScreen = ({ route, navigation }) => {
 
 
     const renderItem = ({ item }) => (
-        <NewsCard showNews={showNews} title={item['title_' + lang]} image={item.image_name} category={item.category['title_' + lang]} time={item.date} id={item.id} />
+        <NewsCard user_id={user_id1 ? user_id1 : null} book={item.bookmark} showNews={showNews} title={item['title_' + lang]} image={item.image_name} category={item.category['title_' + lang]} time={item.date} id={item.id} />
     );
 
     const ListHeaderNews = () => (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import { Dimensions } from "react-native";
+import { Dimensions, Alert } from "react-native";
 import { Icon } from 'react-native-eva-icons';
 import { uznews_url } from '../api/config';
 import uznews from '../api/uznews';
@@ -35,7 +35,43 @@ const NewsCard = ({ user_id, title, image, category, time, id, showNews, book = 
 
     const iconChange = () => {
         if (bookmark.state) {
-            return setBookmark({ state: !bookmark.state, icon: 'bookmark-outline' });
+            console.log('here', id);
+                let url = `/article/${id}`
+                let params = {
+                    "user": user_id,
+                    "bookmark": "add",
+                    "lite": true,
+                }
+
+                var data = JSON.stringify({ "user": user_id, "bookmark": "remove", "lite": "true" });
+
+                var config = {
+                    method: 'put',
+                    url: uznews_url + `/api/v1/article/${id}/`,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: data
+                };
+
+
+                uznews(config)
+                    .then(function (response) {
+                        if (response.status == 202) {
+                            setBookmark({ state: !bookmark.state, icon: 'bookmark-outline' })
+                            Alert.alert(
+                                t('bookmark'),
+                                t('removed_from_bookmark'),
+                                [
+                                  { text: "OK" }
+                                ],
+                                { cancelable: false }
+                              );
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
         } else {
             console.log('here');
 
@@ -47,12 +83,10 @@ const NewsCard = ({ user_id, title, image, category, time, id, showNews, book = 
                     "bookmark": "add",
                     "lite": true,
                 }
-                console.log(url, params);
 
 
                 var data = JSON.stringify({ "user": user_id, "bookmark": "add", "lite": "true" });
 
-                console.log(uznews_url);
 
                 var config = {
                     method: 'put',
@@ -68,7 +102,14 @@ const NewsCard = ({ user_id, title, image, category, time, id, showNews, book = 
                     .then(function (response) {
                         if (response.status == 202) {
                             setBookmark({ state: !bookmark.state, icon: 'bookmark' });
-                            alert('Статья добавлена')
+                            Alert.alert(
+                                t('bookmark'),
+                                t('added_to_bookmark'),
+                                [
+                                  { text: "OK" }
+                                ],
+                                { cancelable: false }
+                              );
                         }
                     })
                     .catch(function (error) {

@@ -38,14 +38,14 @@ const MainScreen = ({ navigation }) => {
     const { t, locale, setLocale } = React.useContext(LocalizationContext);
 
     const [
-        NewsFeedApi, 
-        newsResults, 
-        errorMessage, 
-        loading, 
-        refreshing, 
-        currency, 
-        ShowMoreNewsApi, 
-        categories, 
+        NewsFeedApi,
+        newsResults,
+        errorMessage,
+        loading,
+        refreshing,
+        currency,
+        ShowMoreNewsApi,
+        categories,
         mindsResults,
         ShowMoreMindsApi,
         user_id,
@@ -58,22 +58,22 @@ const MainScreen = ({ navigation }) => {
     };
 
     const showNews = (id) => {
-        return navigation.navigate('News', { id: id, lang: lang, user_id: user_id})
+        return navigation.navigate('News', { id: id, lang: lang, user_id: user_id })
     }
 
 
     const renderItem = ({ item }) => (
         <NewsCard user_id={user_id ? user_id : null} book={item.bookmark} showNews={showNews} title={item['title_' + lang]} image={item.image_name} category={item.category['title_' + lang]} time={item.date} id={item.id} />
     );
-    
-    
-    
+
+
+
     const ListHeaderNews = () => (
         <>
             <WidgetBar showWidget={widget} onWidgetTap={() => onWidgetClose()} currency={currency} />
             <CurrentDate />
             <HeaderText text={t('news')} />
-            <CategoriesList categories={categories} lang={lang} navigation={navigation}/>
+            <CategoriesList categories={categories} lang={lang} navigation={navigation} />
         </>
     );
 
@@ -81,13 +81,13 @@ const MainScreen = ({ navigation }) => {
         <View>
             <ShowMore text={t('show_more_news')} onLoadMore={() => ShowMoreNewsApi()} />
 
-            <SendNews navigation={navigationFooter}/>
+            <SendNews navigation={navigationFooter} />
 
             <HeaderText text={t('minds')} />
-            <MindsList minds={mindsResults} lang={lang} showNews={showNews}/>
+            <MindsList navigation={navigation} user_id={user_id} minds={mindsResults} lang={lang} />
             <ShowMore text={t('other_minds')} onLoadMore={() => ShowMoreMindsApi()} />
             <View>
-                
+
             </View>
         </View>
     );
@@ -95,15 +95,15 @@ const MainScreen = ({ navigation }) => {
     // if (lang == null) {
 
     // }
-    if (!lang) {
+    if (locale.substring(0, 2) != 'uz' && locale.substring(0, 2) != 'ru') {
         return (
             <View style={styles.container}>
                 <View style={styles.langBlock}>
                     <Text style={styles.langBlockText}>Выберите язык</Text>
-                    <TouchableOpacity style={styles.langBlockBtn} onPress={() => storeData('ru', '@lang')}>
+                    <TouchableOpacity style={styles.langBlockBtn} onPress={() => setLocale('ru')}>
                         <Text style={styles.langBlockBtnText}> Рус </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.langBlockBtn} onPress={() => storeData('uz', '@lang')}>
+                    <TouchableOpacity style={styles.langBlockBtn} onPress={() => setLocale('uz')}>
                         <Text style={styles.langBlockBtnText}> Узб </Text>
                     </TouchableOpacity>
                 </View>
@@ -129,7 +129,7 @@ const MainScreen = ({ navigation }) => {
                 renderItem={renderItem}
                 keyExtractor={item => item['title_' + lang] + item.id}
                 ListFooterComponent={ListFooterNews}
-                
+
                 showsVerticalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -149,9 +149,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff'
+        backgroundColor: '#eee'
     },
     langBlock: {
+        backgroundColor: '#fff',
+        padding: 28,
+        borderRadius: 15
     },
     langBlockText: {
         fontSize: 24,

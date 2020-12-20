@@ -8,17 +8,24 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { Icon } from 'react-native-eva-icons';
 import { Avatar } from 'react-native-paper';
 import uznews from '../api/uznews';
+import LocalizationContext from '../context/LocalizationContext';
+import { t } from 'i18n-js';
 
 
 // console.disableYellowBox = true;
 
+// const { t, locale, setLocale } = React.useContext(LocalizationContext);
+const transText = (text) => {
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
 
+    return t(text);
+}
 
 const TextComponent = ({ navigation }) => {
 
     return (
         <Text style={styles.text}>
-            большой текст
+            {transText('auth_text')}
         </Text>
     );
 
@@ -40,7 +47,7 @@ export default class ProfileScreen extends Component {
     getData = async () => {
         try {
             const jsonValue = await AsyncStorage.getItem('@login_info');
-            json_data = (jsonValue) ? JSON.parse(jsonValue) : null;
+            let json_data = (jsonValue) ? JSON.parse(jsonValue) : null;
             // console.log(json_data);
             if (this._isMounted && json_data) {
                 this.setState({ data: json_data })
@@ -209,7 +216,7 @@ export default class ProfileScreen extends Component {
                         <View style={styles.profileText}>
                             <View style={styles.textBlock}>
                                 <Text style={styles.label}>
-                                    Имя:
+                                    {t('your_name')}:
                                 </Text>
                                 <Text style={styles.labelText}>
                                     {this.state.data.name}
@@ -217,7 +224,7 @@ export default class ProfileScreen extends Component {
                             </View>
                             <View style={styles.textBlock}>
                                 <Text style={styles.label}>
-                                    Соц. сеть:
+                                    {t('soc_net')}:
                                 </Text>
                                 <Text style={[styles.labelText, styles.socNet]}>
                                     {this.state.data.social_network}
@@ -229,7 +236,7 @@ export default class ProfileScreen extends Component {
 
                     <TouchableOpacity onPress={this.logout} style={[styles.authBtn]}>
                         <Icon name="log-out" width={20} height={20} fill='#fff' />
-                        <Text style={styles.authText}>Выйти </Text>
+                        <Text style={styles.authText}>{t('quit')} </Text>
                     </TouchableOpacity>
                 </View>
             );
@@ -240,11 +247,11 @@ export default class ProfileScreen extends Component {
 
                 <TouchableOpacity onPress={this.facebookLogIn} style={[styles.authBtn, styles.facebook]}>
                     <Icon name="facebook" width={20} height={20} fill='#fff' />
-                    <Text style={styles.authText}>Войти через Facebook </Text>
+                    <Text style={styles.authText}>{t('enter_via_fb')} </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.signInWithGoogle} style={[styles.authBtn, styles.google]}>
                     <Icon name="google" width={20} height={20} fill='#fff' />
-                    <Text style={styles.authText}>Войти через Google </Text>
+                    <Text style={styles.authText}>{t('enter_via_gl')} </Text>
                 </TouchableOpacity>
 
             </View>

@@ -13,6 +13,7 @@ import {
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import LocalizationContext from '../context/LocalizationContext';
+import uznews from '../api/uznews';
 
 
 
@@ -67,7 +68,7 @@ const AboutInfo = ({ navigation, t }) => {
             </View>
             <View style={styles.infoBlock2}>
                 <TouchableOpacity onPress={() => navigation.navigate('UseOfMaterials')}>
-                    <Text style={styles.infoBlock2Text}>{t('use_of_meterials')}</Text>
+                    <Text style={styles.infoBlock2Text}>{t('use_of_materials')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Privacy')}>
                     <Text style={styles.infoBlock2Text}>{t('adv')}</Text>
@@ -117,17 +118,26 @@ export function DrawerContent(props) {
 
     let cleanupFunction = false;
 
-    const getData = async () => {
+    const getData = () => {
         try {
-            const value = await AsyncStorage.getItem('@categories');
-            if (value) {
-                setCategories(JSON.parse(value));
-                setLoaded(true);
-            }
-
-        } catch (e) {
-            console.log(e);
+            uznews.get('/category', {
+                params: {
+                    language: locale.substring(0, 2) != 'uz' && locale.substring(0, 2) != 'ru' ? 'ru' : locale.substring(0, 2)
+                }
+            }).then(response => {
+                console.log('here');
+                setCategories(response.data);
+                // console.log(categories);
+            });
+        } catch (err) {
+            console.error('Error here category api', err);
         }
+    }
+
+    if (locale.substring(0, 2) != lang_main) {
+        console.log('here123');
+        setLangMain(locale.substring(0, 2))
+        getData();
     }
 
     useEffect(() => {
@@ -149,7 +159,7 @@ export function DrawerContent(props) {
         );
 
 
-        if (loaded) {
+        if (categories) {
             return (
                 <View>
                     {

@@ -11,14 +11,7 @@ import * as ImagePicker from 'expo-image-picker';
 import uznews from '../api/uznews';
 import { getUserId } from '../api/getUserId';
 import { Snackbar } from 'react-native-paper';
-
-const textArr = [
-    'У вас есть новость или фотографии, которыми вы желаете поделиться с другими читателями «Uznews.uz»? Вам удалось запечатлеть интересное событие, факт или происшествие?',
-    'Вы можете воспользоваться приведенной ниже формой, чтобы рассказать нам об этом и прислать фотографии. Объемные файлы и видео можно разместить на одном из файлообменных сайтов и прислать нам ссылку.',
-    'Не забудьте указать свои контактные данные, чтобы мы могли связаться с вами для уточнения деталей. Просим вас четко написать, хотите вы, чтобы в материале были указаны ваше имя, должность и другие данные, или нет. Редакция «Uznews.uz» не гарантирует публикацию всех сообщений, присылаемых читателями.'
-]
-
-
+import LocalizationContext from '../context/LocalizationContext';
 
 
 const TextComponent = ({ text, italic }) => {
@@ -63,11 +56,15 @@ const AddNewsScreen = ({ navigation }) => {
     const [visible, setVisible] = useState(false);
     const [snackText, setSnackText] = useState('-');
     const [user_id, setUserId] = useState("");
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
 
     let cleanupFunction = false;
 
     const getData = async () => {
         try {
+            await getUserId().then(async (user_id) => {
+                setUserId(user_id);
+            });
             const value = await AsyncStorage.getItem('@categories');
 
             if (value) {
@@ -81,9 +78,9 @@ const AddNewsScreen = ({ navigation }) => {
     }
 
     const send = async () => {
-
-        if (phone.length > 0 && email.length > 0 && shortDesc.length > 0 && text.length > 0 && name.length > 0 && category != '-') {
-            await getUserId().then(async (user_id) => {
+        await getUserId().then(async (user_id) => {
+            setUserId(user_id);
+            if (phone.length > 0 && email.length > 0 && shortDesc.length > 0 && text.length > 0 && name.length > 0 && category != '-') {
                 try {
                     let url = '/post/' + user_id + "/";
 
@@ -101,7 +98,7 @@ const AddNewsScreen = ({ navigation }) => {
                         }
                     ).then((response) => {
                         if (response.status == 201) {
-                            setSnackText('Новость отправлена успешно, спасибо!')
+                            setSnackText(t('news_send_successfully'))
                             setVisible(true);
                             setName('');
                             setEmail('');
@@ -112,19 +109,19 @@ const AddNewsScreen = ({ navigation }) => {
                         }
                     }).catch(function (error) {
                         console.log(error);
-                        setSnackText('Произошла ошибка, повторите позже пожайлуста')
+                        setSnackText(t('error_occured_try_again_later'))
                         setVisible(true);
                     });
                 } catch (err) {
                     console.log(err);
-                    setSnackText('Произошла ошибка, повторите позже пожайлуста')
+                    setSnackText(t('error_occured_try_again_later'))
                     setVisible(true);
                 }
-            })
-        } else {
-            setVisible(true);
-            setSnackText('Заполните все поля пожайлуста')
-        }
+            } else {
+                setVisible(true);
+                setSnackText(t('please_fill_all_fields'))
+            }
+        });
 
     }
 
@@ -159,6 +156,19 @@ const AddNewsScreen = ({ navigation }) => {
 
     }, [])
 
+    if (!user_id) {
+        return (
+            <View style={styles.authContainer}>
+                <View style={styles.authBlock}>
+                    <Text style={styles.authText}> {t('auth')} </Text>
+                    <TouchableOpacity style={styles.authBtn} onPress={() => getData()}>
+                        <Text style={styles.authBtnText}> {t('refresh')} </Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
+
     if (!loaded) {
         return (
             <View style={styles.container}>
@@ -169,13 +179,13 @@ const AddNewsScreen = ({ navigation }) => {
         return (
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.headerText}>
-                    <HeaderText text='Прислать новость' />
+                    <HeaderText text={t('send_news')} />
                 </View>
 
                 <View>
-                    <TextComponent text={textArr[0]} />
-                    <TextComponent text={textArr[1]} />
-                    <TextComponent text={textArr[2]} italic={1} />
+                    <TextComponent text={t('add_news_text_1')} />
+                    <TextComponent text={t('add_news_text_2')} />
+                    <TextComponent text={t('add_news_text_3')} italic={1} />
                 </View>
 
                 <View style={styles.form}>
@@ -183,7 +193,7 @@ const AddNewsScreen = ({ navigation }) => {
                         style={styles.input}
                         autoCapitalize='none'
                         autoCorrect={false}
-                        label='Ваше имя'
+                        label={t('your_name')}
                         keyboardType={'default'}
                         selectionColor='#74d9ff'
                         theme={{ colors: { primary: '#20235a' } }}
@@ -193,7 +203,7 @@ const AddNewsScreen = ({ navigation }) => {
                         style={styles.input}
                         autoCapitalize='none'
                         autoCorrect={false}
-                        lable='Как с вами связаться?'
+                        lable={t('contact_with_you')}
                         placeholder='+998 99 999 99 99'
                         keyboardType='phone-pad'
                         selectionColor='#74d9ff'
@@ -204,7 +214,7 @@ const AddNewsScreen = ({ navigation }) => {
                         style={styles.input}
                         autoCapitalize='none'
                         autoCorrect={false}
-                        label='Электронная почта'
+                        label={t('email_post')}
                         keyboardType={'default'}
                         selectionColor='#74d9ff'
                         theme={{ colors: { primary: '#20235a' } }}
@@ -214,7 +224,7 @@ const AddNewsScreen = ({ navigation }) => {
                         style={styles.input}
                         autoCapitalize='none'
                         autoCorrect={false}
-                        label='Краткое описание статьи'
+                        label={t('short_desc')}
                         keyboardType={'default'}
                         selectionColor='#74d9ff'
                         theme={{ colors: { primary: '#20235a' } }}
@@ -224,7 +234,7 @@ const AddNewsScreen = ({ navigation }) => {
                         style={styles.input}
                         autoCapitalize='none'
                         autoCorrect={false}
-                        label='Текст статьи'
+                        label={t('article_text')}
                         keyboardType={'default'}
                         selectionColor='#74d9ff'
                         multiline={true}
@@ -252,7 +262,7 @@ const AddNewsScreen = ({ navigation }) => {
                     </Picker>
                     <View style={styles.hr}></View>
                 </View>
-                <Text style={styles.attachText}>Прикрепить:</Text>
+                <Text style={styles.attachText}>{t('attach')}:</Text>
                 <View style={styles.files}>
                     <TouchableOpacity style={[styles.fileItem, styles.ml15]} onPress={pickImage}>
                         <Icon name="image" width={20} height={20} fill='#20235a' />
@@ -263,9 +273,9 @@ const AddNewsScreen = ({ navigation }) => {
                     {image && <Image source={{ uri: image }} style={{ width: '100%', height: 200 }} />}
                 </View>
                 <TouchableOpacity style={styles.btn} onPress={send}>
-                    <Text style={styles.btnText}> Отправить </Text>
+                    <Text style={styles.btnText}> {t('send')} </Text>
                 </TouchableOpacity>
-                
+
                 <Snackbar
                     visible={visible}
                     onDismiss={() => setVisible(false)}
@@ -379,7 +389,35 @@ const styles = StyleSheet.create({
     },
     img: {
         margin: 15
-    }
+    },
+    authContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'transparent'
+    },
+    authBlock: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        padding: 40,
+        width: '75%',
+        borderRadius: 15
+    },
+    authText: {
+        fontSize: 18,
+        color: '#20235a',
+    },
+    authBtn: {
+        backgroundColor: '#20235a',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 50,
+        marginTop: 12,
+    },
+    authBtnText: {
+        color: '#fff',
+    },
 });
 
 export default withNavigation(AddNewsScreen);

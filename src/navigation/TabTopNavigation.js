@@ -113,7 +113,7 @@ const MainStackScreen = ({ navigation }) => {
                 },
             }} />
             <MainStack.Screen name='Privacy' component={PrivacyScreen} options={{
-                headerTitle: t('privat_policy'),
+                headerTitle: t('private_policy'),
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',

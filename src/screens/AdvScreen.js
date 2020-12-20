@@ -1,10 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, Linking  } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import LocalizationContext from '../context/LocalizationContext';
 
 
 
 const AdvScreen = ({ navigation }) => {
+
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
 
     const SocMedia = (url) => {
         return Linking.openURL(url);
@@ -12,9 +15,9 @@ const AdvScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>По вопросам размещения рекламы на сайте «UzNews.uz»:</Text>
+            <Text style={styles.text}>{t('about_adv')} «UzNews.uz»:</Text>
             <View style={styles.text}>
-                <Text>Телефон отдела рекламы:</Text>
+                <Text>{t('phone_of_adv_dep')}:</Text>
                 <View style={styles.contact}>
                     <Text style={styles.bold}>(94) 649-57-77,</Text>
                     <TouchableOpacity onPress={() => SocMedia('https://t.me/uznews_ads')}>
@@ -23,7 +26,7 @@ const AdvScreen = ({ navigation }) => {
                 </View>
             </View>
             <TouchableOpacity style={styles.btn} onPress={() => SocMedia('https://uznews.uz/ru/commercial')}>
-                <Text style={styles.btnText}>Подрбонее</Text>
+                <Text style={styles.btnText}>{t('more')}</Text>
             </TouchableOpacity>
         </View>
     )

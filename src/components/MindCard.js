@@ -42,11 +42,11 @@ const MindCard = ({ id, name, prof, title, image, category, time, photo, showNew
                                 <Text style={styles.time}>{time_format}</Text>
                             </View>
                         </View>
-                        <TouchableOpacity style={styles.headerBottom}>
+                        <View style={styles.headerBottom}>
                             <Text style={styles.title}>
                                 {title}
                             </Text>
-                        </TouchableOpacity>
+                        </View>
                     </View>
                 </ImageBackground>
             </TouchableOpacity>

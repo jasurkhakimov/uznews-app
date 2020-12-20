@@ -74,7 +74,7 @@ export default () => {
         try {
             const response = await uznews.get('/category', {
                 params: {
-                    language: locale.substring(0, 2)
+                    language: locale.substring(0, 2) != 'uz' && locale.substring(0, 2) != 'ru' ? 'ru' : locale.substring(0, 2)
                 }
             }).then(response => {
 
@@ -153,11 +153,11 @@ export default () => {
             await getUserId().then(async (user_id) => {
                 try {
                     setRefreshing(true);
-                    setNewsUsed(newsCount);
+                    setNewsUsed(count);
                     setUserId(user_id)
                     // console.log(user_id);
 
-                    let lang_code = locale.substring(0, 2) == 'ru' ? 1 : 2;
+                    let lang_code = locale.substring(0, 2) != 'uz' && locale.substring(0, 2) != 'ru'? 1 : locale.substring(0, 2) == 'ru' ? 1 : 2;
 
                     let params = {
                         limit: count,
@@ -176,6 +176,7 @@ export default () => {
                         params
                     }).then(async (response) => {
                         setLoading(false);
+                        setNewsResults(null);
                         setNewsResults(response.data.articles);
                         // console.log("user id: ", await getUserId());
                         setMindsResults(response.data.minds);

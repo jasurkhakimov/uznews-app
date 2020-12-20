@@ -82,6 +82,7 @@ const BookmarkScreen = ({ navigation }) => {
     };
 
     const onRefresh = () => {
+        setNewsUsed(8);
         getResult();
     };
 
@@ -97,7 +98,7 @@ const BookmarkScreen = ({ navigation }) => {
 
 
     const renderItem = ({ item }) => (
-        <NewsCard book={true } showNews={showNews} title={item['title_' + lang]} image={item.image_name} category={item.category['title_' + lang]} time={item.date} id={item.id} />
+        <NewsCard user_id={user_id ? user_id : null} book={true} showNews={showNews} title={item['title_' + lang]} image={item.image_name} category={item.category['title_' + lang]} time={item.date} id={item.id} />
     );
 
     const ListHeaderNews = () => (
@@ -109,7 +110,7 @@ const BookmarkScreen = ({ navigation }) => {
 
     const ListFooterNews = () => (
         <View>
-            {(newsResults.length >= 8) ? <ShowMore text='Показать больше новостей' onLoadMore={() => getResultMore()} /> : <View style={styles.br}></View>}
+            {(newsResults.length >= 8) ? <ShowMore text={t('show_more_news')} onLoadMore={() => getResultMore()} /> : <View style={styles.br}></View>}
         </View>
     );
 
@@ -121,9 +122,9 @@ const BookmarkScreen = ({ navigation }) => {
         return (
             <View style={styles.authContainer}>
                 <View style={styles.authBlock}>
-                    <Text style={styles.authText}> Авторизуйтесь </Text>
+                    <Text style={styles.authText}> {t('auth')} </Text>
                     <TouchableOpacity style={styles.authBtn} onPress={() => getResult()}>
-                        <Text style={styles.authBtnText}> Обновить </Text>
+                        <Text style={styles.authBtnText}> {t('refresh')} </Text>
                     </TouchableOpacity>
                 </View>
             </View>
