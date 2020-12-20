@@ -29,7 +29,6 @@ const BookmarkScreen = ({ navigation }) => {
 
     const getResult = async (id) => {
          await getUserId().then(async (user_id) => {
-            console.log(user_id);
             setUserId(user_id);
             
             try {
@@ -47,7 +46,6 @@ const BookmarkScreen = ({ navigation }) => {
                 }).then((response) => {
                     setLoading(false);
                     setNewsResults(response.data.results);
-                    console.log(response.data.results);
                     setRefreshing(false)
                 });
             } catch (err) {
@@ -73,7 +71,6 @@ const BookmarkScreen = ({ navigation }) => {
             }).then((response) => {
                 setNewsUsed(newsUsed + 8);
                 setNewsResults([...newsResults, ...response.data.results]);
-                console.log(response.data.results);
                 setRefreshing(false)
             });
         } catch (err) {
@@ -195,7 +192,7 @@ const styles = StyleSheet.create({
         color: '#20235a',
     },
     authBtn: {
-        backgroundColor: '#20235a',
+        backgroundColor: '#475681',
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 50,

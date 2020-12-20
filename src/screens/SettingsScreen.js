@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, Share } from 'react-native';
+import { View, Text, StyleSheet, Button, Share, Platform, Modal } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-eva-icons';
 import HeaderText from '../components/HeaderText';
@@ -21,7 +21,9 @@ const ProfileComponent = ({ navigation, t }) => {
 
 };
 
-const SettingsComponent = ({ font, locale, setLocale, storeData, t }) => {
+const SettingsComponent = ({ navigation, font, locale, setLocale, storeData, t }) => {
+
+    const [modalVisible, setModalVisible] = useState(false);
 
     const onShare = async () => {
         try {
@@ -47,24 +49,71 @@ const SettingsComponent = ({ font, locale, setLocale, storeData, t }) => {
         <View>
             <HeaderText text={t('settings')} />
             <View style={styles.settingContainer}>
-                <View style={styles.settingElement}>
+                {/* <View style={styles.settingElement}>
                     <Text style={styles.settingText}>{t('font_size')}</Text>
-                    <Picker
-                        selectedValue={font}
-                        style={styles.picker}
-                        mode="dropdown"
-                        onValueChange={(val) => {
-                            storeData(val, "@font")
-                        }
-                        }
-                    >
-                        <Picker.Item label={t('small')} value="1" />
-                        <Picker.Item label={t('medium')} value="2" />
-                        <Picker.Item label={t('large')} value="3" />
-                    </Picker>
-                </View>
+                    
+                    {
+                        Platform.OS === 'ios' ?  
+                            null 
+                        :
+                            <Picker
+                                selectedValue={font}
+                                style={styles.picker}
+                                mode="dropdown"
+                                onValueChange={(val) => {
+                                    storeData(val, "@font")
+                                }
+                                }
+                            >
+                                <Picker.Item label={t('small')} value="1" />
+                                <Picker.Item label={t('medium')} value="2" />
+                                <Picker.Item label={t('large')} value="3" />
+                            </Picker> 
+                    }
+                </View> */}
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                >
+                    <View style={styles.containerModal}>
+                        <View style={styles.langBlock}>
+                            <Text style={styles.langBlockText}>Выберите язык</Text>
+                            <TouchableOpacity style={styles.langBlockBtn} onPress={() => {setLocale('ru'); setModalVisible(false)}}>
+                                <Text style={styles.langBlockBtnText}> Рус </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.langBlockBtn} onPress={() => {setLocale('uz'); setModalVisible(false)}}>
+                                <Text style={styles.langBlockBtnText}> Узб </Text>
+                            </TouchableOpacity>
+                        </View>
+
+
+                            {/* <TouchableOpacity
+                            style={{ backgroundColor: '#2196F3' }}
+                            onPress={() => {
+                                setModalVisible(!modalVisible);
+                            }}>
+                            <Text>Hide Modal</Text>
+                            </TouchableOpacity> */}
+                    </View>
+                </Modal>
+
+
                 <View style={styles.settingElement}>
                     <Text style={styles.settingText}>{t('lang')} </Text>
+                    {
+                        Platform.OS === 'ios' ? 
+                        <TouchableOpacity onPress={() => {
+                            setModalVisible(true);
+                          }}>
+                            <Text>
+                                {
+                                    locale.substring(0, 2) == 'ru' ? 'Русский' : locale.substring(0, 2) == 'uz' ? 'Узбекский' : null
+                                }
+                            </Text>
+                        </TouchableOpacity>
+                        :
                     <Picker
                         selectedValue={locale}
                         style={styles.picker}
@@ -74,7 +123,7 @@ const SettingsComponent = ({ font, locale, setLocale, storeData, t }) => {
                     >
                         <Picker.Item label="русский" value="ru" />
                         <Picker.Item label="узбекский" value="uz" />
-                    </Picker>
+                    </Picker> }
                 </View>
                 {/* <View style={styles.settingElement}>
                     <Text style={styles.settingText}>Оповещания </Text>
@@ -82,10 +131,10 @@ const SettingsComponent = ({ font, locale, setLocale, storeData, t }) => {
                 </View> */}
             </View>
             <View style={styles.settingAdvanced}>
-                <TouchableOpacity style={styles.advBtn}>
+                {/* <TouchableOpacity style={styles.advBtn}>
                     <Text style={styles.settingText}>{t('help')} </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.advBtn}>
+                </TouchableOpacity> */}
+                <TouchableOpacity style={styles.advBtn} onPress={() => navigation.navigate('Contacts')}>
                     <Text style={styles.settingText}>{t('callback')} </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onShare} style={styles.advBtn}>
@@ -139,7 +188,7 @@ const SettingsScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <ProfileComponent navigation={navigation} t={t}/>
-            <SettingsComponent font={font} locale={locale} storeData={storeData} setLocale={setLocale} t={t} />
+            <SettingsComponent navigation={navigation} font={font} locale={locale} storeData={storeData} setLocale={setLocale} t={t} />
         </View>
     )
 };
@@ -185,12 +234,58 @@ const styles = StyleSheet.create({
     settingAdvanced: {
         marginTop: 20,
         marginHorizontal: 15,
-        borderTopWidth: 1,
-        borderColor: '#aaa',
-        paddingTop: 15
+        // paddingTop: 15
     },
     advBtn: {
         marginBottom: 10
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // marginTop: 22,
+      },
+      modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 12,
+        justifyContent: 'center',
+        // padding: 35,
+        alignItems: 'center',
+      },
+      openButton: {
+        backgroundColor: '#F194FF',
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+      },
+      containerModal: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // backgroundColor: '#eee'
+    },
+    langBlock: {
+        backgroundColor: '#fff',
+        padding: 28,
+        borderRadius: 15
+    },
+    langBlockText: {
+        fontSize: 24,
+        fontWeight: "bold",
+        color: '#475681',
+        marginBottom: 16
+    },
+    langBlockBtn: {
+        backgroundColor: '#E8F0FF',
+        padding: 16,
+        marginBottom: 8,
+        alignItems: 'center'
+    },
+    langBlockBtnText: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: '#475681',
     }
 });
 

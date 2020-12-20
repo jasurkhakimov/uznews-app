@@ -38,8 +38,6 @@ const SearchScreen = ({ navigation }) => {
                 await uznews.get('/search', {
                     params
                 }).then((response) => {
-                    console.log(response.data);
-                    console.log('done');
 
                     setNewsResults(response.data);
                 }).catch((err) => {
@@ -81,7 +79,6 @@ const SearchScreen = ({ navigation }) => {
             }).then((response) => {
                 setNewsUsed(newsUsed + 8);
                 setNewsResults([...newsResults, ...response.data]);
-                console.log(response.data);
             });
         } catch (err) {
 

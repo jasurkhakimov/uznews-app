@@ -29,13 +29,10 @@ export default () => {
 
     const { t, locale, setLocale } = React.useContext(LocalizationContext);
 
-    console.log(locale);
-
     const getData = async () => {
         try {
             await AsyncStorage.getItem('@lang').then(async lang1 => {
-                setLang(locale.substring(0, 2));
-                console.log('here', locale.substring(0, 2));
+                setLang(locale.substring(0, 2));onsole.log('here', locale.substring(0, 2));
             });
         } catch (e) {
             console.log(e);

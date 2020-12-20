@@ -1,9 +1,11 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 
 const ShowMore = ({ text, onLoadMore }) => (
     <View style={styles.container}>
-        <TouchableOpacity accessibilityRole='button' activeOpacity={0.7} onPress={onLoadMore}>
+        <TouchableOpacity activeOpacity={0.7} onPress={onLoadMore}>
             <Text style={styles.btn}>{text}</Text>
         </TouchableOpacity>
     </View>
@@ -11,10 +13,11 @@ const ShowMore = ({ text, onLoadMore }) => (
 
 const styles = StyleSheet.create({
     container: {
-        padding: 15,
+        margin: 15,
+        borderRadius: 50,
+        overflow: 'hidden'
     },
     btn: {
-        borderRadius: 50,
         textAlign: 'center',
         backgroundColor: '#475681',
         color: '#fff',

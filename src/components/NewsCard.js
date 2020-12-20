@@ -35,7 +35,6 @@ const NewsCard = ({ user_id, title, image, category, time, id, showNews, book = 
 
     const iconChange = () => {
         if (bookmark.state) {
-            console.log('here', id);
                 let url = `/article/${id}`
                 let params = {
                     "user": user_id,
@@ -73,10 +72,9 @@ const NewsCard = ({ user_id, title, image, category, time, id, showNews, book = 
                         console.log(error);
                     });
         } else {
-            console.log('here');
+
 
             if (user_id) {
-                console.log('here', id);
                 let url = `/article/${id}`
                 let params = {
                     "user": user_id,

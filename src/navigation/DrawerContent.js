@@ -71,11 +71,11 @@ const AboutInfo = ({ navigation, t }) => {
                     <Text style={styles.infoBlock2Text}>{t('use_of_materials')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Privacy')}>
-                    <Text style={styles.infoBlock2Text}>{t('adv')}</Text>
+                    <Text style={styles.infoBlock2Text}>{t('private_policy')}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('TermsOfUse')}>
+                {/* <TouchableOpacity onPress={() => navigation.navigate('TermsOfUse')}>
                     <Text style={styles.infoBlock2Text}>{t('terms_of_use')}</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     )
@@ -125,7 +125,6 @@ export function DrawerContent(props) {
                     language: locale.substring(0, 2) != 'uz' && locale.substring(0, 2) != 'ru' ? 'ru' : locale.substring(0, 2)
                 }
             }).then(response => {
-                console.log('here');
                 setCategories(response.data);
                 // console.log(categories);
             });
@@ -135,7 +134,6 @@ export function DrawerContent(props) {
     }
 
     if (locale.substring(0, 2) != lang_main) {
-        console.log('here123');
         setLangMain(locale.substring(0, 2))
         getData();
     }

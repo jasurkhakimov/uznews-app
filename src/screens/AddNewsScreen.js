@@ -247,7 +247,6 @@ const AddNewsScreen = ({ navigation }) => {
                         style={styles.picker}
                         onValueChange={(itemValue, itemIndex) => {
                             setCategory(itemValue);
-                            console.log(category);
                         }}
                     >
                         <Picker.Item label="-" value="-" />
@@ -409,7 +408,7 @@ const styles = StyleSheet.create({
         color: '#20235a',
     },
     authBtn: {
-        backgroundColor: '#20235a',
+        backgroundColor: '#475681',
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 50,

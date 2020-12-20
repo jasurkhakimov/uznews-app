@@ -51,7 +51,6 @@ const CategoryScreen = ({ route, navigation }) => {
                 }).then((response) => {
                     setLoading(false);
                     setNewsResults(response.data.articles);
-                    console.log(response.data.articles);
                     setRefreshing(false)
                 });
             } catch (err) {
@@ -75,7 +74,6 @@ const CategoryScreen = ({ route, navigation }) => {
             }).then((response) => {
                 setNewsUsed(newsUsed + 8);
                 setNewsResults([...newsResults, ...response.data.articles]);
-                console.log(response.data.articles);
                 setRefreshing(false)
             });
         } catch (err) {
