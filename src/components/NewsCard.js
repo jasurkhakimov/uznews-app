@@ -26,7 +26,7 @@ const NewsCard = ({ user_id, title, image, category, time, id, showNews, book = 
     const min = date.getMinutes();
     const months = [t('january'), t('february'), t('march'), t('april'), t('may'), t('june'), t('july'), t('august'), t('september'), t('october'), t('november'), t('december')];
     const month = months[date.getMonth()]
-    const days = [t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('firday'), t('satturday'), t('sunday')];
+    const days = [t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('satturday'), t('sunday')];
     const weekday = (date.getDay()) ? days[date.getDay() - 1] : days[6];
     const day = date.getDate();
     const year = date.getFullYear();
