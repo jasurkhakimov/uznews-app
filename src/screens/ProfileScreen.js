@@ -72,15 +72,25 @@ export default class ProfileScreen extends Component {
 
     getAuth = async (userData) => {
 
+        // let data = {
+        //     username: userData.name,
+        //     social_network: userData.social_network,
+        //     image: userData.img_url,
+        //     notifications: null,
+        //     language: "1",
+        //     email: null,
+        //     player_id: null
+        // };
+
         let data = {
-            username: userData.name,
-            social_network: userData.social_network,
-            image: userData.img_url,
-            notifications: "0",
-            language: "1",
-            email: "",
-            player_id: ""
-        };
+            "username": userData.name,
+            "social_network": userData.social_network,
+            "notifications": null,
+            "language": 1,
+            "player_id": null,
+            "image": userData.img_url,
+            "email": "null"
+        }
 
         console.log(data);
 
