@@ -30,7 +30,13 @@
     },
     "android": {
       "package": "com.lb.uznews",
-      "versionCode": 2
+      "versionCode": 2,
+      "config": {
+        "googleSignIn": {
+          "apiKey": "AIzaSyBp-gmr8cgrG_de6OxRKpP2W4ZTwkRxKD4",
+          "certificateHash": "75CDBC1C808E639BCBB6A75D653E85437B57BEDE"
+        }
+      }
     }
   }
 }

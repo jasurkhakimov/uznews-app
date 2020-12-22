@@ -96,6 +96,8 @@ export default class ProfileScreen extends Component {
 
         let url = "/auth/" + userData.id + "/"
 
+        console.log(url);
+
         await uznews.post(url, data).then(async (response) => {
             // console.log(response.data.id);
             try {
@@ -171,13 +173,14 @@ export default class ProfileScreen extends Component {
             const result = await Google.logInAsync({
                 iosClientId: IOS_CLIENT_ID,
                 androidClientId: ANDROID_CLIENT_ID,
+                androidStandaloneAppClientId: "592382858742-98u1va7r0t5hgulc2lcktbq8bsuntppf.apps.googleusercontent.com",
                 scopes: ["profile", "email"]
             });
 
             if (result.type === "success") {
                 let userData = { "id": result.user.id, "name": result.user.givenName + " " + ((result.user.familyName) ? result.user.familyName : ""), "img_url": result.user.photoUrl, "social_network": "Google", "loggedIn": true };
                 this.setState({ data: userData })
-                this.getAuth();
+                this.getAuth(userData);
                 // console.log(this.state.data);
                 // console.log(userData);
                 // console.log("LoginScreen.js.js 21 | ", result.user);
