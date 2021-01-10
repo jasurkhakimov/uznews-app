@@ -22,7 +22,7 @@ const SearchScreen = ({ navigation }) => {
     const [visible, setVisible] = useState(false);
     const [snackText, setSnackText] = useState('-');
     const { t, locale, setLocale } = React.useContext(LocalizationContext);
-    
+    const [pressed, setPressed] = useState(false)
 
 
     const search = async () => {
@@ -40,6 +40,7 @@ const SearchScreen = ({ navigation }) => {
                 }).then((response) => {
 
                     setNewsResults(response.data);
+                    setPressed(true);
                 }).catch((err) => {
                     console.log('send err');
                     setVisible(true);
@@ -110,6 +111,7 @@ const SearchScreen = ({ navigation }) => {
 
     const empty = () => {
         setText('');
+        setPressed(false);
         setNewsResults([]);
         setNewsUsed(8);
     }
@@ -144,7 +146,9 @@ const SearchScreen = ({ navigation }) => {
                             </View>
                         </View>
                         <View style={styles.container}>
-
+                            {
+                                pressed && newsResults.length <= 0 ?  <Text style={{ color: '#777', fontWeight: 'bold', textAlign: 'center'}}>{t('no_search_results')}</Text> : null
+                            }
                         </View>
                         <Snackbar
                             visible={visible}

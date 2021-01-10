@@ -8,7 +8,7 @@ import NewsCard from '../components/NewsCard';
 import HeaderText from '../components/HeaderText';
 import { getUserId } from '../api/getUserId';
 import LocalizationContext from '../context/LocalizationContext';
-
+import { Icon } from 'react-native-eva-icons';
 
 
 const BookmarkScreen = ({ navigation }) => {
@@ -139,24 +139,37 @@ const BookmarkScreen = ({ navigation }) => {
         )
     }
 
-    return (
+    if (newsResults.length > 0) {
 
-        <View>
-            <FlatList
-                ListHeaderComponent={ListHeaderNews}
-                data={newsResults}
-                renderItem={renderItem}
-                keyExtractor={item => item['title_' + lang] + item.id}
-                ListFooterComponent={ListFooterNews}
+        return (
+    
+            <View>
+                <FlatList
+                    ListHeaderComponent={ListHeaderNews}
+                    data={newsResults}
+                    renderItem={renderItem}
+                    keyExtractor={item => item['title_' + lang] + item.id}
+                    ListFooterComponent={ListFooterNews}
+    
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
+                />
+            </View>
+    
+        );
+    } else {
+        return (
+            <View style={[styles.container, {backgroundColor: '#eee'}]}>
+                <Text style={styles.emptyText}>{t('no_bookmarks')}</Text>
+                <TouchableOpacity onPress={getResult}>
+                    <Icon name="refresh-outline" width={40} height={40} fill='#20235a' />
+                </TouchableOpacity>
+            </View>
+        )
+    }
 
-                showsVerticalScrollIndicator={false}
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                }
-            />
-        </View>
-
-    );
 };
 
 const styles = StyleSheet.create({
@@ -201,5 +214,11 @@ const styles = StyleSheet.create({
     authBtnText: {
         color: '#fff',
     },
+    emptyText: {
+        fontSize: 22,
+        color: '#20235a',
+        fontWeight: 'bold',
+        marginBottom: 12
+    }
 });
 export default BookmarkScreen;

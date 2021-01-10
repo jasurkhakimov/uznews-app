@@ -103,9 +103,10 @@ const AddNewsScreen = ({ navigation }) => {
                             setName('');
                             setEmail('');
                             setShortDesc('');
+                            setPhone('');
                             setText('');
                             setCategory('-');
-
+                            setImage(null);
                         }
                     }).catch(function (error) {
                         console.log(error);
@@ -190,6 +191,7 @@ const AddNewsScreen = ({ navigation }) => {
 
                 <View style={styles.form}>
                     <TextInput
+                        value={name}
                         style={styles.input}
                         autoCapitalize='none'
                         autoCorrect={false}
@@ -200,6 +202,7 @@ const AddNewsScreen = ({ navigation }) => {
                         onChangeText={text => setName(text)}
                     />
                     <TextInput
+                        value={phone}
                         style={styles.input}
                         autoCapitalize='none'
                         autoCorrect={false}
@@ -211,6 +214,7 @@ const AddNewsScreen = ({ navigation }) => {
                         onChangeText={text => setPhone(text)}
                     />
                     <TextInput
+                        value={email}
                         style={styles.input}
                         autoCapitalize='none'
                         autoCorrect={false}
@@ -221,6 +225,7 @@ const AddNewsScreen = ({ navigation }) => {
                         onChangeText={text => setEmail(text)}
                     />
                     <TextInput
+                        value={shortDesc}
                         style={styles.input}
                         autoCapitalize='none'
                         autoCorrect={false}
@@ -231,6 +236,7 @@ const AddNewsScreen = ({ navigation }) => {
                         onChangeText={text => setShortDesc(text)}
                     />
                     <TextInput
+                        value={text}
                         style={styles.input}
                         autoCapitalize='none'
                         autoCorrect={false}

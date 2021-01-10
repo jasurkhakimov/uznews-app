@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, StyleSheet, RefreshControl, ActivityIndicator} from 'react-native';
+import { ScrollView, View, Text, StyleSheet, RefreshControl, ActivityIndicator } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import uznews from '../api/uznews';
 import ShowMore from '../components/ShowMore';
@@ -8,6 +8,7 @@ import NewsCard from '../components/NewsCard';
 import HeaderText from '../components/HeaderText';
 import { getUserId } from '../api/getUserId';
 import LocalizationContext from '../context/LocalizationContext';
+import { Icon } from 'react-native-eva-icons';
 
 
 
@@ -28,12 +29,12 @@ const HistoryScreen = ({ navigation }) => {
     const count = 8;
 
     const getResult = async (id) => {
-         await getUserId().then(async (user_id) => {
+        await getUserId().then(async (user_id) => {
             setUserId(user_id);
-            
+
             try {
                 setRefreshing(true);
-            let lang_code = locale.substring(0, 2) == 'ru' ? 1 : 2;
+                let lang_code = locale.substring(0, 2) == 'ru' ? 1 : 2;
 
                 await uznews.get('/history', {
                     params: {
@@ -116,7 +117,7 @@ const HistoryScreen = ({ navigation }) => {
         getResult();
     }, [])
 
-    if(!user_id) {
+    if (!user_id) {
         return (
             <View style={styles.authContainer}>
                 <View style={styles.authBlock}>
@@ -139,25 +140,35 @@ const HistoryScreen = ({ navigation }) => {
             </View>
         )
     }
+    if (newsResults.length > 0) {
+        return (
 
-    return (
+            <View>
+                <FlatList
+                    ListHeaderComponent={ListHeaderNews}
+                    data={newsResults}
+                    renderItem={renderItem}
+                    keyExtractor={item => item['title_' + lang] + item.id}
+                    ListFooterComponent={ListFooterNews}
 
-        <View>
-            <FlatList
-                ListHeaderComponent={ListHeaderNews}
-                data={newsResults}
-                renderItem={renderItem}
-                keyExtractor={item => item['title_' + lang] + item.id}
-                ListFooterComponent={ListFooterNews}
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
+                />
+            </View>
 
-                showsVerticalScrollIndicator={false}
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                }
-            />
-        </View>
-
-    );
+        )
+    } else {
+        return (
+            <View style={[styles.container, { backgroundColor: '#eee' }]}>
+                <Text style={styles.emptyText}>{t('no_history')}</Text>
+                <TouchableOpacity onPress={getResult}>
+                    <Icon name="refresh-outline" width={40} height={40} fill='#20235a' />
+                </TouchableOpacity>
+            </View>
+        )
+    }
 };
 
 const styles = StyleSheet.create({
@@ -202,5 +213,11 @@ const styles = StyleSheet.create({
     authBtnText: {
         color: '#fff',
     },
+    emptyText: {
+        fontSize: 22,
+        color: '#20235a',
+        fontWeight: 'bold',
+        marginBottom: 12
+    }
 });
 export default HistoryScreen;
