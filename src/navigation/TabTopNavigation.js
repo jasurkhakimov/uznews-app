@@ -385,7 +385,7 @@ const MainTabScreen = () => {
                 backgroundColor: '#fff', 
                 elevation: 0,
                 shadowOpacity: 0,
-                // height: 54,
+                height:56,
             }}
             labeled={true}
 
