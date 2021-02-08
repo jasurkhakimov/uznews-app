@@ -19,9 +19,8 @@ const AdvScreen = ({ navigation }) => {
             <View style={styles.text}>
                 <Text>{t('phone_of_adv_dep')}:</Text>
                 <View style={styles.contact}>
-                    <Text style={styles.bold}>(94) 649-57-77,</Text>
                     <TouchableOpacity onPress={() => SocMedia('https://t.me/uznews_ads')}>
-                        <Text style={[styles.bold, styles.tg]}> Telegram </Text>
+                        <Text style={[styles.bold, styles.tg]}> (94) 649-57-77 </Text>
                     </TouchableOpacity> 
                 </View>
             </View>
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
          flexDirection: 'row'
     },
     contact: {
-        flexDirection: 'row'
+        flexDirection: 'column'
     },
     bold: {
         fontWeight: 'bold',

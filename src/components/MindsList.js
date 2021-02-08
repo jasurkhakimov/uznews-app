@@ -25,6 +25,7 @@ const MindsList = ({ user_id, minds, lang, navigation }) => {
                             time={item.date}
                             image={item.article.image_name}
                             photo={item.photo}
+                            item={item}
                         />
                     );
                 })

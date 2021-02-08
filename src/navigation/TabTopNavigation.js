@@ -51,9 +51,9 @@ const MainStackScreen = ({ navigation }) => {
                 headerLeft: () => {
                     return (
                         <View>
-                        <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                            <Icon name='menu-outline'  width={24} height={24} fill='#20235a' />
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                                <Icon name='menu-outline' width={24} height={24} fill='#20235a' />
+                            </TouchableOpacity>
                         </View>
                     )
                 },
@@ -66,14 +66,24 @@ const MainStackScreen = ({ navigation }) => {
                 headerRight: () => {
                     return (
                         <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-                            <Icon name='search-outline'  width={24} height={24} fill='#20235a' />
+                            <Icon name='search-outline' width={24} height={24} fill='#20235a' />
                         </TouchableOpacity>
                     )
                 },
 
             }} />
             <MainStack.Screen name='News' component={NewsScreen} options={{
-                headerTitle: t('news'),
+                headerTitle: (props) => {
+                    return (
+                        <TouchableOpacity onPress={() => navigation.navigate('Main')}>
+                                <Image
+                                    style={{ width: 100, }}
+                                    source={require('../../assets/logo.png')}
+                                    resizeMode='contain'
+                                />
+                        </TouchableOpacity>
+                    )
+                },
                 headerTintColor: '#20235a',
                 headerStyle: {
                     // backgroundColor: 'transparent',
@@ -297,7 +307,7 @@ const SettingsStack = createStackNavigator();
 const SettingsStackScreen = ({ navigation }) => {
 
     const { t, locale, setLocale } = React.useContext(LocalizationContext);
-    
+
     return (
         <SettingsStack.Navigator screenOptions={{
             headerStyle: {
@@ -353,11 +363,14 @@ const SettingsStackScreen = ({ navigation }) => {
 
 const LogoTitle = () => {
     return (
-        <Image
-            style={{ width: 100, }}
-            source={require('../../assets/logo.png')}
-            resizeMode='contain'
-        />
+        <View>
+
+            <Image
+                style={{ width: 100, }}
+                source={require('../../assets/logo.png')}
+                resizeMode='contain'
+            />
+        </View>
     );
 }
 
@@ -375,6 +388,9 @@ const Tab = createMaterialBottomTabNavigator();
 
 
 const MainTabScreen = () => {
+
+    const { t, locale, setLocale } = React.useContext(LocalizationContext);
+
     return (
         <Tab.Navigator
             initialRouteName="Main"
@@ -382,7 +398,7 @@ const MainTabScreen = () => {
             inactiveColor="#20235a"
             style={{ backgroundColor: '#fff' }}
             barStyle={{
-                backgroundColor: '#fff', 
+                backgroundColor: '#fff',
                 elevation: 0,
                 shadowOpacity: 0,
                 // height: 54,
@@ -394,7 +410,7 @@ const MainTabScreen = () => {
                 name="MainTab"
                 component={MainStackScreen}
                 options={{
-                    tabBarLabel: 'Главная',
+                    tabBarLabel: t('main'),
                     tabBarIcon: ({ color }) => (
                         <Icon name="home-outline" fill={color} width={26} height={26} />
                     ),
@@ -404,7 +420,7 @@ const MainTabScreen = () => {
                 name="HistoryTab"
                 component={HistoryStackScreen}
                 options={{
-                    tabBarLabel: 'История',
+                    tabBarLabel: t('history'),
                     tabBarIcon: ({ color }) => (
                         <Icon name="eye-outline" fill={color} width={26} height={26} />
                     ),
@@ -414,7 +430,7 @@ const MainTabScreen = () => {
                 name="AddNewsTab"
                 component={AddNewsStackScreen}
                 options={{
-                    tabBarLabel: 'Написать',
+                    tabBarLabel: t('write'),
                     tabBarIcon: ({ color }) => (
                         <Icon name="edit-outline" fill={color} width={26} height={26} />
                     ),
@@ -424,7 +440,7 @@ const MainTabScreen = () => {
                 name="BookmarkTab"
                 component={BookmarkStackScreen}
                 options={{
-                    tabBarLabel: 'Закладки',
+                    tabBarLabel: t('bookmark'),
                     tabBarIcon: ({ color }) => (
                         <Icon name="bookmark-outline" fill={color} width={26} height={26} />
                     ),
@@ -434,7 +450,7 @@ const MainTabScreen = () => {
                 name="SettingsTab"
                 component={SettingsStackScreen}
                 options={{
-                    tabBarLabel: 'Настройки',
+                    tabBarLabel: t('settings'),
                     tabBarIcon: ({ color }) => (
                         <Icon name="settings-outline" fill={color} width={26} height={26} />
                     ),

@@ -21,6 +21,10 @@ import SendNews from '../components/SendNews';
 import CurrentDate from '../components/CurrentDate';
 import i18n from 'i18n-js';
 import LocalizationContext from '../context/LocalizationContext';
+import { useIsFocused } from '@react-navigation/native';    
+
+
+
 
 const lang = 'ru';
 
@@ -30,6 +34,7 @@ const MainScreen = ({ navigation }) => {
     const [widget, setWidget] = useState(true);
 
     // locale.substring(0, 2)
+    const isFocused = useIsFocused();
 
     const onWidgetClose = () => {
         setWidget(false);
@@ -51,6 +56,7 @@ const MainScreen = ({ navigation }) => {
         user_id,
         CategoryApi,
     ] = useMainPageResults();
+
 
     const onRefresh = () => {
         NewsFeedApi(8);

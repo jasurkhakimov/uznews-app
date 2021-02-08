@@ -100,7 +100,7 @@ const SocialMedia = () => {
                 <MaterialCommunityIcons onPress={() => SocMedia('https://instagram.com/uznews')} name='instagram' color='#20235a' size={21} />
             </TouchableOpacity>
             <TouchableOpacity>
-                <MaterialCommunityIcons onPress={() => SocMedia('https://www.youtube.com/c/UzNewsuzb')} name='youtube' color='#20235a' size={21} />
+                <MaterialCommunityIcons onPress={() => SocMedia('https://t.me/uznews')} name='telegram' color='#20235a' size={21} />
             </TouchableOpacity>
         </View>
     )

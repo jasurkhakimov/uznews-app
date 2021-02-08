@@ -35,6 +35,17 @@ const HistoryScreen = ({ navigation }) => {
             try {
                 setRefreshing(true);
                 let lang_code = locale.substring(0, 2) == 'ru' ? 1 : 2;
+                // console.log(lang_code);
+
+                // console.log(
+                //     {
+                //         limit: count,
+                //         language: lang_code,
+                //         offset: 0,
+                //         // category: id
+                //         user: user_id
+                //     }
+                // );
 
                 await uznews.get('/history', {
                     params: {
@@ -50,7 +61,7 @@ const HistoryScreen = ({ navigation }) => {
                     setRefreshing(false)
                 });
             } catch (err) {
-
+                console.log(err);
             }
 
         })
@@ -61,7 +72,6 @@ const HistoryScreen = ({ navigation }) => {
             setRefreshing(true);
 
             let lang_code = locale.substring(0, 2) == 'ru' ? 1 : 2;
-
 
             await uznews.get('/history', {
                 params: {
@@ -77,7 +87,7 @@ const HistoryScreen = ({ navigation }) => {
                 setRefreshing(false)
             });
         } catch (err) {
-
+            console.log(err);
         }
     };
 

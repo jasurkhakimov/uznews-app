@@ -5,7 +5,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { getUserId } from '../api/getUserId';
 import LocalizationContext from '../context/LocalizationContext';
 
-
 const lang = 'ru';
 
 export default () => {
@@ -16,7 +15,7 @@ export default () => {
     const [mindsResults, setMindsResults] = useState([]);
     const [categories, setCategories] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
-    const [newsCount, setNewsCount] = useState(8);
+    const [newsCount, setNewsCount] = useState(16);
     const [newsUsed, setNewsUsed] = useState(0);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
@@ -26,8 +25,10 @@ export default () => {
     const [mindsUsed, setMindsUsed] = useState(3);
     const [user_id, setUserId] = useState("");
     const [lang, setLang] = useState('');
-
+    
     const { t, locale, setLocale } = React.useContext(LocalizationContext);
+
+
 
     const getData = async () => {
         try {
@@ -82,6 +83,8 @@ export default () => {
             console.error('Error here category api', err);
         }
     }
+
+
 
     const ShowMoreNewsApi = async () => {
         try {
@@ -192,7 +195,14 @@ export default () => {
 
     };
 
+    // if (isFocused) {
+    //     NewsFeedApi(newsCount);
+    //     // CategoryApi();
+    // }
+
     useEffect(() => {
+
+        
         ExchangeApi();
         NewsFeedApi(newsCount);
         CategoryApi();

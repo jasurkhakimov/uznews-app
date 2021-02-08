@@ -51,6 +51,8 @@ const NewsScreen = ({ route }) => {
         }).then(response => {
 
             response.data.text_ru = response.data.text_ru.split('\r\n\r\n<p>&nbsp;</p>').join('').split('src=\"/upload/').join(`src=\"${uznews_url}/upload/`);
+            // response.data.text_ru = response.data.text_ru.split("\r\n").join('');
+            response.data.text_ru = response.data.text_ru.split('<p style="text-align: left;">&nbsp;</p>').join('');
             setResult(response.data);
             const date = new Date(Date.parse(response.data.date));
             const months = [t('january'), t('february'), t('march'), t('april'), t('may'), t('june'), t('july'), t('august'), t('september'), t('october'), t('november'), t('december')];
@@ -132,6 +134,15 @@ const NewsScreen = ({ route }) => {
                     renderers={renderers}
                     source={{ html: result.text_ru }}
                     contentWidth={contentWidth}
+                    tagsStyles={{
+                        img: {
+                            // marginBottom: 5,
+                            // marginTop: 5,
+                        },
+                        p: {
+                            marginVertical: 8
+                        }
+                    }}
                     containerStyle={{
                         // backgroundColor: '#fff',
                         padding: 8,
