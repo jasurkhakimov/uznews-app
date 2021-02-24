@@ -22,8 +22,6 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import LocalizationContext from '../context/LocalizationContext';
 import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 
-
-
 const MainStack = createStackNavigator();
 
 const MainStackScreen = ({ navigation }) => {
@@ -359,8 +357,6 @@ const SettingsStackScreen = ({ navigation }) => {
     )
 }
 
-
-
 const LogoTitle = () => {
     return (
         <View>
@@ -374,19 +370,7 @@ const LogoTitle = () => {
     );
 }
 
-
-
-
-
-
-
-
-
-
-
 const Tab = createMaterialBottomTabNavigator();
-
-
 const MainTabScreen = () => {
 
     const { t, locale, setLocale } = React.useContext(LocalizationContext);
@@ -401,7 +385,7 @@ const MainTabScreen = () => {
                 backgroundColor: '#fff',
                 elevation: 0,
                 shadowOpacity: 0,
-                // height: 54,
+                height: 54,
             }}
             labeled={true}
 

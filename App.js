@@ -24,10 +24,12 @@ export default function App() {
 
     return (
         <LocalizationContext.Provider value={localizationContext}>
-            <View style={styles.container}>
-                <Navigation />
-                <StatusBar />
-            </View>
+            <SafeAreaView style={styles.container}>
+                <View style={styles.container}>
+                    <Navigation />
+                    <StatusBar />
+                </View>
+            </SafeAreaView>
         </LocalizationContext.Provider>
     );
 }
