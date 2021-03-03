@@ -20,7 +20,21 @@ export default function App() {
         [locale]
     );
 
-
+    // if (locale.substring(0, 2) != 'uz' && locale.substring(0, 2) != 'ru') {
+    //     return (
+    //         <View style={styles.container1}>
+    //             <View style={styles.langBlock}>
+    //                 <Text style={styles.langBlockText}>Выберите язык</Text>
+    //                 <TouchableOpacity style={styles.langBlockBtn} onPress={() => setLocale('ru')}>
+    //                     <Text style={styles.langBlockBtnText}> Рус </Text>
+    //                 </TouchableOpacity>
+    //                 <TouchableOpacity style={styles.langBlockBtn} onPress={() => setLocale('uz')}>
+    //                     <Text style={styles.langBlockBtnText}> Узб </Text>
+    //                 </TouchableOpacity>
+    //             </View>
+    //         </View>
+    //     )
+    // }
 
     return (
         <LocalizationContext.Provider value={localizationContext}>
@@ -38,6 +52,34 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    container1: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#eee'
+    },
+    langBlock: {
+        backgroundColor: '#fff',
+        padding: 28,
+        borderRadius: 15
+    },
+    langBlockText: {
+        fontSize: 24,
+        fontWeight: "bold",
+        color: '#475681',
+        marginBottom: 16
+    },
+    langBlockBtn: {
+        backgroundColor: '#E8F0FF',
+        padding: 16,
+        marginBottom: 8,
+        alignItems: 'center'
+    },
+    langBlockBtnText: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: '#475681',
+    }
 });
 
 
