@@ -131,9 +131,12 @@ const HistoryScreen = ({ navigation }) => {
         return (
             <View style={styles.authContainer}>
                 <View style={styles.authBlock}>
-                    <Text style={styles.authText}> {t('auth')} </Text>
-                    <TouchableOpacity style={styles.authBtn} onPress={() => getResult()}>
-                        <Text style={styles.authBtnText}> {t('refresh')} </Text>
+                    
+                    <TouchableOpacity style={styles.authBtn} onPress={() => navigation.navigate('Profile')}>
+                        <Text style={styles.authBtnText}> {t('auth')} </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.authBtnOutline} onPress={() => getResult()}>
+                        <Icon name="refresh-outline" width={15} height={15} fill='#475681' />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -173,8 +176,8 @@ const HistoryScreen = ({ navigation }) => {
         return (
             <View style={[styles.container, { backgroundColor: '#eee' }]}>
                 <Text style={styles.emptyText}>{t('no_history')}</Text>
-                <TouchableOpacity onPress={getResult}>
-                    <Icon name="refresh-outline" width={40} height={40} fill='#20235a' />
+                <TouchableOpacity style={[styles.authBtnOutline, {backgroundColor: '#fff'}]} onPress={getResult}>
+                    <Icon name="refresh-outline" width={20} height={20} fill='#20235a' />
                 </TouchableOpacity>
             </View>
         )
@@ -217,6 +220,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#475681',
         paddingVertical: 12,
         paddingHorizontal: 24,
+        borderRadius: 50,
+        marginTop: 12,
+    },
+    authBtnOutline: {
+        backgroundColor: '#eee',
+        paddingVertical: 12,
+        paddingHorizontal: 12,
         borderRadius: 50,
         marginTop: 12,
     },

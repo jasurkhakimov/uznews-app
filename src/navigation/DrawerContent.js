@@ -56,8 +56,11 @@ const AboutInfo = ({ navigation, t }) => {
     return (
         <View style={styles.info}>
             <View style={styles.infoBlock1}>
+                
+            </View>
+            <View style={styles.infoBlock2}>
                 <TouchableOpacity onPress={() => navigation.navigate('About')}>
-                    <Text style={styles.infoBlock1Text}> {t('about_project')} </Text>
+                    <Text style={styles.infoBlock1Text}>{t('about_project')} </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Contacts')}>
                     <Text style={styles.infoBlock1Text}>{t('contacts')}</Text>
@@ -65,8 +68,7 @@ const AboutInfo = ({ navigation, t }) => {
                 <TouchableOpacity onPress={() => navigation.navigate('Adv')}>
                     <Text style={styles.infoBlock1Text}>{t('adv')}</Text>
                 </TouchableOpacity>
-            </View>
-            <View style={styles.infoBlock2}>
+
                 <TouchableOpacity onPress={() => navigation.navigate('UseOfMaterials')}>
                     <Text style={styles.infoBlock2Text}>{t('use_of_materials')}</Text>
                 </TouchableOpacity>
@@ -90,17 +92,17 @@ const SocialMedia = () => {
 
     return (
         <View style={styles.icons}>
-            <TouchableOpacity>
-                <MaterialCommunityIcons onPress={() => SocMedia('https://facebook.com/uznews.uz')} name='facebook' color='#20235a' size={21} />
+            <TouchableOpacity onPress={() => SocMedia('https://facebook.com/uznews.uz')}>
+                <MaterialCommunityIcons  name='facebook' color='#20235a' size={21} />
             </TouchableOpacity>
-            <TouchableOpacity>
-                <MaterialCommunityIcons onPress={() => SocMedia('https://facebook.com/uznews.uz')} name='twitter' color='#20235a' size={21} />
+            <TouchableOpacity onPress={() => SocMedia('https://facebook.com/uznews.uz')}>
+                <MaterialCommunityIcons  name='twitter' color='#20235a' size={21} />
             </TouchableOpacity>
-            <TouchableOpacity>
-                <MaterialCommunityIcons onPress={() => SocMedia('https://instagram.com/uznews')} name='instagram' color='#20235a' size={21} />
+            <TouchableOpacity onPress={() => SocMedia('https://instagram.com/uznews')}>
+                <MaterialCommunityIcons  name='instagram' color='#20235a' size={21} />
             </TouchableOpacity>
-            <TouchableOpacity>
-                <MaterialCommunityIcons onPress={() => SocMedia('https://t.me/uznews')} name='telegram' color='#20235a' size={21} />
+            <TouchableOpacity onPress={() => SocMedia('https://t.me/uznews')}>
+                <MaterialCommunityIcons  name='telegram' color='#20235a' size={21} />
             </TouchableOpacity>
         </View>
     )
@@ -158,13 +160,20 @@ export function DrawerContent(props) {
 
 
         if (categories) {
+            // console.log(categories);
+            let titles = [ "Экономика", "Общество", "Политика", "Криминал", "Короновирус", "Мнения", "Иқтисодиёт", "Жамият", "Сиёсат", ];
+            let ids = [1, 3, 2, 45, 40, 39, 22,];
             return (
                 <View>
                     {
                         categories.map((item) => {
-                            return (
-                                <RenderItem item={item} key={item.id + lang} />
-                            );
+                            if (ids.includes(item.id) || titles.includes(item.title_ru)) {
+                                return (
+                                    <RenderItem item={item} key={item.id + lang} />
+                                );
+                            } else {
+                                return null;
+                            }
                         })
                     }
                 </View>
@@ -213,6 +222,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         // paddingLeft: 20,
         overflow: 'hidden',
+        flexWrap: 'wrap',
         marginBottom: 12,
         justifyContent: 'space-around'
     },

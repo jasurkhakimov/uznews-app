@@ -119,9 +119,11 @@ const BookmarkScreen = ({ navigation }) => {
         return (
             <View style={styles.authContainer}>
                 <View style={styles.authBlock}>
-                    <Text style={styles.authText}> {t('auth')} </Text>
-                    <TouchableOpacity style={styles.authBtn} onPress={() => getResult()}>
-                        <Text style={styles.authBtnText}> {t('refresh')} </Text>
+                <TouchableOpacity style={styles.authBtn} onPress={() => navigation.navigate('Profile')}>
+                        <Text style={styles.authBtnText}> {t('auth')} </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.authBtnOutline} onPress={() => getResult()}>
+                        <Icon name="refresh-outline" width={15} height={15} fill='#475681' />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -163,8 +165,8 @@ const BookmarkScreen = ({ navigation }) => {
         return (
             <View style={[styles.container, {backgroundColor: '#eee'}]}>
                 <Text style={styles.emptyText}>{t('no_bookmarks')}</Text>
-                <TouchableOpacity onPress={getResult}>
-                    <Icon name="refresh-outline" width={40} height={40} fill='#20235a' />
+                <TouchableOpacity style={[styles.authBtnOutline, {backgroundColor: '#fff'}]} onPress={getResult}>
+                    <Icon name="refresh-outline" width={15} height={15} fill='#20235a' />
                 </TouchableOpacity>
             </View>
         )
@@ -211,11 +213,18 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         marginTop: 12,
     },
+    authBtnOutline: {
+        backgroundColor: '#eee',
+        paddingVertical: 12,
+        paddingHorizontal: 12,
+        borderRadius: 50,
+        marginTop: 12,
+    },
     authBtnText: {
         color: '#fff',
     },
     emptyText: {
-        fontSize: 22,
+        fontSize: 18,
         color: '#20235a',
         fontWeight: 'bold',
         marginBottom: 12

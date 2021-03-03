@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Button, ScrollView, ActivityIndicator, Image } from 'react-native';
+import { View, Text, StyleSheet, Button, ScrollView, ActivityIndicator, Image, Linking } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import HeaderText from '../components/HeaderText';
 import { TextInput } from 'react-native-paper';
@@ -77,6 +77,10 @@ const AddNewsScreen = ({ navigation }) => {
         }
     }
 
+    const SocMedia = (url) => {
+        return Linking.openURL(url);
+    }
+
     const send = async () => {
         await getUserId().then(async (user_id) => {
             setUserId(user_id);
@@ -146,29 +150,29 @@ const AddNewsScreen = ({ navigation }) => {
 
         getData();
 
-        (async () => {
-            if (Platform.OS !== 'web') {
-                const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-                if (status !== 'granted') {
-                    alert('Sorry, we need camera roll permissions to make this work!');
-                }
-            }
-        })();
+        // (async () => {
+        //     if (Platform.OS !== 'web') {
+        //         const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+        //         if (status !== 'granted') {
+        //             alert('Sorry, we need camera roll permissions to make this work!');
+        //         }
+        //     }
+        // })();
 
     }, [])
 
-    if (!user_id) {
-        return (
-            <View style={styles.authContainer}>
-                <View style={styles.authBlock}>
-                    <Text style={styles.authText}> {t('auth')} </Text>
-                    <TouchableOpacity style={styles.authBtn} onPress={() => getData()}>
-                        <Text style={styles.authBtnText}> {t('refresh')} </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        )
-    }
+    // if (!user_id) {
+    //     return (
+    //         <View style={styles.authContainer}>
+    //             <View style={styles.authBlock}>
+    //                 <Text style={styles.authText}> {t('auth')} </Text>
+    //                 <TouchableOpacity style={styles.authBtn} onPress={() => getData()}>
+    //                     <Text style={styles.authBtnText}> {t('refresh')} </Text>
+    //                 </TouchableOpacity>
+    //             </View>
+    //         </View>
+    //     )
+    // }
 
     if (!loaded) {
         return (
@@ -186,10 +190,14 @@ const AddNewsScreen = ({ navigation }) => {
                 <View>
                     <TextComponent text={t('add_news_text_1')} />
                     <TextComponent text={t('add_news_text_2')} />
-                    <TextComponent text={t('add_news_text_3')} italic={1} />
+                    <TouchableOpacity style={styles.linkBlock} onPress={() => SocMedia('https://t.me/UznewsSendBot')} >
+                        <Text style={[styles.text, styles.blue]}>
+                            { t('send_news_tg') }
+                        </Text>
+                    </TouchableOpacity>
                 </View>
 
-                <View style={styles.form}>
+                {/* <View style={styles.form}>
                     <TextInput
                         value={name}
                         style={styles.input}
@@ -266,9 +274,9 @@ const AddNewsScreen = ({ navigation }) => {
 
                     </Picker>
                     <View style={styles.hr}></View>
-                </View>
-                <Text style={styles.attachText}>{t('attach')}:</Text>
-                <View style={styles.files}>
+                </View> */}
+                {/* <Text style={styles.attachText}>{t('attach')}:</Text> */}
+                {/* <View style={styles.files}>
                     <TouchableOpacity style={[styles.fileItem, styles.ml15]} onPress={pickImage}>
                         <Icon name="image" width={20} height={20} fill='#20235a' />
                         <Text style={styles.fileText}> Image </Text>
@@ -295,7 +303,7 @@ const AddNewsScreen = ({ navigation }) => {
                     }}
                 >
                     {snackText}
-                </Snackbar>
+                </Snackbar> */}
 
             </ScrollView>
         )
@@ -423,6 +431,12 @@ const styles = StyleSheet.create({
     authBtnText: {
         color: '#fff',
     },
+    blue: {
+        color: '#0000EE',
+    },
+    linkBlock: {
+        display: 'flex',
+    }
 });
 
 export default withNavigation(AddNewsScreen);

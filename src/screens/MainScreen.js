@@ -41,7 +41,7 @@ const MainScreen = ({ navigation }) => {
     }
 
     const { t, locale, setLocale } = React.useContext(LocalizationContext);
-
+    const [lang_main, setLangMain] = useState(locale.substring(0, 2))
     const [
         NewsFeedApi,
         newsResults,
@@ -58,10 +58,18 @@ const MainScreen = ({ navigation }) => {
     ] = useMainPageResults();
 
 
+    
+
+
     const onRefresh = () => {
         NewsFeedApi(8);
         CategoryApi();
     };
+
+    if (locale.substring(0, 2) != lang_main) {
+        setLangMain(locale.substring(0, 2))
+        onRefresh();
+    }
 
     const showNews = (id) => {
         return navigation.navigate('News', { id: id, lang: lang, user_id: user_id })
