@@ -174,7 +174,8 @@ export default class ProfileScreen extends Component {
                 iosClientId: IOS_CLIENT_ID,
                 androidClientId: ANDROID_CLIENT_ID,
                 androidStandaloneAppClientId: "592382858742-98u1va7r0t5hgulc2lcktbq8bsuntppf.apps.googleusercontent.com",
-                iosStandaloneAppClientId: "592382858742-egk0eqdqvm8h7q1vutu62fj6672bngjd.apps.googleusercontent.com",
+                // iosStandaloneAppClientId: "592382858742-egk0eqdqvm8h7q1vutu62fj6672bngjd.apps.googleusercontent.com",
+                iosStandaloneAppClientId: "720560601108-iah91edkpqtmcq8kjrcf7n1qobv2mj1g.apps.googleusercontent.com",
                 scopes: ["profile", "email"]
             });
 

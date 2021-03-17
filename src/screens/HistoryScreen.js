@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
     },
     br: {
         marginBottom: 20
@@ -202,9 +202,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
     authBlock: {
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#fff',
@@ -221,14 +222,15 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 50,
-        marginTop: 12,
+        // marginTop: 12,
+        marginRight: 12,
     },
     authBtnOutline: {
         backgroundColor: '#eee',
         paddingVertical: 12,
         paddingHorizontal: 12,
         borderRadius: 50,
-        marginTop: 12,
+        // marginTop: 12,
     },
     authBtnText: {
         color: '#fff',

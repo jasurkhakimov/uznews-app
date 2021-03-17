@@ -109,7 +109,7 @@ const SettingsComponent = ({ navigation, font, locale, setLocale, storeData, t }
                           }}>
                             <Text>
                                 {
-                                    locale.substring(0, 2) == 'ru' ? 'Русский' : locale.substring(0, 2) == 'uz' ? 'Узбекский' : null
+                                    locale.substring(0, 2) == 'ru' ? 'Русский' : locale.substring(0, 2) == 'uz' ? 'Узбекча' : null
                                 }
                             </Text>
                         </TouchableOpacity>
@@ -122,7 +122,7 @@ const SettingsComponent = ({ navigation, font, locale, setLocale, storeData, t }
                         }
                     >
                         <Picker.Item label="русский" value="ru" />
-                        <Picker.Item label="узбекский" value="uz" />
+                        <Picker.Item label="узбекча" value="uz" />
                     </Picker> }
                 </View>
                 {/* <View style={styles.settingElement}>

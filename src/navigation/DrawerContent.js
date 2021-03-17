@@ -21,7 +21,9 @@ const DrawerHeader = ({ navigation }) => {
     return (
         <View style={{ flexDirection: 'row', padding: 16 }}>
             <Icon name='close' style={styles.close} onPress={() => navigation.closeDrawer()} width={24} height={24} fill='#20235a' />
-            <Text style={styles.headerText}> UzNews </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Main')}>                   
+                <Text style={styles.headerText}> UzNews </Text>
+            </TouchableOpacity>
         </View>
     )
 }

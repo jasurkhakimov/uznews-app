@@ -182,7 +182,17 @@ const HistoryStackScreen = ({ navigation }) => {
             },
             headerBackTitleVisible: false,
             headerTitleAlign: 'center',
-            headerTitle: (props) => <LogoTitle {...props} />,
+            headerTitle: (props) => {
+                return (
+                    <TouchableOpacity onPress={() => navigation.navigate('Main')}>
+                            <Image
+                                style={{ width: 100, }}
+                                source={require('../../assets/logo.png')}
+                                resizeMode='contain'
+                            />
+                    </TouchableOpacity>
+                )
+            },
 
         }}>
             <HistoryStack.Screen name='History' component={HistoryScreen} options={{
@@ -227,7 +237,17 @@ const AddNewsStackScreen = ({ navigation }) => {
             },
             headerBackTitleVisible: false,
             headerTitleAlign: 'center',
-            headerTitle: (props) => <LogoTitle {...props} />,
+            headerTitle: (props) => {
+                return (
+                    <TouchableOpacity onPress={() => navigation.navigate('Main')}>
+                            <Image
+                                style={{ width: 100, }}
+                                source={require('../../assets/logo.png')}
+                                resizeMode='contain'
+                            />
+                    </TouchableOpacity>
+                )
+            },
 
         }}>
             <AddNewsStack.Screen name='AddNews' component={AddNewsScreen} options={{
@@ -272,7 +292,17 @@ const BookmarkStackScreen = ({ navigation }) => {
             },
             headerBackTitleVisible: false,
             headerTitleAlign: 'center',
-            headerTitle: (props) => <LogoTitle {...props} />,
+            headerTitle: (props) => {
+                return (
+                    <TouchableOpacity onPress={() => navigation.navigate('Main')}>
+                            <Image
+                                style={{ width: 100, }}
+                                source={require('../../assets/logo.png')}
+                                resizeMode='contain'
+                            />
+                    </TouchableOpacity>
+                )
+            },
 
         }}>
             <BookmarkStack.Screen name='Bookmark' component={BookmarkScreen} options={{
@@ -320,7 +350,17 @@ const SettingsStackScreen = ({ navigation }) => {
             },
             headerBackTitleVisible: false,
             headerTitleAlign: 'center',
-            headerTitle: (props) => <LogoTitle {...props} />,
+            headerTitle: (props) => {
+                return (
+                    <TouchableOpacity onPress={() => navigation.navigate('Main')}>
+                            <Image
+                                style={{ width: 100, }}
+                                source={require('../../assets/logo.png')}
+                                resizeMode='contain'
+                            />
+                    </TouchableOpacity>
+                )
+            },
 
         }}>
             <SettingsStack.Screen name='Settings' component={SettingsScreen} options={{

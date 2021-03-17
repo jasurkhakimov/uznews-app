@@ -17,12 +17,15 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "facebookScheme": "fb752420818926196",
+    "facebookAppId": "752420818926196",
+    "facebookDisplayName": "Uznews",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.webiosandroid.all",
+      "bundleIdentifier": "com.webiosandroid.all2",
       "config": {
         "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.592382858742-egk0eqdqvm8h7q1vutu62fj6672bngj"
+          "reservedClientId": "com.googleusercontent.apps.720560601108-iah91edkpqtmcq8kjrcf7n1qobv2mj1g"
         }
       }
     },

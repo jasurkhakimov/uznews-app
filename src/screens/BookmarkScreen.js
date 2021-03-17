@@ -200,7 +200,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         padding: 40,
         width: '75%',
-        borderRadius: 15
+        borderRadius: 15,
+        flexDirection: 'row',
     },
     authText: {
         fontSize: 18,
@@ -211,14 +212,15 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 50,
-        marginTop: 12,
+        // marginTop: 12,
+        marginRight: 12,
     },
     authBtnOutline: {
         backgroundColor: '#eee',
         paddingVertical: 12,
         paddingHorizontal: 12,
         borderRadius: 50,
-        marginTop: 12,
+        // marginTop: 12,
     },
     authBtnText: {
         color: '#fff',

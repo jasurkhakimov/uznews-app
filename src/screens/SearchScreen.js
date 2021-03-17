@@ -70,10 +70,10 @@ const SearchScreen = ({ navigation }) => {
             
             let params = {
                 query: text,
-                limit: 8,
                 language: 1,
                 offset: newsUsed,
-            };
+                limit: 8
+            }
 
             await uznews.get('/search', {
                 params
@@ -82,7 +82,7 @@ const SearchScreen = ({ navigation }) => {
                 setNewsResults([...newsResults, ...response.data]);
             });
         } catch (err) {
-
+            console.log(err);
         }
     }
 

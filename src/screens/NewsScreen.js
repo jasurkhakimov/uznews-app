@@ -106,7 +106,7 @@ const NewsScreen = ({ route }) => {
                         <View style={{ flexDirection: 'row' }}>
                             <Icon name="clock-outline" width={16} height={16} fill='gray' />
                             <Text style={{ color: 'gray', fontSize: 12, paddingHorizontal: 4 }}>
-                                {day} {month}, {hour}:{min}
+                                {day} {month}, {hour}:{min < 10 ? "0" + min : min}
                             </Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
@@ -144,7 +144,7 @@ const NewsScreen = ({ route }) => {
                         }
                     }}
                     containerStyle={{
-                        // backgroundColor: '#fff',
+                        backgroundColor: '#fff',
                         padding: 8,
                         fontSize: 16
                     }}
@@ -268,7 +268,10 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#ecf0f1'
+        // backgroundColor: '#ecf0f1',
+        backgroundColor: '#fff',
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
     },
     title: {
         padding: 8,
@@ -290,11 +293,11 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 220,
     },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#ecf0f1',
-    },
+    // container: {
+    //     flex: 1,
+    //     justifyContent: 'center',
+    //     backgroundColor: '#fff',
+    // },
     header: {
         height: 220,
         // justifyContent: 'center'
