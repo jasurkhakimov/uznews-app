@@ -120,6 +120,12 @@ export default class ProfileScreen extends Component {
         try {
 
             const init = await Facebook.initializeAsync("752420818926196", "Uznews");
+            
+            // console.log(init);
+
+            // if (Platform.OS === "android") {
+                // Facebook.setLoginBehavior("web_only")
+            // }
 
             const {
                 type,
@@ -206,6 +212,8 @@ export default class ProfileScreen extends Component {
 
     logout = async () => {
         try {
+            // const fb = await Facebook.logOutAsync();
+            // console.log(fb);
             this.setState({ data: { loggedIn: false } })
             const jsonValue = JSON.stringify({ "data": { "loggedIn": false } })
             await AsyncStorage.setItem('@login_info', jsonValue)
@@ -217,7 +225,7 @@ export default class ProfileScreen extends Component {
             }
             // await AsyncStorage.removeItem('@login_info');
         } catch (e) {
-            // saving error
+            console.log(e);
         }
     }
 
