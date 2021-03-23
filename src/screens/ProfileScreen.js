@@ -39,6 +39,7 @@ export default class ProfileScreen extends Component {
             data: {
                 loggedIn: false,
             },
+            token: null,
         };
         this._isMounted = false;
 
@@ -119,7 +120,7 @@ export default class ProfileScreen extends Component {
     facebookLogIn = async () => {
         try {
 
-            const init = await Facebook.initializeAsync("752420818926196", "Uznews");
+            const init = await Facebook.initializeAsync({appId: "752420818926196", appName: "Uznews"});
             
             // console.log(init);
 
@@ -133,7 +134,7 @@ export default class ProfileScreen extends Component {
                 expires,
                 permissions,
                 declinedPermissions,
-            } = await Facebook.logInWithReadPermissionsAsync('752420818926196', {
+            } = await Facebook.logInWithReadPermissionsAsync({
                 permissions: ['public_profile'],
             });
             if (type === 'success') {
@@ -143,10 +144,10 @@ export default class ProfileScreen extends Component {
                     .then((data) => {
 
                         let userData = { "id": data.id, "name": data.name, "img_url": data.picture.data.url, "social_network": "facebook", "loggedIn": true };
-                        this.setState({ data: userData })
+                        this.setState({ data: userData, token: token })
                         this.getAuth(userData);
 
-                        // console.log(this.state.data);
+                        console.log(this.state.data);
 
                         (async () => {
                             try {
@@ -170,7 +171,7 @@ export default class ProfileScreen extends Component {
     signInWithGoogle = async () => {
 
         const IOS_CLIENT_ID =
-            "720560601108-iah91edkpqtmcq8kjrcf7n1qobv2mj1g.apps.googleusercontent.com";
+            "720560601108-mm1iuoqqv0hurgtra8lkrih1irvc1ndt.apps.googleusercontent.com";
 
         const ANDROID_CLIENT_ID =
             "720560601108-ivnmhrojdltthiecgvomeao2uvnhjopu.apps.googleusercontent.com";
@@ -179,7 +180,7 @@ export default class ProfileScreen extends Component {
             const result = await Google.logInAsync({
                 iosClientId: IOS_CLIENT_ID,
                 androidClientId: ANDROID_CLIENT_ID,
-                androidStandaloneAppClientId: "592382858742-98u1va7r0t5hgulc2lcktbq8bsuntppf.apps.googleusercontent.com",
+                androidStandaloneAppClientId: "720560601108-7glk0jr4qth4m4tontfgh32tl0ani32o.apps.googleusercontent.com",
                 // iosStandaloneAppClientId: "592382858742-egk0eqdqvm8h7q1vutu62fj6672bngjd.apps.googleusercontent.com",
                 iosStandaloneAppClientId: "720560601108-iah91edkpqtmcq8kjrcf7n1qobv2mj1g.apps.googleusercontent.com",
                 scopes: ["profile", "email"]
@@ -212,8 +213,13 @@ export default class ProfileScreen extends Component {
 
     logout = async () => {
         try {
-            // const fb = await Facebook.logOutAsync();
-            // console.log(fb);
+
+            if (this.state.data.social_network == 'facebook') {
+                const init = await Facebook.initializeAsync({appId: "752420818926196", appName: "Uznews"});
+
+                const fb = await Facebook.logOutAsync();
+                // console.log(fb);
+            }
             this.setState({ data: { loggedIn: false } })
             const jsonValue = JSON.stringify({ "data": { "loggedIn": false } })
             await AsyncStorage.setItem('@login_info', jsonValue)

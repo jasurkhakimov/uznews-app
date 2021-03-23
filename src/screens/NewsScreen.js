@@ -146,11 +146,12 @@ const NewsScreen = ({ route }) => {
                     containerStyle={{
                         backgroundColor: '#fff',
                         padding: 8,
-                        fontSize: 16
+                        fontSize: 16,
+                        width: contentWidth,
                     }}
                     ptSize={1.5}
-                    defaultWebViewProps={{  }}
-                    renderersProps={{ iframe: { scalesPageToFit: true, height: 100, webViewProps: { height: 100 } }}}
+                    defaultWebViewProps={{ }}
+                    renderersProps={{ iframe: { scalesPageToFit: true, height: 90, webViewProps: { height: 90 } }}}
                     alterChildren = { (node) => {
                         if (node.name === 'iframe') {
                             delete node.attribs.width;
