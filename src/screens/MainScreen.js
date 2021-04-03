@@ -59,12 +59,20 @@ const MainScreen = ({ navigation }) => {
 
 
     
-
-
+    
     const onRefresh = () => {
         NewsFeedApi(8);
         CategoryApi();
     };
+    // React.useEffect(() => {
+    //     const unsubscribe = navigation.addListener('focus', () => {
+    //       // do something
+    //         onRefresh();
+
+    //     });
+    
+    //     return unsubscribe;
+    //   }, [navigation]);
 
     if (locale.substring(0, 2) != lang_main) {
         setLangMain(locale.substring(0, 2))

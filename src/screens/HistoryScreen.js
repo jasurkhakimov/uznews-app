@@ -95,9 +95,21 @@ const HistoryScreen = ({ navigation }) => {
         getResult();
     };
 
-    useEffect(() => {
-        getResult();
-    }, [])
+    
+
+    // useEffect(() => {
+    //     const unsubscribe = navigation.addListener('tabPress', (e) => {
+    //         // Prevent default behavior
+    //         e.preventDefault();
+    //         console.log('hello')
+            
+    //         getResult();
+    //         // Do something manually
+    //         // ...
+    //       });
+        
+    //       return unsubscribe;
+    // }, [navigation])
 
 
 
@@ -123,16 +135,26 @@ const HistoryScreen = ({ navigation }) => {
         </View>
     );
 
-    useEffect(() => {
-        getResult();
-    }, [])
+    // useEffect(() => {
+    //     getResult();
+    // }, [])
+
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+          // do something
+            getResult();
+
+        });
+    
+        return unsubscribe;
+      }, [navigation]);
 
     if (!user_id) {
         return (
             <View style={styles.authContainer}>
                 <View style={styles.authBlock}>
                     
-                    <TouchableOpacity style={styles.authBtn} onPress={() => navigation.navigate('Profile')}>
+                    <TouchableOpacity style={styles.authBtn} onPress={() => navigation.navigate('SettingsTab', { screen: 'Profile' })}>
                         <Text style={styles.authBtnText}> {t('auth')} </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.authBtnOutline} onPress={() => getResult()}>
@@ -177,7 +199,7 @@ const HistoryScreen = ({ navigation }) => {
             <View style={[styles.container, { backgroundColor: '#eee' }]}>
                 <Text style={styles.emptyText}>{t('no_history')}</Text>
                 <TouchableOpacity style={[styles.authBtnOutline, {backgroundColor: '#fff'}]} onPress={getResult}>
-                    <Icon name="refresh-outline" width={20} height={20} fill='#20235a' />
+                    <Icon name="refresh-outline" width={15} height={15} fill='#20235a' />
                 </TouchableOpacity>
             </View>
         )
@@ -236,7 +258,7 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
     emptyText: {
-        fontSize: 22,
+        fontSize: 18,
         color: '#20235a',
         fontWeight: 'bold',
         marginBottom: 12

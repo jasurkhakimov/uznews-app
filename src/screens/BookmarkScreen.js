@@ -111,15 +111,21 @@ const BookmarkScreen = ({ navigation }) => {
         </View>
     );
 
-    useEffect(() => {
-        getResult();
-    }, [])
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+          // do something
+            getResult();
+
+        });
+    
+        return unsubscribe;
+      }, [navigation]);
 
     if(!user_id) {
         return (
             <View style={styles.authContainer}>
                 <View style={styles.authBlock}>
-                <TouchableOpacity style={styles.authBtn} onPress={() => navigation.navigate('Profile')}>
+                <TouchableOpacity style={styles.authBtn} onPress={() => navigation.navigate('SettingsTab', { screen: 'Profile' })}>
                         <Text style={styles.authBtnText}> {t('auth')} </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.authBtnOutline} onPress={() => getResult()}>

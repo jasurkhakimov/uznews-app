@@ -439,6 +439,7 @@ const MainTabScreen = () => {
                         <Icon name="home-outline" fill={color} width={26} height={26} />
                     ),
                 }}
+                
             />
             <Tab.Screen
                 name="HistoryTab"
@@ -449,6 +450,15 @@ const MainTabScreen = () => {
                         <Icon name="eye-outline" fill={color} width={26} height={26} />
                     ),
                 }}
+                listeners={({ navigation, route }) => ({
+                    tabPress: e => {
+                      // Prevent default action
+                      e.preventDefault();
+                
+                      // Do something with the `navigation` object
+                      navigation.navigate('HistoryTab');
+                    },
+                  })}
             />
             <Tab.Screen
                 name="AddNewsTab"

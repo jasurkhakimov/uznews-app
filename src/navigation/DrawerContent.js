@@ -97,8 +97,8 @@ const SocialMedia = () => {
             <TouchableOpacity onPress={() => SocMedia('https://facebook.com/uznews.uz')}>
                 <MaterialCommunityIcons  name='facebook' color='#20235a' size={21} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => SocMedia('https://facebook.com/uznews.uz')}>
-                <MaterialCommunityIcons  name='twitter' color='#20235a' size={21} />
+            <TouchableOpacity onPress={() => SocMedia('https://vk.com/uznews')}>
+                <MaterialCommunityIcons  name='vk' color='#20235a' size={21} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => SocMedia('https://instagram.com/uznews')}>
                 <MaterialCommunityIcons  name='instagram' color='#20235a' size={21} />

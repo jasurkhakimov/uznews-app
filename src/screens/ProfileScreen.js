@@ -120,7 +120,7 @@ export default class ProfileScreen extends Component {
     facebookLogIn = async () => {
         try {
 
-            const init = await Facebook.initializeAsync({appId: "752420818926196", appName: "Uznews"});
+            const init = await Facebook.initializeAsync("752420818926196", "Uznews");
             
             // console.log(init);
 
@@ -214,12 +214,6 @@ export default class ProfileScreen extends Component {
     logout = async () => {
         try {
 
-            if (this.state.data.social_network == 'facebook') {
-                const init = await Facebook.initializeAsync({appId: "752420818926196", appName: "Uznews"});
-
-                const fb = await Facebook.logOutAsync();
-                // console.log(fb);
-            }
             this.setState({ data: { loggedIn: false } })
             const jsonValue = JSON.stringify({ "data": { "loggedIn": false } })
             await AsyncStorage.setItem('@login_info', jsonValue)

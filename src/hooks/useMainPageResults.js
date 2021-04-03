@@ -175,6 +175,7 @@ export default () => {
                     await uznews.get('/feed', {
                         params
                     }).then(async (response) => {
+                        // console.log(response);
                         setLoading(false);
                         setNewsResults(null);
                         setNewsResults(response.data.articles);
@@ -183,7 +184,7 @@ export default () => {
                         setRefreshing(false)
                     });
                 } catch (err) {
-
+                    console.log(err)
                 }
             })
         } catch (err) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, StyleSheet, ActivityIndicator, Image, useWindowDimensions } from 'react-native';
+import { Share, Button, ScrollView, View, Text, StyleSheet, ActivityIndicator, Image, useWindowDimensions, TouchableOpacity } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import uznews from '../api/uznews';
 import { Avatar } from 'react-native-paper';
@@ -12,38 +12,44 @@ import WebView from 'react-native-webview';
 
 WebView.defaultProps.useWebKit = true;
 
-const NewsScreen = ({ route }) => {
+const NewsScreen = ({ route, navigation }) => {
 
     const [result, setResult] = useState(null);
+    const [recs, setRecs] = useState(null);
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
     const [hour, setHour] = useState('');
     const [min, setMin] = useState('');
     const [webViewHeight, setWebViewHeight] = React.useState(null);
     const { t, locale, setLocale } = React.useContext(LocalizationContext);
+    const [loading, setLoading] = useState(true);
 
     const contentWidth = useWindowDimensions().width;
 
-    const onMessage = (event) => {
-        setWebViewHeight(Number(event.nativeEvent.data));
+    // const onMessage = (event) => {
+    //     setWebViewHeight(Number(event.nativeEvent.data));
+    // }
+
+    // const onShouldStartLoadWithRequest = (request) => {
+    //     if (request.navigationType === 'click') {
+    //         // Open all new click-throughs in external browser.
+    //         Linking.openURL(request.url);
+    //         return false;
+    //     }
+    //     return true;
+    // }
+
+    const showNews = (id, user_id) => {
+        // setResult(null);
+        getResult(id);
     }
 
-    const onShouldStartLoadWithRequest = (request) => {
-        if (request.navigationType === 'click') {
-            // Open all new click-throughs in external browser.
-            Linking.openURL(request.url);
-            return false;
-        }
-        return true;
-    }
-
-
-    // console.log(navigation);
     const id = route.params.id;
     const lang = route.params.lang;
     const user_id = route.params.user_id;
 
     const getResult = async (id) => {
+        setLoading(true);
         await uznews.get(`/article/${id}`, {
             params: {
                 user: user_id
@@ -53,28 +59,35 @@ const NewsScreen = ({ route }) => {
             response.data.text_ru = response.data.text_ru.split('\r\n\r\n<p>&nbsp;</p>').join('').split('src=\"/upload/').join(`src=\"${uznews_url}/upload/`);
             // response.data.text_ru = response.data.text_ru.split("\r\n").join('');
             response.data.text_ru = response.data.text_ru.split('<p style="text-align: left;">&nbsp;</p>').join('');
+            // response.data.text_ru = response.data.text_ru.split(` `).join(' ').split('<br />').join('');
+            response.data.text_ru = '<div class="mobileAppCustomFont">' + response.data.text_ru + '</div>';
             setResult(response.data);
+            // console.log('log: ****', response.data.text_ru);
             const date = new Date(Date.parse(response.data.date));
             const months = [t('january'), t('february'), t('march'), t('april'), t('may'), t('june'), t('july'), t('august'), t('september'), t('october'), t('november'), t('december')];
             setHour(date.getHours())
             setMin(date.getMinutes())
             setMonth(months[date.getMonth()])
-            setDay(date.getDate())
+            setDay(date.getDate());
+
+            uznews.get(`/recommended/${id}`).then(response => {
+                // console.log(response.data.articles);
+                setRecs(response.data.articles);
+                setLoading(false);
+                
+            });
 
         }).catch(err => {
             console.log(err);
         });
     };
 
-    if (result) {
-
-    }
 
     useEffect(() => {
         getResult(id);
     }, [])
 
-    if (!result) {
+    if (loading) {
         return (
             <View style={styles.container}>
                 <ActivityIndicator size={30} color='#20235a' />
@@ -85,6 +98,26 @@ const NewsScreen = ({ route }) => {
     const renderers = {
         iframe
     }
+
+    const onShare = async () => {
+        try {
+            const result = await Share.share({
+                message: "https://uznews.uz" + `/article/${id}`,
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
 
     return (
         <View style={styles.container}>
@@ -139,128 +172,84 @@ const NewsScreen = ({ route }) => {
                             // marginBottom: 5,
                             // marginTop: 5,
                         },
+                        body: {
+                            fontSize: 16
+                        },
                         p: {
                             marginVertical: 8
+                        },
+                        br: {
+                            content: '',
+                            lineHeight: 200
+                        },
+                        a: {
+                            fontSize: 16
+                        }
+                    }}
+                    classesStyles={{
+                        'mobileAppCustomFont': {
+                            fontSize: 16
                         }
                     }}
                     containerStyle={{
                         backgroundColor: '#fff',
-                        padding: 8,
+                        padding: 12,
                         fontSize: 16,
                         width: contentWidth,
                     }}
                     ptSize={1.5}
-                    defaultWebViewProps={{ }}
-                    renderersProps={{ iframe: { scalesPageToFit: true, height: 90, webViewProps: { height: 90 } }}}
-                    alterChildren = { (node) => {
+                    defaultWebViewProps={{}}
+                    renderersProps={{ iframe: { scalesPageToFit: true, height: 90, webViewProps: { height: 90 } } }}
+                    alterChildren={(node) => {
                         if (node.name === 'iframe') {
                             delete node.attribs.width;
                             delete node.attribs.height;
-                        } 
+                        }
                         return node.children;
                     }}
                 />
 
-                {/* <WebView
-                    source={{ html: result.text_ru }}
-                    bounces={true}
-                    style={{
-                        // width: '100%',
-                        height: 100
-                    }}
-                    scrollEnabled={false}
-                    scalesPageToFit={false}
-                    automaticallyAdjustContentInsets={true}
-                    onMessage={onMessage}
-                    injectedJavaScript={`
-                        let images = document.getElementsByTagName('img')
-                        for (image of images) {                      
-                        
-                            image.src = "http://uznews.l-b.uz/upload/cache/d2/26/d2261c8d84e2b63df7b2a564e29cdfb0.jpg"
-                            image.alt = "http://uznews.l-b.uz/upload/cache/d2/26/d2261c8d84e2b63df7b2a564e29cdfb0.jpg"
-                            image.width = document.body.width
-                            image.height = 220
+                <View style={styles.shereContainer}>
+                    <TouchableOpacity onPress={onShare} style={styles.shereBtn}>
+                        <Text style={styles.shareBtnText}>
+                            {t('share')}
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+
+                <View style={styles.recsContainer}>
+                    <Text style={styles.recTitleText}>
+                        {t('recs_title')}
+                    </Text>
+
+                    <ScrollView>
+
+                        {
+                            recs ? recs.map((item, key) => {
+                                return (
+                                    <TouchableOpacity onPress={() => showNews(item.id, user_id)} key={key} style={styles.recNewsBlock}>
+                                        <Image source={{ uri: item.image_name }} style={styles.recImg} />
+                                        <View style={{ marginHorizontal: 12 }}>
+                                            <Text style={styles.recTitle}>
+                                                {item.title_ru}
+                                            </Text>
+                                            <Text style={styles.recSubTitle}>
+                                                {item.category.title_ru}
+                                            </Text>
+                                            
+                                        </View>
+                                    </TouchableOpacity>
+                                )
+                            }) : null
                         }
-
-                        var imgs = document.getElementsByTagName("img");
                         
-                        for (var i = 0; i < imgs.length; i++) {
-                            imgs[i].src = "http://uznews.l-b.uz" + imgs[i].getAttribute('src');
-                        }
-
-
-                        window.ReactNativeWebView.postMessage(Math.max(0, document.body.scrollHeight ));
-
-                        const meta = document.createElement('meta'); meta.setAttribute('content', 'width=width, initial-scale=0.5, maximum-scale=0.5, user-scalable=2.0'); meta.setAttribute('name', 'viewport'); 
                         
-                        document.getElementsByTagName('head')[0].appendChild(meta);
-
-                    `}
-                    style={styles.content}
-                    onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
-                    
-                /> */}
+                    </ScrollView>
+                </View>
             </ScrollView>
         </View>
     );
-
-    // window.ReactNativeWebView.postMessage(Math.max(0, document.body.scrollHeight ));
-    //                     let x = document.querySelectorAll("img");
-    //                     let i;
-
-    //                     let images = document.getElementsByTagName('img')
-
-    //                     for (image of images) {
-
-    //                         image.src = "http://uznews.l-b.uz" + text[x] // set the src to that URL
-    //                     }
-
-    //                     for (i = 0; i < x.length; i++) {
-    //                         x[i].style.width = '100%';
-    //                         x[i].style.height = 200;
-    //                     }
-    //                     const meta = document.createElement('meta'); meta.setAttribute('content', 'width=width, initial-scale=0.5, maximum-scale=0.5, user-scalable=2.0'); meta.setAttribute('name', 'viewport'); 
-
-    //                     document.getElementsByTagName('head')[0].appendChild(meta);
-
-
-    // return (
-    //     <View style={styles.container}>
-    //         <ScrollView scontentContainerStyle={{ flexGrow: 1, height: styles.imgContainer.height + webViewHeight }}>
-    //             <View style={styles.imgContainer}>
-    //                 <Image
-    //                     style={styles.imgMain}
-    //                     source={{
-    //                         uri: result.image_name,
-    //                     }}
-    //                 />
-    //             </View>
-
-    //             {/* <Text>{result.text_ru}</Text> */}
-    //             <WebView
-    //                 style={{ width: '100%', resizeMode: 'cover', flex: 1, color: 'red' }}
-    //                 originWhitelist={['*']}
-    //                 source={{ html: result.text_ru }}
-    //                 bounces={true}
-    //                 scrollEnabled={false}
-    //                 onMessage={onMessage}
-    //                 scalesPageToFit={false}
-    //                 automaticallyAdjustContentInsets={true}
-    //                 scrollEnabled={false}
-    //                 injectedJavaScript={`
-    //             window.ReactNativeWebView.postMessage(Math.max(document.body.offsetHeight, document.body.scrollHeight));
-    //             let x = document.querySelectorAll("img");
-    //             let i;
-    //             for (i = 0; i < x.length; i++) {
-    //             x[i].style.width = '100%';
-    //             x[i].style.height = 200;
-    //             }
-    //             `}
-    //                 onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
-    //             />
-    //         </ScrollView>
-    //     </View>
-    // )
 };
 
 const styles = StyleSheet.create({
@@ -283,7 +272,8 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#20235a'
+        color: '#20235a',
+        paddingTop: 12
     },
     imgContainer: {
         justifyContent: 'center',
@@ -323,6 +313,64 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#20235a',
         fontWeight: 'bold'
+    },
+    shereContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginVertical: 8,
+    },
+    shereBtn: {
+        backgroundColor: '#485782',
+        paddingVertical: 8,
+        paddingHorizontal: 24,
+        borderRadius: 50,
+        marginHorizontal: 16
+    },
+    shareBtnText: {
+        color: '#fff',
+        fontWeight: 'bold'
+    },
+    recsContainer: {
+        padding: 12,
+        paddingBottom: 0
+    },
+    recTitleText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#747e89',
+        marginBottom: 12
+    },
+    recNewsBlock: {
+        display: 'flex',
+        flexDirection: 'row',
+        // alignItems: 'center',
+        padding: 8,
+        borderWidth: 1,
+        borderColor: '#c9c9c9',
+        borderRadius: 4,
+        marginBottom: 12,
+        flexWrap: 'wrap',
+        width: '100%'
+    },
+    recImg: {
+        width: 110,
+        height: 65,
+    },
+    recTitle: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: '#20235a',
+        // marginBottom: 12б,
+        // backgroundColor: 'red',
+        display: 'flex',
+        flexWrap: 'wrap',
+        maxWidth: 250
+    },
+    recSubTitle: {
+        fontSize: 10,
+        fontWeight: 'bold',
+        color: '#747e89',
+        marginTop: 6
     }
 });
 
