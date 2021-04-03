@@ -28,7 +28,7 @@
           "reservedClientId": "com.googleusercontent.apps.720560601108-iah91edkpqtmcq8kjrcf7n1qobv2mj1g"
         }
       },
-      "buildNumber": "1.0.3"
+      "buildNumber": "1.0.4"
     },
     "web": {
       "favicon": "./assets/favicon.png"
