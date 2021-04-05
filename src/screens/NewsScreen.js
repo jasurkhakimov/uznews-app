@@ -230,14 +230,13 @@ const NewsScreen = ({ route, navigation }) => {
                                 return (
                                     <TouchableOpacity onPress={() => showNews(item.id, user_id)} key={key} style={styles.recNewsBlock}>
                                         <Image source={{ uri: item.image_name }} style={styles.recImg} />
-                                        <View style={{ marginHorizontal: 12 }}>
+                                        <View style={{ marginHorizontal: 12, width: '65%' }}>
                                             <Text style={styles.recTitle}>
                                                 {item.title_ru}
                                             </Text>
                                             <Text style={styles.recSubTitle}>
                                                 {item.category.title_ru}
                                             </Text>
-                                            
                                         </View>
                                     </TouchableOpacity>
                                 )
@@ -349,12 +348,13 @@ const styles = StyleSheet.create({
         borderColor: '#c9c9c9',
         borderRadius: 4,
         marginBottom: 12,
-        flexWrap: 'wrap',
+        // flexWrap: 'wrap',
         width: '100%'
     },
     recImg: {
-        width: 110,
-        height: 65,
+        width: '30%',
+        // height: '100%',
+        height: 62,
     },
     recTitle: {
         fontSize: 12,
@@ -362,9 +362,7 @@ const styles = StyleSheet.create({
         color: '#20235a',
         // marginBottom: 12б,
         // backgroundColor: 'red',
-        display: 'flex',
-        flexWrap: 'wrap',
-        maxWidth: 250
+        // maxWidth: 250
     },
     recSubTitle: {
         fontSize: 10,
