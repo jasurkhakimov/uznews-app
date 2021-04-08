@@ -1,20 +1,20 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\User\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add i18n-js
+  /usr/local/bin/node /usr/local/bin/yarnpkg add expo-notifications@~0.3.3
 
 PATH: 
-  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\7-Zip;C:\Program Files\nodejs\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk-14.0.2\bin;D:\soft\postgresql\bin;C:\xampp\php;C:\composer;C:\Users\User\AppData\Local\Programs\Python\Python38-32\Scripts\;C:\Users\User\AppData\Local\Programs\Python\Python38-32\;C:\Users\User\AppData\Local\Microsoft\WindowsApps;C:\Users\User\AppData\Roaming\npm;C:\Users\User\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\User\AppData\Roaming\Composer\vendor\bin
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
 
 Yarn version: 
   1.22.10
 
 Node version: 
-  12.18.3
+  14.15.3
 
 Platform: 
-  win32 x64
+  darwin x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'D:\react_native_eng\uznews-main\node_modules\@babel\helper-regex\lib'
+  Error: EACCES: permission denied, mkdir '/Users/akbarshuxratovich/Desktop/uznews/uznews-app/node_modules/expo-linking/node_modules/expo-constants'
 
 npm manifest: 
   {
@@ -53,7 +53,6 @@ npm manifest:
       "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
       "react-native-eva-icons": "^1.3.1",
       "react-native-gesture-handler": "~1.6.0",
-      "react-native-htmlview": "^0.16.0",
       "react-native-paper": "^3.10.1",
       "react-native-reanimated": "~1.9.0",
       "react-native-render-html": "^5.0.1",
@@ -62,7 +61,7 @@ npm manifest:
       "react-native-svg": "12.1.0",
       "react-native-tab-view": "^2.15.0",
       "react-native-web": "~0.11.7",
-      "react-native-webview": "^9.4.0",
+      "react-native-webview": "9.4.0",
       "react-native-webview-autoheight": "^1.0.6",
       "react-navigation": "^4.4.0"
     },
@@ -1096,6 +1095,11 @@ Lockfile:
       pouchdb-collections "^1.0.1"
       tiny-queue "^0.2.1"
   
+  "@formidable-webview/webshell@^2.2.0":
+    version "2.2.0"
+    resolved "https://registry.yarnpkg.com/@formidable-webview/webshell/-/webshell-2.2.0.tgz#f7bad395c5fe0c6447c2c20af4188c2bec0aeec0"
+    integrity sha512-d27iW4asclfvxMzcqq8ABe/Iz8MIEL7bPYKqHmPSw44yz400uDIw9KFUZ74aTcMQxjc7spz4geYDvy2P00DnWA==
+  
   "@hapi/address@2.x.x":
     version "2.1.4"
     resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -1182,6 +1186,15 @@ Lockfile:
       "@types/istanbul-reports" "^1.1.1"
       "@types/yargs" "^15.0.0"
       chalk "^3.0.0"
+  
+  "@native-html/iframe-plugin@^1.1.1":
+    version "1.1.1"
+    resolved "https://registry.yarnpkg.com/@native-html/iframe-plugin/-/iframe-plugin-1.1.1.tgz#6187949a4f282637e8fefa2d8ccdcf3eefc83314"
+    integrity sha512-lUCHVhsASdIHEtfYOXfG+DhQ75za6iaBaLACt46C3lYtWSDVl1XlpMHCg1cpvmFkD9QRX8r5PtXv3FIHJaxmLA==
+    dependencies:
+      "@formidable-webview/webshell" "^2.2.0"
+      "@types/prop-types" "^15.7.3"
+      prop-types "^15.7.2"
   
   "@react-native-community/async-storage@~1.11.0":
     version "1.11.0"
@@ -1417,6 +1430,11 @@ Lockfile:
     dependencies:
       "@types/istanbul-lib-coverage" "*"
       "@types/istanbul-lib-report" "*"
+  
+  "@types/prop-types@^15.7.3":
+    version "15.7.3"
+    resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
+    integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
   
   "@types/stack-utils@^1.0.1":
     version "1.0.1"
@@ -2463,7 +2481,7 @@ Lockfile:
       domhandler "^4.0.0"
       entities "^2.0.0"
   
-  domelementtype@1, domelementtype@^1.3.0:
+  domelementtype@1:
     version "1.3.1"
     resolved "https://registry.yarnpkg.com/domelementtype/-/domelementtype-1.3.1.tgz#d048c44b37b0d10a7f2a3d5fee3f4333d790481f"
     integrity sha512-BSKB+TSpMpFI/HOxCNr1O8aMOTZ8hT3pM3GQ0w/mWRmkhEDSFJkkyzz4XQsBV44BChwGkrDfMyjVD0eA2aFV3w==
@@ -2477,13 +2495,6 @@ Lockfile:
     version "2.1.0"
     resolved "https://registry.yarnpkg.com/domelementtype/-/domelementtype-2.1.0.tgz#a851c080a6d1c3d94344aed151d99f669edf585e"
     integrity sha512-LsTgx/L5VpD+Q8lmsXSHW2WpA+eBlZ9HPf3erD1IoPF00/3JKHZ3BknUVA2QGDNu69ZNmyFmCWBSO45XjYKC5w==
-  
-  domhandler@^2.3.0:
-    version "2.4.2"
-    resolved "https://registry.yarnpkg.com/domhandler/-/domhandler-2.4.2.tgz#8805097e933d65e85546f726d60f5eb88b44f803"
-    integrity sha512-JiK04h0Ht5u/80fdLMCEmV4zkNh2BcoMFBmZ/91WtYZ8qVXSKjiw7fXMgFPnHcSZgOo3XdinHvmnDUeMf5R4wA==
-    dependencies:
-      domelementtype "1"
   
   domhandler@^3.3.0:
     version "3.3.0"
@@ -2499,7 +2510,7 @@ Lockfile:
     dependencies:
       domelementtype "^2.1.0"
   
-  domutils@^1.5.1, domutils@^1.7.0:
+  domutils@^1.7.0:
     version "1.7.0"
     resolved "https://registry.yarnpkg.com/domutils/-/domutils-1.7.0.tgz#56ea341e834e06e6748af7a1cb25da67ea9f8c2a"
     integrity sha512-Lgd2XcJ/NjEw+7tFvfKxOzCYKZsdct5lczQ2ZaQY8Djz7pfAD3Gbp8ySJWtreII/vDlMVmxwa6pHmdxIYgttDg==
@@ -2554,11 +2565,6 @@ Lockfile:
     integrity sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==
     dependencies:
       once "^1.4.0"
-  
-  entities@^1.1.1:
-    version "1.1.2"
-    resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
-    integrity sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
   
   entities@^2.0.0:
     version "2.1.0"
@@ -2694,11 +2700,6 @@ Lockfile:
     version "5.0.1"
     resolved "https://registry.yarnpkg.com/event-target-shim/-/event-target-shim-5.0.1.tgz#5d4d3ebdf9583d63a5333ce2deb7480ab2b05789"
     integrity sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
-  
-  eventemitter2@^1.0.0:
-    version "1.0.5"
-    resolved "https://registry.yarnpkg.com/eventemitter2/-/eventemitter2-1.0.5.tgz#f983610517b1737c0b9dc643beca93893c04df18"
-    integrity sha1-+YNhBRexc3wLncZDvsqTiTwE3xg=
   
   eventemitter3@^3.0.0:
     version "3.1.2"
@@ -3376,19 +3377,6 @@ Lockfile:
     dependencies:
       react-is "^16.7.0"
   
-  htmlparser2-without-node-native@^3.9.2:
-    version "3.9.2"
-    resolved "https://registry.yarnpkg.com/htmlparser2-without-node-native/-/htmlparser2-without-node-native-3.9.2.tgz#b3ed050d877d0ff3465969e339877b7f9f6631f6"
-    integrity sha1-s+0FDYd9D/NGWWnjOYd7f59mMfY=
-    dependencies:
-      domelementtype "^1.3.0"
-      domhandler "^2.3.0"
-      domutils "^1.5.1"
-      entities "^1.1.1"
-      eventemitter2 "^1.0.0"
-      inherits "^2.0.1"
-      readable-stream "^2.0.2"
-  
   htmlparser2@5.0.1:
     version "5.0.1"
     resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-5.0.1.tgz#7daa6fc3e35d6107ac95a4fc08781f091664f6e7"
@@ -3465,7 +3453,7 @@ Lockfile:
       once "^1.3.0"
       wrappy "1"
   
-  inherits@2, inherits@2.0.4, inherits@^2.0.1, inherits@^2.0.3, inherits@~2.0.3:
+  inherits@2, inherits@2.0.4, inherits@^2.0.3, inherits@~2.0.3:
     version "2.0.4"
     resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
     integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
@@ -5034,14 +5022,6 @@ Lockfile:
       invariant "^2.2.4"
       prop-types "^15.7.2"
   
-  react-native-htmlview@^0.16.0:
-    version "0.16.0"
-    resolved "https://registry.yarnpkg.com/react-native-htmlview/-/react-native-htmlview-0.16.0.tgz#4a70d7c02ab3ab18e1cb708c0dcf0d99bc6c1cdc"
-    integrity sha512-yUrzXje+kKKLkWkccKNBeg3CbvrodA7f4+1d/XRrrg0SDFfIdj7NnjRdH+WXqGze6R501bfRZOPaZx/M5HTz3A==
-    dependencies:
-      entities "^1.1.1"
-      htmlparser2-without-node-native "^3.9.2"
-  
   react-native-iphone-x-helper@^1.3.0:
     version "1.3.1"
     resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
@@ -5194,7 +5174,7 @@ Lockfile:
       object-assign "^4.1.1"
       prop-types "^15.6.2"
   
-  readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.2.2, readable-stream@~2.3.6:
+  readable-stream@^2.0.1, readable-stream@^2.2.2, readable-stream@~2.3.6:
     version "2.3.7"
     resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.7.tgz#1eca1cf711aef814c04f62252a36a62f6cb23b57"
     integrity sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==

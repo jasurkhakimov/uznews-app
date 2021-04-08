@@ -28,7 +28,7 @@
           "reservedClientId": "com.googleusercontent.apps.720560601108-iah91edkpqtmcq8kjrcf7n1qobv2mj1g"
         }
       },
-      "buildNumber": "1.0.4"
+      "buildNumber": "1.0.5"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -41,7 +41,9 @@
           "apiKey": "AIzaSyCFiMtou2qVNyonxd9nsVce4BStD2oLXdw",
           "certificateHash": "75CDBC1C808E639BCBB6A75D653E85437B57BEDE"
         }
-      }
+      },
+      "googleServicesFile": "./google-services.json",
+      "useNextNotificationsApi": true
     }
   }
 }
