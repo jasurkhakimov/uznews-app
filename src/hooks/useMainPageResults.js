@@ -22,6 +22,8 @@ export default () => {
     const [usd, setUsd] = useState('');
     const [eur, setEur] = useState('');
     const [rub, setRub] = useState('');
+    const [mrot, setMrot] = useState('');
+    const [brv, setBrv] = useState('');
     const [mindsUsed, setMindsUsed] = useState(3);
     const [user_id, setUserId] = useState("");
     const [lang, setLang] = useState('');
@@ -40,19 +42,19 @@ export default () => {
         }
     }
 
-    const ExchangeApi = async () => {
-        try {
-            const response = await uznews.get('/exchange');
+    // const ExchangeApi = async () => {
+    //     try {
+    //         const response = await uznews.get('/exchange');
 
-            if (!cleanupFunction) {
-                setUsd(response.data[0].value);
-                setEur(response.data[1].value);
-                setRub(response.data[2].value);
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    }
+    //         if (!cleanupFunction) {
+    //             setUsd(response.data[0].value);
+    //             setEur(response.data[1].value);
+    //             setRub(response.data[2].value);
+    //         }
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    // }
 
     const storeData = async (value, key) => {
         try {
@@ -181,7 +183,15 @@ export default () => {
                         setNewsResults(response.data.articles);
                         // console.log("user id: ", await getUserId());
                         setMindsResults(response.data.minds);
-                        setRefreshing(false)
+                        setRefreshing(false);
+
+                        uznews.get('/exchange').then(response => {
+                            setUsd(response.data.usd.rate);
+                            setEur(response.data.eur.rate);
+                            setRub(response.data.rub.rate);
+                            setMrot(response.data.min_salary.MROT.value)
+                            setBrv(response.data.min_salary.BRV.value)
+                        });
                     });
                 } catch (err) {
                     console.log(err)
@@ -203,8 +213,6 @@ export default () => {
 
     useEffect(() => {
 
-        
-        ExchangeApi();
         NewsFeedApi(newsCount);
         CategoryApi();
 
@@ -224,6 +232,8 @@ export default () => {
             'usd': usd,
             'eur': eur,
             'rub': rub,
+            'mrot': mrot,
+            'brv': brv
         },
         ShowMoreNewsApi,
         categories,

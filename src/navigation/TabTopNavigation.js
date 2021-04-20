@@ -75,7 +75,7 @@ const MainStackScreen = ({ navigation }) => {
                     return (
                         <TouchableOpacity onPress={() => navigation.navigate('Main')}>
                                 <Image
-                                    style={{ width: 100, }}
+                                    style={{ width: 120, }}
                                     source={require('../../assets/logo.png')}
                                     resizeMode='contain'
                                 />
@@ -186,7 +186,7 @@ const HistoryStackScreen = ({ navigation }) => {
                 return (
                     <TouchableOpacity onPress={() => navigation.navigate('Main')}>
                             <Image
-                                style={{ width: 100, }}
+                                style={{ width: 120, }}
                                 source={require('../../assets/logo.png')}
                                 resizeMode='contain'
                             />
@@ -241,7 +241,7 @@ const AddNewsStackScreen = ({ navigation }) => {
                 return (
                     <TouchableOpacity onPress={() => navigation.navigate('Main')}>
                             <Image
-                                style={{ width: 100, }}
+                                style={{ width: 120, }}
                                 source={require('../../assets/logo.png')}
                                 resizeMode='contain'
                             />
@@ -296,7 +296,7 @@ const BookmarkStackScreen = ({ navigation }) => {
                 return (
                     <TouchableOpacity onPress={() => navigation.navigate('Main')}>
                             <Image
-                                style={{ width: 100, }}
+                                style={{ width: 120, }}
                                 source={require('../../assets/logo.png')}
                                 resizeMode='contain'
                             />
@@ -354,7 +354,7 @@ const SettingsStackScreen = ({ navigation }) => {
                 return (
                     <TouchableOpacity onPress={() => navigation.navigate('Main')}>
                             <Image
-                                style={{ width: 100, }}
+                                style={{ width: 120, }}
                                 source={require('../../assets/logo.png')}
                                 resizeMode='contain'
                             />
@@ -402,7 +402,7 @@ const LogoTitle = () => {
         <View>
 
             <Image
-                style={{ width: 100, }}
+                style={{ width: 120, }}
                 source={require('../../assets/logo.png')}
                 resizeMode='contain'
             />

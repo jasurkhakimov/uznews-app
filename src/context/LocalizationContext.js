@@ -92,6 +92,8 @@ const ru = {
     no_search_results: 'По вашему запросу ничего не найдено',
     send_news_tg: 'Написать нам в Telegram',
     recs_title: 'Рекомендуем прочитать',
+     brv: 'БРВ',
+     mrot: 'МРОТ',
 }
 
 const uz = {
@@ -182,6 +184,8 @@ const uz = {
     no_bookmarks: 'Сизда ҳали закладкалар йўқ',
     send_news_tg: 'Биз билан Телеграм орқали бўгланиш',
     recs_title: 'Ўқишга тавсия этамиз',
+    brv: 'БРВ',
+    mrot: 'МРОТ',
 }
 
 // const en = {

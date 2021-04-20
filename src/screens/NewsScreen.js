@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Share, Button, ScrollView, View, Text, StyleSheet, ActivityIndicator, Image, useWindowDimensions, TouchableOpacity } from 'react-native';
+import { Share, Button, ScrollView, View, Text, StyleSheet, ActivityIndicator, Image, useWindowDimensions, TouchableOpacity, Linking } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import uznews from '../api/uznews';
 import { Avatar } from 'react-native-paper';
@@ -9,6 +9,8 @@ import { uznews_url } from '../api/config';
 import iframe from '@native-html/iframe-plugin';
 import HTML from 'react-native-render-html';
 import WebView from 'react-native-webview';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 WebView.defaultProps.useWebKit = true;
 
@@ -62,7 +64,7 @@ const NewsScreen = ({ route, navigation }) => {
             // response.data.text_ru = response.data.text_ru.split(` `).join(' ').split('<br />').join('');
             response.data.text_ru = '<div class="mobileAppCustomFont">' + response.data.text_ru + '</div>';
             setResult(response.data);
-            // console.log('log: ****', response.data.text_ru);
+            // console.log('log: ****', response.data);
             const date = new Date(Date.parse(response.data.date));
             const months = [t('january'), t('february'), t('march'), t('april'), t('may'), t('june'), t('july'), t('august'), t('september'), t('october'), t('november'), t('december')];
             setHour(date.getHours())
@@ -74,7 +76,7 @@ const NewsScreen = ({ route, navigation }) => {
                 // console.log(response.data.articles);
                 setRecs(response.data.articles);
                 setLoading(false);
-                
+
             });
 
         }).catch(err => {
@@ -119,6 +121,11 @@ const NewsScreen = ({ route, navigation }) => {
     };
 
 
+    const SocMedia = (url) => {
+        return Linking.openURL(url);
+    }
+
+
     return (
         <View style={styles.container}>
             <ScrollView
@@ -127,10 +134,13 @@ const NewsScreen = ({ route, navigation }) => {
             >
                 <View style={styles.header}>
                     <Image source={{ uri: result.image_name }} style={styles.imgMain} />
+                    <View>
+                        <Text style={{ textAlign: 'right', marginRight: 8, marginTop: 4, fontSize: 10, color: 'gray' }}> {result.image_author} </Text>
+                    </View>
                 </View>
 
                 <View style={styles.title}>
-                    <View style={{ paddingTop: 5, flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ paddingTop: 0, flexDirection: 'row', alignItems: 'center' }}>
 
 
                         <Text style={{ color: '#20235a', fontWeight: 'bold', paddingRight: 5 }}>
@@ -173,7 +183,7 @@ const NewsScreen = ({ route, navigation }) => {
                             // marginTop: 5,
                         },
                         body: {
-                            fontSize: 16
+                            fontSize: 14
                         },
                         p: {
                             marginVertical: 8
@@ -183,12 +193,12 @@ const NewsScreen = ({ route, navigation }) => {
                             lineHeight: 200
                         },
                         a: {
-                            fontSize: 16
+                            fontSize: 14
                         }
                     }}
                     classesStyles={{
                         'mobileAppCustomFont': {
-                            fontSize: 16
+                            fontSize: 14
                         }
                     }}
                     containerStyle={{
@@ -210,11 +220,21 @@ const NewsScreen = ({ route, navigation }) => {
                 />
 
                 <View style={styles.shereContainer}>
-                    <TouchableOpacity onPress={onShare} style={styles.shereBtn}>
-                        <Text style={styles.shareBtnText}>
-                            {t('share')}
-                        </Text>
-                    </TouchableOpacity>
+
+                    <Text style={styles.shareBtnText}>
+                        {t('share')}:
+                    </Text>
+                    <View style={{display: 'flex', flexDirection: 'row', paddingTop: 8}}>
+                        <TouchableOpacity style={{marginRight: 12}} onPress={() => SocMedia('https://vk.com/share.php?url==https://uznews.uz/ru/article/' + id)}>
+                            <MaterialCommunityIcons name='vk' color='grey' size={21} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{marginRight: 12}} onPress={() => SocMedia('https://www.facebook.com/sharer/sharer.php?u=https://uznews.uz/ru/article/' + id)}>
+                            <MaterialCommunityIcons name='facebook' color='grey' size={19} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{marginRight: 8}} onPress={() => SocMedia('https://t.me/share/url?url=https://uznews.uz/ru/article/' + id)}>
+                            <MaterialCommunityIcons name='telegram' color='grey' size={21} />
+                        </TouchableOpacity>
+                    </View>
 
                 </View>
 
@@ -242,8 +262,8 @@ const NewsScreen = ({ route, navigation }) => {
                                 )
                             }) : null
                         }
-                        
-                        
+
+
                     </ScrollView>
                 </View>
             </ScrollView>
@@ -264,6 +284,7 @@ const styles = StyleSheet.create({
     },
     title: {
         padding: 8,
+        paddingTop: 4,
         backgroundColor: '#fff',
         borderBottomWidth: 1,
         borderBottomColor: '#eee',
@@ -289,7 +310,7 @@ const styles = StyleSheet.create({
     //     backgroundColor: '#fff',
     // },
     header: {
-        height: 220,
+        // height: 220,
         // justifyContent: 'center'
     },
     content: {
@@ -315,8 +336,9 @@ const styles = StyleSheet.create({
     },
     shereContainer: {
         display: 'flex',
-        flexDirection: 'row',
+        // flexDirection: 'row',
         marginVertical: 8,
+        paddingHorizontal: 12,
     },
     shereBtn: {
         backgroundColor: '#485782',
@@ -326,8 +348,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 16
     },
     shareBtnText: {
-        color: '#fff',
-        fontWeight: 'bold'
+        color: 'gray',
+        fontWeight: 'normal',
     },
     recsContainer: {
         padding: 12,
@@ -344,10 +366,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         // alignItems: 'center',
         padding: 8,
-        borderWidth: 1,
-        borderColor: '#c9c9c9',
-        borderRadius: 4,
-        marginBottom: 12,
+        paddingTop: 4,
+        borderBottomWidth: 1,
+        borderBottomColor: '#c9c9c9',
+        // borderRadius: 4,
+        marginBottom: 4,
         // flexWrap: 'wrap',
         width: '100%'
     },
