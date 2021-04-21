@@ -76,7 +76,7 @@ export default function App() {
                 <View style={styles.container}>
                     <Navigation />
                     <StatusBar />
-                    {/* <Text>{expoPushToken}</Text> */}
+                    <Text>{expoPushToken}</Text>
                 </View>
             </SafeAreaView>
         </LocalizationContext.Provider>
@@ -107,7 +107,8 @@ async function schedulePushNotification() {
         alert('Failed to get push token for push notification!');
         return;
       }
-      token = (await Notifications.getExpoPushTokenAsync()).data;
+      // token = (await Notifications.getExpoPushTokenAsync()).data;
+      token = (await Notifications.getDevicePushTokenAsync()).data;
       console.log(token);
     } else {
       alert('Must use physical device for Push Notifications');
