@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         justifyContent: 'center',
         flexDirection: 'row',
-        backgroundColor: '#475681'
+        backgroundColor: '#4e6293'
     },
     google: {
         backgroundColor: '#c71610'
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
         borderRadius: 15
     },
     img: {
-        backgroundColor: '#475681'
+        backgroundColor: '#4e6293'
     },
     profileText: {
         marginLeft: 15
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
     labelText: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#475681'
+        color: '#4e6293'
     },
     socNet: {
         fontSize: 14

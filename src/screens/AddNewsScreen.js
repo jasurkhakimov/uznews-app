@@ -299,7 +299,7 @@ const AddNewsScreen = ({ navigation }) => {
                         },
                     }}
                     style={{
-                        backgroundColor: '#475681'
+                        backgroundColor: '#4e6293'
                     }}
                 >
                     {snackText}
@@ -382,11 +382,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
         marginBottom: 10,
-        backgroundColor: '#475681',
+        backgroundColor: '#4e6293',
         paddingVertical: 12,
         borderRadius: 50,
         borderWidth: 2,
-        borderColor: '#475681'
+        borderColor: '#4e6293'
     },
     btnOutline: {
         backgroundColor: 'transparent',
@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
         letterSpacing: 0.5
     },
     btnOutlineText: {
-        color: '#475681'
+        color: '#4e6293'
     },
     img: {
         margin: 15
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
         color: '#20235a',
     },
     authBtn: {
-        backgroundColor: '#475681',
+        backgroundColor: '#4e6293',
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 50,

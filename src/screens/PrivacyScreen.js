@@ -27,7 +27,7 @@ const PrivacyScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     btn: {
         flexDirection: 'row',
-        backgroundColor: '#475681',
+        backgroundColor: '#4e6293',
         padding: 12,
         margin: 15,
         borderRadius: 50,

@@ -76,7 +76,7 @@ export default function App() {
                 <View style={styles.container}>
                     <Navigation />
                     <StatusBar />
-                    <Text>{expoPushToken}</Text>
+                    {/* <Text>{expoPushToken}</Text> */}
                 </View>
             </SafeAreaView>
         </LocalizationContext.Provider>
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     langBlockText: {
         fontSize: 24,
         fontWeight: "bold",
-        color: '#475681',
+        color: '#4e6293',
         marginBottom: 16
     },
     langBlockBtn: {
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     langBlockBtnText: {
         fontWeight: 'bold',
         fontSize: 16,
-        color: '#475681',
+        color: '#4e6293',
     }
 });
 

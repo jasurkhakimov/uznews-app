@@ -31,7 +31,7 @@ const MainStackScreen = ({ navigation }) => {
     return (
         <MainStack.Navigator screenOptions={{
             headerStyle: {
-                backgroundColor: '#fff',
+                backgroundColor: '#4e6293',
                 elevation: 0, // remove shadow on Android
                 shadowOpacity: 0,
 
@@ -50,7 +50,7 @@ const MainStackScreen = ({ navigation }) => {
                     return (
                         <View>
                             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                                <Icon name='menu-outline' width={24} height={24} fill='#20235a' />
+                                <Icon name='menu-outline' width={24} height={24} fill='#fff' />
                             </TouchableOpacity>
                         </View>
                     )
@@ -64,7 +64,7 @@ const MainStackScreen = ({ navigation }) => {
                 headerRight: () => {
                     return (
                         <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-                            <Icon name='search-outline' width={24} height={24} fill='#20235a' />
+                            <Icon name='search-outline' width={24} height={24} fill='#fff' />
                         </TouchableOpacity>
                     )
                 },
@@ -74,89 +74,85 @@ const MainStackScreen = ({ navigation }) => {
                 headerTitle: (props) => {
                     return (
                         <TouchableOpacity onPress={() => navigation.navigate('Main')}>
-                                <Image
-                                    style={{ width: 120, }}
-                                    source={require('../../assets/logo.png')}
-                                    resizeMode='contain'
-                                />
+                                <LogoTitle />
                         </TouchableOpacity>
                     )
                 },
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
-                    // backgroundColor: 'transparent',
+                    backgroundColor: '#4e6293',
                     elevation: 0, // remove shadow on Android
                     shadowOpacity: 0,
                 },
             }} />
             <MainStack.Screen name='Category' component={CategoryScreen} options={{
                 headerTitle: t('categories'),
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
-                    // backgroundColor: 'transparent',
+                    backgroundColor: '#4e6293',
                     elevation: 0, // remove shadow on Android
                     shadowOpacity: 0,
                 },
             }} />
             <MainStack.Screen name='About' component={AboutScreen} options={{
                 headerTitle: t('about_project'),
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
-                    // backgroundColor: 'transparent',
+                    backgroundColor: '#4e6293',
                     elevation: 0, // remove shadow on Android
                     shadowOpacity: 0,
                 },
             }} />
             <MainStack.Screen name='Contacts' component={ContactsScreen} options={{
                 headerTitle: t('contacts'),
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
-                    // backgroundColor: 'transparent',
+                    backgroundColor: '#4e6293',
                     elevation: 0, // remove shadow on Android
                     shadowOpacity: 0,
                 },
             }} />
             <MainStack.Screen name='Adv' component={AdvScreen} options={{
                 headerTitle: t('adv'),
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
-                    // backgroundColor: 'transparent',
+                    backgroundColor: '#4e6293',
                     elevation: 0, // remove shadow on Android
                     shadowOpacity: 0,
                 },
             }} />
             <MainStack.Screen name='Privacy' component={PrivacyScreen} options={{
                 headerTitle: t('private_policy'),
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
-                    // backgroundColor: 'transparent',
+                    backgroundColor: '#4e6293',
                     elevation: 0, // remove shadow on Android
                     shadowOpacity: 0,
                 },
             }} />
             <MainStack.Screen name='TermsOfUse' component={TermsOfUseScreen} options={{
                 headerTitle: t('terms_of_use'),
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
-                    // backgroundColor: 'transparent',
+                    backgroundColor: '#4e6293',
                     elevation: 0, // remove shadow on Android
                     shadowOpacity: 0,
                 },
             }} />
             <MainStack.Screen name='UseOfMaterials' component={UseOfMaterialsScreen} options={{
                 headerTitle: t('use_of_materials'),
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
-                    // backgroundColor: 'transparent',
+                    backgroundColor: '#4e6293',
                     elevation: 0, // remove shadow on Android
                     shadowOpacity: 0,
                 },
             }} />
             <MainStack.Screen name='Search' component={SearchScreen} options={{
                 headerTitle: t('search'),
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
-                    // backgroundColor: 'transparent',
+                    backgroundColor: '#4e6293',
                     elevation: 0, // remove shadow on Android
                     shadowOpacity: 0,
                 },
@@ -171,7 +167,7 @@ const HistoryStackScreen = ({ navigation }) => {
     return (
         <HistoryStack.Navigator screenOptions={{
             headerStyle: {
-                backgroundColor: '#fff',
+                backgroundColor: '#4e6293',
                 elevation: 0, // remove shadow on Android
                 shadowOpacity: 0,
 
@@ -185,11 +181,7 @@ const HistoryStackScreen = ({ navigation }) => {
             headerTitle: (props) => {
                 return (
                     <TouchableOpacity onPress={() => navigation.navigate('Main')}>
-                            <Image
-                                style={{ width: 120, }}
-                                source={require('../../assets/logo.png')}
-                                resizeMode='contain'
-                            />
+                            <LogoTitle {...props} />
                     </TouchableOpacity>
                 )
             },
@@ -199,7 +191,7 @@ const HistoryStackScreen = ({ navigation }) => {
                 headerLeft: () => {
                     return (
                         <TouchableOpacity>
-                            <Icon name='menu-outline' onPress={() => navigation.openDrawer()} width={24} height={24} fill='#20235a' />
+                            <Icon name='menu-outline' onPress={() => navigation.openDrawer()} width={24} height={24} fill='#fff' />
                         </TouchableOpacity>
                     )
                 },
@@ -209,7 +201,7 @@ const HistoryStackScreen = ({ navigation }) => {
             }} />
             {/* <HistoryStack.Screen name='News' component={NewsScreen} options={{
                 headerTitle: 'Новости',
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
                     // backgroundColor: 'transparent',
                     elevation: 0, // remove shadow on Android
@@ -226,7 +218,7 @@ const AddNewsStackScreen = ({ navigation }) => {
     return (
         <AddNewsStack.Navigator screenOptions={{
             headerStyle: {
-                backgroundColor: '#fff',
+                backgroundColor: '#4e6293',
                 elevation: 0, // remove shadow on Android
                 shadowOpacity: 0,
 
@@ -240,11 +232,7 @@ const AddNewsStackScreen = ({ navigation }) => {
             headerTitle: (props) => {
                 return (
                     <TouchableOpacity onPress={() => navigation.navigate('Main')}>
-                            <Image
-                                style={{ width: 120, }}
-                                source={require('../../assets/logo.png')}
-                                resizeMode='contain'
-                            />
+                            <LogoTitle {...props} />
                     </TouchableOpacity>
                 )
             },
@@ -254,7 +242,7 @@ const AddNewsStackScreen = ({ navigation }) => {
                 headerLeft: () => {
                     return (
                         <TouchableOpacity>
-                            <Icon name='menu-outline' onPress={() => navigation.openDrawer()} width={24} height={24} fill='#20235a' />
+                            <Icon name='menu-outline' onPress={() => navigation.openDrawer()} width={24} height={24} fill='#fff' />
                         </TouchableOpacity>
                     )
                 },
@@ -264,7 +252,7 @@ const AddNewsStackScreen = ({ navigation }) => {
             }} />
             {/* <HistoryStack.Screen name='News' component={NewsScreen} options={{
                 headerTitle: 'Новости',
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
                     // backgroundColor: 'transparent',
                     elevation: 0, // remove shadow on Android
@@ -281,7 +269,7 @@ const BookmarkStackScreen = ({ navigation }) => {
     return (
         <BookmarkStack.Navigator screenOptions={{
             headerStyle: {
-                backgroundColor: '#fff',
+                backgroundColor: '#4e6293',
                 elevation: 0, // remove shadow on Android
                 shadowOpacity: 0,
 
@@ -295,11 +283,7 @@ const BookmarkStackScreen = ({ navigation }) => {
             headerTitle: (props) => {
                 return (
                     <TouchableOpacity onPress={() => navigation.navigate('Main')}>
-                            <Image
-                                style={{ width: 120, }}
-                                source={require('../../assets/logo.png')}
-                                resizeMode='contain'
-                            />
+                            <LogoTitle {...props} />
                     </TouchableOpacity>
                 )
             },
@@ -309,7 +293,7 @@ const BookmarkStackScreen = ({ navigation }) => {
                 headerLeft: () => {
                     return (
                         <TouchableOpacity>
-                            <Icon name='menu-outline' onPress={() => navigation.openDrawer()} width={24} height={24} fill='#20235a' />
+                            <Icon name='menu-outline' onPress={() => navigation.openDrawer()} width={24} height={24} fill='#fff' />
                         </TouchableOpacity>
                     )
                 },
@@ -319,7 +303,7 @@ const BookmarkStackScreen = ({ navigation }) => {
             }} />
             {/* <HistoryStack.Screen name='News' component={NewsScreen} options={{
                 headerTitle: 'Новости',
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
                     // backgroundColor: 'transparent',
                     elevation: 0, // remove shadow on Android
@@ -339,7 +323,7 @@ const SettingsStackScreen = ({ navigation }) => {
     return (
         <SettingsStack.Navigator screenOptions={{
             headerStyle: {
-                backgroundColor: '#fff',
+                backgroundColor: '#4e6293',
                 elevation: 0, // remove shadow on Android
                 shadowOpacity: 0,
 
@@ -353,11 +337,7 @@ const SettingsStackScreen = ({ navigation }) => {
             headerTitle: (props) => {
                 return (
                     <TouchableOpacity onPress={() => navigation.navigate('Main')}>
-                            <Image
-                                style={{ width: 120, }}
-                                source={require('../../assets/logo.png')}
-                                resizeMode='contain'
-                            />
+                            <LogoTitle {...props} />
                     </TouchableOpacity>
                 )
             },
@@ -367,7 +347,7 @@ const SettingsStackScreen = ({ navigation }) => {
                 headerLeft: () => {
                     return (
                         <TouchableOpacity>
-                            <Icon name='menu-outline' onPress={() => navigation.openDrawer()} width={24} height={24} fill='#20235a' />
+                            <Icon name='menu-outline' onPress={() => navigation.openDrawer()} width={24} height={24} fill='#fff' />
                         </TouchableOpacity>
                     )
                 },
@@ -377,16 +357,16 @@ const SettingsStackScreen = ({ navigation }) => {
             }} />
             <SettingsStack.Screen name='Profile' component={ProfileScreen} options={{
                 headerTitle: t('profile'),
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
-                    // backgroundColor: 'transparent',
+                    backgroundColor: '#4e6293',
                     elevation: 0, // remove shadow on Android
                     shadowOpacity: 0,
                 },
             }} />
             {/* <HistoryStack.Screen name='News' component={NewsScreen} options={{
                 headerTitle: 'Новости',
-                headerTintColor: '#20235a',
+                headerTintColor: '#fff',
                 headerStyle: {
                     // backgroundColor: 'transparent',
                     elevation: 0, // remove shadow on Android
@@ -403,7 +383,7 @@ const LogoTitle = () => {
 
             <Image
                 style={{ width: 120, }}
-                source={require('../../assets/logo.png')}
+                source={require('../../assets/main_logo.png')}
                 resizeMode='contain'
             />
         </View>
@@ -419,7 +399,7 @@ const MainTabScreen = () => {
         <Tab.Navigator
             initialRouteName="Main"
             activeColor="#74d9ff"
-            inactiveColor="#20235a"
+            inactiveColor="#4e6293"
             style={{ backgroundColor: '#fff' }}
             barStyle={{
                 backgroundColor: '#fff',

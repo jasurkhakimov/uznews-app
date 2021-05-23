@@ -94,6 +94,7 @@ const ru = {
     recs_title: 'Рекомендуем прочитать',
      brv: 'БРВ',
      mrot: 'МРОТ',
+    menu: 'Меню'
 }
 
 const uz = {
@@ -186,6 +187,7 @@ const uz = {
     recs_title: 'Ўқишга тавсия этамиз',
     brv: 'БРВ',
     mrot: 'МРОТ',
+    menu: 'Меню'
 }
 
 // const en = {

@@ -158,7 +158,7 @@ const HistoryScreen = ({ navigation }) => {
                         <Text style={styles.authBtnText}> {t('auth')} </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.authBtnOutline} onPress={() => getResult()}>
-                        <Icon name="refresh-outline" width={15} height={15} fill='#475681' />
+                        <Icon name="refresh-outline" width={15} height={15} fill='#4e6293' />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
         color: '#20235a',
     },
     authBtn: {
-        backgroundColor: '#475681',
+        backgroundColor: '#4e6293',
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 50,

@@ -160,7 +160,7 @@ const SearchScreen = ({ navigation }) => {
                                 },
                             }}
                             style={{
-                                backgroundColor: '#475681'
+                                backgroundColor: '#4e6293'
                             }}
                         >
                             {snackText}
@@ -199,11 +199,11 @@ const styles = StyleSheet.create({
         margin: 15,
         width: 100,
         marginBottom: 10,
-        backgroundColor: '#475681',
+        backgroundColor: '#4e6293',
         paddingVertical: 8,
         borderRadius: 50,
         borderWidth: 2,
-        borderColor: '#475681'
+        borderColor: '#4e6293'
     },
     emptyBtn: {
         flexDirection: 'row',
@@ -218,14 +218,14 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         borderRadius: 50,
         borderWidth: 2,
-        borderColor: '#475681'
+        borderColor: '#4e6293'
     },
     btnText: {
         color: '#fff',
         // letterSpacing: 0.5
     },
     btnTextEmpty: {
-        color: '#475681',
+        color: '#4e6293',
         // letterSpacing: 0.5
     },
     br: {

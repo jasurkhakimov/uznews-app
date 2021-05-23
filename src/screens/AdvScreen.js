@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     },
     btn: {
         flexDirection: 'row',
-        backgroundColor: '#475681',
+        backgroundColor: '#4e6293',
         padding: 12,
         marginVertical: 12,
         borderRadius: 50,

@@ -17,12 +17,12 @@ import uznews from '../api/uznews';
 
 
 
-const DrawerHeader = ({ navigation }) => {
+const DrawerHeader = ({ navigation, t }) => {
     return (
         <View style={{ flexDirection: 'row', padding: 16 }}>
             <Icon name='close' style={styles.close} onPress={() => navigation.closeDrawer()} width={24} height={24} fill='#20235a' />
             <TouchableOpacity onPress={() => navigation.navigate('Main')}>                   
-                <Text style={styles.headerText}> UzNews </Text>
+                <Text style={styles.headerText}> {t('menu')} </Text>
             </TouchableOpacity>
         </View>
     )
@@ -190,7 +190,7 @@ export function DrawerContent(props) {
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView {...props} showsVerticalScrollIndicator={false}>
 
-                <DrawerHeader navigation={props.navigation} />
+                <DrawerHeader navigation={props.navigation} t={t} />
 
                 <ManageButtons navigation={props.navigation} t={t} lang_main={lang_main}/>
 
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
         marginBottom: 12
     },
     headerBtn: {
-        backgroundColor: '#475681',
+        backgroundColor: '#4e6293',
         paddingVertical: 8,
         paddingHorizontal: 16,
         borderRadius: 50,
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     },
     addNews: {
         flex: 1,
-        backgroundColor: '#475681',
+        backgroundColor: '#4e6293',
         alignItems: 'center',
         paddingVertical: 10,
         margin: 20,

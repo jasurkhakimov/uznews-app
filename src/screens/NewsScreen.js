@@ -194,11 +194,14 @@ const NewsScreen = ({ route, navigation }) => {
                         },
                         a: {
                             fontSize: 14
+                        },
+                        img: {
+                            marginBottom: 8
                         }
                     }}
                     classesStyles={{
                         'mobileAppCustomFont': {
-                            fontSize: 14
+                            fontSize: 15
                         }
                     }}
                     containerStyle={{
