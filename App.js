@@ -8,7 +8,6 @@ import i18n from 'i18n-js';
 import LocalizationContext from './src/context/LocalizationContext';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
-import * as firebase from 'firebase';
 import axios from 'axios';
 
 
@@ -46,7 +45,7 @@ export default function App() {
         registerForPushNotificationsAsync().then(token => {
           setExpoPushToken(token);
 
-          axios.get('http://192.168.100.5:3000/token', {params: {
+          axios.get('http://192.168.100.49:3000/token', {params: {
             token: token
          }}).then(response => {
           //  console.log(response);
@@ -123,8 +122,8 @@ async function schedulePushNotification() {
         alert('Failed to get push token for push notification!');
         return;
       }
-      // token = (await Notifications.getExpoPushTokenAsync()).data;
-      token = (await Notifications.getDevicePushTokenAsync()).data;
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      // token = (await Notifications.getDevicePushTokenAsync()).data;
       console.log(token);
     } else {
       alert('Must use physical device for Push Notifications');
