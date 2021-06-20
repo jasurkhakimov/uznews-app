@@ -8,6 +8,9 @@ import i18n from 'i18n-js';
 import LocalizationContext from './src/context/LocalizationContext';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
+import * as firebase from 'firebase';
+import axios from 'axios';
+
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -24,8 +27,10 @@ export default function App() {
 
     const [expoPushToken, setExpoPushToken] = useState('');
     const [notification, setNotification] = useState(false);
+    const [err, setErr] = useState('');
     const notificationListener = useRef();
     const responseListener = useRef();
+
 
     const [locale, setLocale] = React.useState(Localization.locale);
     const localizationContext = React.useMemo(
@@ -38,7 +43,15 @@ export default function App() {
     );
 
     useEffect(() => {
-        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+        registerForPushNotificationsAsync().then(token => {
+          setExpoPushToken(token);
+
+          axios.get('http://192.168.100.5:3000/token', {params: {
+            token: token
+         }}).then(response => {
+          //  console.log(response);
+         })
+        });
     
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
           setNotification(notification);
@@ -76,7 +89,7 @@ export default function App() {
                 <View style={styles.container}>
                     <Navigation />
                     <StatusBar />
-                    {/* <Text>{expoPushToken}</Text> */}
+                    <Text>{expoPushToken}</Text>
                 </View>
             </SafeAreaView>
         </LocalizationContext.Provider>
@@ -96,9 +109,12 @@ async function schedulePushNotification() {
   
   async function registerForPushNotificationsAsync() {
     let token;
+
     if (Constants.isDevice) {
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      
       let finalStatus = existingStatus;
+      console.log(finalStatus);
       if (existingStatus !== 'granted') {
         const { status } = await Notifications.requestPermissionsAsync();
         finalStatus = status;

@@ -1,20 +1,28 @@
 {
   "project_info": {
-    "project_number": "394145204920",
-    "project_id": "uznews-3ba00",
-    "storage_bucket": "uznews-3ba00.appspot.com"
+    "project_number": "720560601108",
+    "project_id": "uznews-287510",
+    "storage_bucket": "uznews-287510.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:394145204920:android:19a5f3feeaa9fb3ca6024d",
+        "mobilesdk_app_id": "1:720560601108:android:8c3740948fcf80d3644f01",
         "android_client_info": {
           "package_name": "com.lb.uznews"
         }
       },
       "oauth_client": [
         {
-          "client_id": "394145204920-7cg88593m43qspcq9il52qegcn7ir3hr.apps.googleusercontent.com",
+          "client_id": "720560601108-7glk0jr4qth4m4tontfgh32tl0ani32o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lb.uznews",
+            "certificate_hash": "75cdbc1c808e639bcbb6a75d653e85437b57bede"
+          }
+        },
+        {
+          "client_id": "720560601108-vgisjn4tv2nnmn49igvq2grt5cnj3pde.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +35,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "394145204920-7cg88593m43qspcq9il52qegcn7ir3hr.apps.googleusercontent.com",
+              "client_id": "720560601108-vgisjn4tv2nnmn49igvq2grt5cnj3pde.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "720560601108-iah91edkpqtmcq8kjrcf7n1qobv2mj1g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.webiosandroid.all2"
+              }
             }
           ]
         }

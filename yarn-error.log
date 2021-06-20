@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarnpkg add expo-notifications@~0.3.3
+  /usr/local/bin/node /usr/local/bin/yarnpkg add firebase@7.9.0
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, mkdir '/Users/akbarshuxratovich/Desktop/uznews/uznews-app/node_modules/expo-linking/node_modules/expo-constants'
+  Error: EACCES: permission denied, unlink '/Users/akbarshuxratovich/Desktop/uznews/uznews-app/node_modules/@babel/core/node_modules/debug/package.json'
 
 npm manifest: 
   {
@@ -45,6 +45,7 @@ npm manifest:
       "expo-google-sign-in": "~8.2.1",
       "expo-image-picker": "~8.3.0",
       "expo-localization": "~8.2.1",
+      "expo-notifications": "~0.3.3",
       "expo-status-bar": "^1.0.2",
       "expo-web-browser": "~8.3.1",
       "i18n-js": "^3.8.0",
@@ -1789,7 +1790,7 @@ Lockfile:
       "@babel/plugin-transform-template-literals" "^7.0.0"
       babel-plugin-syntax-trailing-function-commas "^7.0.0-beta.0"
   
-  badgin@^1.1.2:
+  badgin@^1.1.2, badgin@^1.1.5:
     version "1.2.2"
     resolved "https://registry.yarnpkg.com/badgin/-/badgin-1.2.2.tgz#cbb0b71b047230c681a68911eb24136f0632adc6"
     integrity sha512-XtoSjNhy2D09qGiLhFWBJmBwBlmleQuwyYyjddWNCJ3gqGRBOBR25VGcd8CAOSghpEUmghB3LD4NpHrUG89zCg==
@@ -2744,6 +2745,11 @@ Lockfile:
     dependencies:
       invariant "^2.2.4"
   
+  expo-application@~2.2.1:
+    version "2.2.1"
+    resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-2.2.1.tgz#f14b83ae0b07e4922850f8856a56f141c168d6d0"
+    integrity sha512-YyYB2EPWmFmXgmnul9AMdZ6Ze290BWaez7RhUfAMq2gQU84EdpvL3vkO9SV5E4zI7Rj2jfS0VcCDpxrcdlBW/w==
+  
   expo-asset@~8.1.7:
     version "8.1.7"
     resolved "https://registry.yarnpkg.com/expo-asset/-/expo-asset-8.1.7.tgz#32618e51f85df56f1d7dd54c71eb486ae7f7674e"
@@ -2773,18 +2779,18 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/expo-auth/-/expo-auth-0.0.0.tgz#205968ed61637baabd8dac2188295a6f9fd36a9c"
     integrity sha512-cAg8UejWllKs7f1nkAlnL7DdwjYm0TznwER0JvI/7i4r+dRZZAbtzKo9XubyFX9N8CSrSEl77q6b/QOScKqCZg==
   
-  expo-constants@^9.2.0, expo-constants@~9.2.0:
-    version "9.2.0"
-    resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.2.0.tgz#e86a38793deaff9018878afac65bce2543c80a4c"
-    integrity sha512-WKwiEMvBgPrEPEyZKm21UUB2KWQux9OCWf6ZDORLTln7kO3rsbaJEprfWUWTP7AxyaLMYfN+/0WFHjZc25SZWQ==
+  expo-constants@9.1.1, expo-constants@~9.1.1:
+    version "9.1.1"
+    resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.1.1.tgz#bca141ee3d4550e308798128f66c6d9c6a206ca1"
+    integrity sha512-zCa/wRARODHd6BSwxjBhidmao0AqQnKmLkl0tsVIoZlRyPDHsEaxNR/m+7wqGC7qiC+UpG1qRnvLOLwCGt2ihg==
     dependencies:
       fbjs "1.0.0"
       uuid "^3.3.2"
   
-  expo-constants@~9.1.1:
-    version "9.1.1"
-    resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.1.1.tgz#bca141ee3d4550e308798128f66c6d9c6a206ca1"
-    integrity sha512-zCa/wRARODHd6BSwxjBhidmao0AqQnKmLkl0tsVIoZlRyPDHsEaxNR/m+7wqGC7qiC+UpG1qRnvLOLwCGt2ihg==
+  expo-constants@^9.2.0, expo-constants@~9.2.0:
+    version "9.2.0"
+    resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.2.0.tgz#e86a38793deaff9018878afac65bce2543c80a4c"
+    integrity sha512-WKwiEMvBgPrEPEyZKm21UUB2KWQux9OCWf6ZDORLTln7kO3rsbaJEprfWUWTP7AxyaLMYfN+/0WFHjZc25SZWQ==
     dependencies:
       fbjs "1.0.0"
       uuid "^3.3.2"
@@ -2875,6 +2881,16 @@ Lockfile:
     integrity sha512-MixKapt3nijAxyjIISscBzdKi8bwh0H/dWYsL2mCofrjguFHOh2gP07h95902lekb7NVqybl5AIQRW5cvrG4rQ==
     dependencies:
       invariant "^2.2.4"
+  
+  expo-notifications@~0.3.3:
+    version "0.3.3"
+    resolved "https://registry.yarnpkg.com/expo-notifications/-/expo-notifications-0.3.3.tgz#3c7b7275516028853e02f5c796e3365d4fb572ad"
+    integrity sha512-iBqvlbB6UVkU5yF4W9K/sqdPIbJ52VVeL7543G4IA3ARWhx6wdhfzcuGTCtUgV0XmkJu7vmPs+sC31aXjRa0Kg==
+    dependencies:
+      badgin "^1.1.5"
+      expo-application "~2.2.1"
+      expo-constants "9.1.1"
+      uuid "^3.4.0"
   
   expo-permissions@~9.0.1:
     version "9.0.1"
