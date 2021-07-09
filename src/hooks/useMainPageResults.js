@@ -216,8 +216,9 @@ export default () => {
         NewsFeedApi(newsCount);
         CategoryApi();
 
-
-        return () => cleanupFunction = true;
+        return () => {
+            cleanupFunction = true
+        };
 
     }, [])
 

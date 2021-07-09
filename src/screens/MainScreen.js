@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
     ScrollView,
     RefreshControl,
@@ -22,6 +22,7 @@ import CurrentDate from '../components/CurrentDate';
 import i18n from 'i18n-js';
 import LocalizationContext from '../context/LocalizationContext';
 import { useIsFocused } from '@react-navigation/native';    
+import * as Notifications from 'expo-notifications';
 
 
 
@@ -32,9 +33,25 @@ const MainScreen = ({ navigation }) => {
 
     const navigationFooter = navigation;
     const [widget, setWidget] = useState(true);
+    const responseListener = useRef();
 
     // locale.substring(0, 2)
     const isFocused = useIsFocused();
+
+
+    useEffect(() => {
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+            console.log("opened");
+            let id = response.notification.request.content.data.id;
+            if (id !== undefined) {
+                navigation.navigate('News', { id, lang: lang, user_id: user_id })
+            }
+        });
+
+        return () => {
+            Notifications.removeNotificationSubscription(responseListener);
+        }
+    }, [])
 
     const onWidgetClose = () => {
         setWidget(false);

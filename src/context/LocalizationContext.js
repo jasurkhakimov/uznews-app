@@ -92,9 +92,12 @@ const ru = {
     no_search_results: 'По вашему запросу ничего не найдено',
     send_news_tg: 'Написать нам в Telegram',
     recs_title: 'Рекомендуем прочитать',
-     brv: 'БРВ',
-     mrot: 'МРОТ',
-    menu: 'Меню'
+    brv: 'БРВ',
+    mrot: 'МРОТ',
+    menu: 'Меню',
+    notifications: 'Оповещания',
+    notification_is_on: 'Оповещания включены',
+    notification_is_off: 'Оповещания выключены'
 }
 
 const uz = {
@@ -187,7 +190,10 @@ const uz = {
     recs_title: 'Ўқишга тавсия этамиз',
     brv: 'БРВ',
     mrot: 'МРОТ',
-    menu: 'Меню'
+    menu: 'Меню',
+    notifications: 'Оповещания узб',
+    notification_is_on: 'Оповещания включены',
+    notification_is_off: 'Оповещания выключены'
 }
 
 // const en = {

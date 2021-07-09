@@ -7,6 +7,10 @@ import { Picker } from '@react-native-community/picker';
 import { Switch } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import LocalizationContext from '../context/LocalizationContext';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
+import uznews from '../api/uznews';
+import axios from 'axios';
 
 
 const ProfileComponent = ({ navigation, t }) => {
@@ -24,53 +28,86 @@ const ProfileComponent = ({ navigation, t }) => {
 const SettingsComponent = ({ navigation, font, locale, setLocale, storeData, t }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
+    const [isSwitchOn, setIsSwitchOn] = useState(false);
+    const [token, setToken] = useState('');
+
+    useEffect(() => {
+        registerForPushNotificationsAsync().then(token => {
+            setToken(token);
+            if (token) {
+                // setIsSwitchOn(true)
+                uznews.get('/NotificationStatus', {
+                    params: {
+                        "token": token
+                    }
+                }).then(response => {
+                    let result = response.data
+                    setIsSwitchOn(result.status)
+                }).catch(err => console.log(response))
+            }
+        });
+
+
+
+        // if (token) {
+        //     setIsSwitchOn(true);
+        // } else {
+        //     setIsSwitchOn(false);
+        // }
+    }, []);
+
+    const onToggleSwitch = async () => {
+        if (!isSwitchOn) {
+            uznews.put(`/NotificationStatus?token=${token}`, {
+                status: true
+            }).then(response => {
+                if (response.status == 200) {
+                    alert(t('notification_is_on'))
+                    setIsSwitchOn(!isSwitchOn);
+                }
+            }).catch(err => {
+                alert('Произошла ошибка,попробуйте позже')
+                console.log(err)
+            })
+        } else {
+            uznews.put(`/NotificationStatus?token=${token}`, {
+                status: false
+            }).then(response => {
+                if (response.status == 200) {
+                    alert(t('notification_is_off'))
+                    setIsSwitchOn(!isSwitchOn);
+                }
+            }).catch(err => {
+                alert('Произошла ошибка,попробуйте позже')
+                console.log(err)
+            })
+        }
+    };
 
     const onShare = async () => {
         try {
-          const result = await Share.share({
-            message: 'http://uznews.uz',
-          });
-          if (result.action === Share.sharedAction) {
-            if (result.activityType) {
-              // shared with activity type of result.activityType
-            } else {
-              // shared
+            const result = await Share.share({
+                message: 'http://uznews.uz',
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
             }
-          } else if (result.action === Share.dismissedAction) {
-            // dismissed
-          }
         } catch (error) {
-          alert(error.message);
+            alert(error.message);
         }
-      };
+    };
 
 
     return (
         <View>
             <HeaderText text={t('settings')} />
             <View style={styles.settingContainer}>
-                {/* <View style={styles.settingElement}>
-                    <Text style={styles.settingText}>{t('font_size')}</Text>
-                    
-                    {
-                        Platform.OS === 'ios' ?  
-                            null 
-                        :
-                            <Picker
-                                selectedValue={font}
-                                style={styles.picker}
-                                mode="dropdown"
-                                onValueChange={(val) => {
-                                    storeData(val, "@font")
-                                }
-                                }
-                            >
-                                <Picker.Item label={t('small')} value="1" />
-                                <Picker.Item label={t('medium')} value="2" />
-                                <Picker.Item label={t('large')} value="3" />
-                            </Picker> 
-                    }
-                </View> */}
 
                 <Modal
                     animationType="slide"
@@ -80,22 +117,13 @@ const SettingsComponent = ({ navigation, font, locale, setLocale, storeData, t }
                     <View style={styles.containerModal}>
                         <View style={styles.langBlock}>
                             <Text style={styles.langBlockText}>Выберите язык</Text>
-                            <TouchableOpacity style={styles.langBlockBtn} onPress={() => {setLocale('ru'); setModalVisible(false)}}>
+                            <TouchableOpacity style={styles.langBlockBtn} onPress={() => { setLocale('ru'); setModalVisible(false) }}>
                                 <Text style={styles.langBlockBtnText}> Рус </Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.langBlockBtn} onPress={() => {setLocale('uz'); setModalVisible(false)}}>
+                            <TouchableOpacity style={styles.langBlockBtn} onPress={() => { setLocale('uz'); setModalVisible(false) }}>
                                 <Text style={styles.langBlockBtnText}> Узб </Text>
                             </TouchableOpacity>
                         </View>
-
-
-                            {/* <TouchableOpacity
-                            style={{ backgroundColor: '#2196F3' }}
-                            onPress={() => {
-                                setModalVisible(!modalVisible);
-                            }}>
-                            <Text>Hide Modal</Text>
-                            </TouchableOpacity> */}
                     </View>
                 </Modal>
 
@@ -103,32 +131,32 @@ const SettingsComponent = ({ navigation, font, locale, setLocale, storeData, t }
                 <View style={styles.settingElement}>
                     <Text style={styles.settingText}>{t('lang')} </Text>
                     {
-                        Platform.OS === 'ios' ? 
-                        <TouchableOpacity onPress={() => {
-                            setModalVisible(true);
-                          }}>
-                            <Text>
-                                {
-                                    locale.substring(0, 2) == 'ru' ? 'Русский' : locale.substring(0, 2) == 'uz' ? 'Узбекча' : null
+                        Platform.OS === 'ios' ?
+                            <TouchableOpacity onPress={() => {
+                                setModalVisible(true);
+                            }}>
+                                <Text>
+                                    {
+                                        locale.substring(0, 2) == 'ru' ? 'Русский' : locale.substring(0, 2) == 'uz' ? 'Узбекча' : null
+                                    }
+                                </Text>
+                            </TouchableOpacity>
+                            :
+                            <Picker
+                                selectedValue={locale}
+                                style={styles.picker}
+                                onValueChange={(val) =>
+                                    setLocale(val)
                                 }
-                            </Text>
-                        </TouchableOpacity>
-                        :
-                    <Picker
-                        selectedValue={locale}
-                        style={styles.picker}
-                        onValueChange={(val) =>
-                            setLocale(val)
-                        }
-                    >
-                        <Picker.Item label="русский" value="ru" />
-                        <Picker.Item label="узбекча" value="uz" />
-                    </Picker> }
+                            >
+                                <Picker.Item label="русский" value="ru" />
+                                <Picker.Item label="узбекча" value="uz" />
+                            </Picker>}
                 </View>
-                {/* <View style={styles.settingElement}>
-                    <Text style={styles.settingText}>Оповещания </Text>
+                <View style={styles.settingElement}>
+                    <Text style={styles.settingText}>{t('notifications')} </Text>
                     <Switch style={styles.switch} value={isSwitchOn} onValueChange={onToggleSwitch} />
-                </View> */}
+                </View>
             </View>
             <View style={styles.settingAdvanced}>
                 {/* <TouchableOpacity style={styles.advBtn}>
@@ -146,6 +174,30 @@ const SettingsComponent = ({ navigation, font, locale, setLocale, storeData, t }
     );
 }
 
+
+async function registerForPushNotificationsAsync() {
+    let token;
+
+    if (Constants.isDevice) {
+        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+            const { status } = await Notifications.requestPermissionsAsync();
+            finalStatus = status;
+        }
+        if (finalStatus !== 'granted') {
+            // alert('Failed to get push token for push notification!');
+            return;
+        }
+        token = (await Notifications.getExpoPushTokenAsync()).data;
+        // token = (await Notifications.getDevicePushTokenAsync()).data;
+    } else {
+        // alert('Must use physical device for Push Notifications');
+    }
+
+    return token;
+}
 
 
 const SettingsScreen = ({ navigation }) => {
@@ -187,7 +239,7 @@ const SettingsScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <ProfileComponent navigation={navigation} t={t}/>
+            <ProfileComponent navigation={navigation} t={t} />
             <SettingsComponent navigation={navigation} font={font} locale={locale} storeData={storeData} setLocale={setLocale} t={t} />
         </View>
     )
@@ -244,22 +296,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         // marginTop: 22,
-      },
-      modalView: {
+    },
+    modalView: {
         margin: 20,
         backgroundColor: 'white',
         borderRadius: 12,
         justifyContent: 'center',
         // padding: 35,
         alignItems: 'center',
-      },
-      openButton: {
+    },
+    openButton: {
         backgroundColor: '#F194FF',
         borderRadius: 20,
         padding: 10,
         elevation: 2,
-      },
-      containerModal: {
+    },
+    containerModal: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',

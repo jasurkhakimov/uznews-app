@@ -93,11 +93,7 @@ export default class ProfileScreen extends Component {
             "email": "null"
         }
 
-        console.log(data);
-
         let url = "/auth/" + userData.id + "/"
-
-        console.log(url);
 
         await uznews.post(url, data).then(async (response) => {
             // console.log(response.data.id);
